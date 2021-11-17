@@ -9,14 +9,18 @@
     /* 只能在这里写css，不能改变页面的HTML结构 */
     h1 {
       font-size: 30px;
+            text-shadow:
+              1px 1px gray,
+              2px 2px gray,
+              3px 3px gray;
     }
 
-    h1 {
+    /* h1 {
       text-shadow:
         1px 1px gray,
         2px 2px gray,
         3px 3px gray;
-    }
+    } */
 
     h1>span {
       color: blue;
@@ -28,7 +32,7 @@
 
     h2 {
       font-variant: small-caps;
-      text-transform: capitalize;
+      text-transform: capitalize; /* 首字母大写*/
       font-family: 'comic sans ms', 'simsun';
     }
 
@@ -47,20 +51,28 @@
       text-decoration: underline line-through;
     }
 
-    .b {
+    /* .b {
       font-size: 30px;
     }
 
     .b>input {
       font-size: 30px;
+      text-transform: uppercase;
+    } */
+    p.b span {
+      font: inherit;
+      text-transform: uppercase;
     }
+    /* .b > input {
+      text-transform: uppercase;
+    } */
 
     .d {
-      text-align: justify;
-      text-indent: 2em;
-      letter-spacing: 5px;
-      word-spacing: 10px;
-      line-height: 2;
+      text-align: justify;    /* 文本两端对齐  */
+      text-indent: 2em;       /* 文本缩进两个字号 */
+      letter-spacing: 5px;    /* 字母间距5个像素*/
+      word-spacing: 10px;     /* 单词间距10个像素*/
+      line-height: 2;         /* 每行高度2*/
     }
 
     h3 {

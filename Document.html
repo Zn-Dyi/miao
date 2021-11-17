@@ -27,18 +27,21 @@
       color: green;
     }
 
-    p.c>span {
+    p.a.c>span {
       color: red;
     }
 
-    p.c>span>span {
+    p.a.c>span>span {
       color: green;
     }
 
-    p.c>span>span~span {
+    p.a.c>span>span~span {
       color: blue;
     }
 
+    /* P.a.c span span:last-child {
+      color: lawngreen;
+    } */
 
 
     [href*="aaa"] {
@@ -50,7 +53,7 @@
     }
 
     [href^="mailto"] {
-      color: red;
+      color: rgb(8, 187, 17);
     }
 
     [href$="html"] {
@@ -61,11 +64,14 @@
       color: pink;
     }
 
-    [href*="mi"] {
+    /* [href*="mi"] {
       color: orange;
     }
 
     [href*="jd"] {
+      color: orange;
+    } */
+    div a:visited {
       color: orange;
     }
 
@@ -77,10 +83,16 @@
       color: black;
     }
 
-    /* div.a>ul :not(:nth-child(-n+3), :nth-child(n+8)) {
+    /* div.a ul li:nth-child(4)
+    div.a ul li:nth-child(5)
+    div.a ul li:nth-child(6)
+    div.a ul li:nth-child(7){
       color: red;
     } */
 
+    /* div.a>ul :not(:nth-child(-n+3), :nth-child(n+8)) {
+      color: red;
+    } */
     div.b li:nth-child(-n+25) {
       color: red;
     }
@@ -93,32 +105,53 @@
       color: blue;
     } */
 
-    div.b>ul :not(:nth-child(-n+35), :nth-child(n+51)) {
+    /* div.b>ul :not(:nth-child(-n+35), :nth-child(n+51)) {
+      color: blue;
+    } */
+    div.b>ul :nth-child(n+35):nth-child(-n+50) {
       color: blue;
     }
-    div.prime>ul :nth-child(2n){
+
+    /* div.prime>ul :nth-child(2n) {
       color: rgb(226, 11, 190);
     }
-    div.prime>ul :nth-child(3n){
+
+    div.prime>ul :nth-child(3n) {
       color: rgb(226, 11, 190);
     }
-    div.prime>ul :nth-child(5n){
+
+    div.prime>ul :nth-child(5n) {
       color: rgb(226, 11, 190);
     }
-    div.prime>ul :nth-child(7n){
+
+    div.prime>ul :nth-child(7n) {
       color: rgb(226, 11, 190);
     }
-    div.prime>ul :nth-child(2){
+
+    div.prime>ul :nth-child(2) {
       color: rgb(7, 1, 6);
     }
-    div.prime>ul :nth-child(3){
+
+    div.prime>ul :nth-child(3) {
       color: rgb(7, 1, 6);
     }
-    div.prime>ul :nth-child(5){
+
+    div.prime>ul :nth-child(5) {
       color: rgb(7, 1, 6);
     }
-    div.prime>ul :nth-child(7){
+
+    div.prime>ul :nth-child(7) {
       color: rgb(7, 1, 6);
+    } */
+    /* div.prime li:nth-child(1),
+    div.prime li:nth-child(2n+4),
+    div.prime li:nth-child(3n+9),
+    div.prime li:nth-child(5n+25),
+    div.prime li:nth-child(7n+49){
+      color: deeppink;
+    } */
+    div.prime li:not(:nth-child(1)):not(:nth-child(2n+4)):not(:nth-child(3n+9)):not(:nth-child(5n+25)):not(:nth-child(7n+49)) {
+      color: deeppink;
     }
   </style>
 </head>
