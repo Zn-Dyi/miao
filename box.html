@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    header {
+      background-color: black;
+    }
+
+    header nav {
+      width: 600px;
+      margin: auto;
+      color: white;
+    }
+
+    .c {
+      width: 600px;
+      margin: auto;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .a li {
+      border: 3px solid;
+      width: 180px;
+      height: 30px;
+      margin-bottom: 15px;
+      list-style: none;
+      box-sizing: border-box;
+      background-color: violet;
+
+    }
+
+    ul.a {
+      width: 600px;
+      margin: auto;
+      padding: 0px;
+    }
+
+    .a li:nth-child(n+5) {
+      margin-left: 210px;
+    }
+
+    .a li:nth-child(n+9) {
+      margin-left: 420px;
+    }
+
+    /* .a li:nth-child(5) {
+      margin-top:-180px;
+    }
+    .a li:nth-child(9) {
+      margin-top:-180px;
+    } */
+    .a li:nth-child(4n+5) {
+      margin-top: -180px;
+    }
+
+    /* ul.b {
+      box-sizing: border-box;
+      border-bottom: 1px dashed;
+    } */
+    ul.b {
+      width: 600px;
+      margin: auto;
+      padding: 0px;
+      list-style: none;
+    }
+
+    .b li {
+      border-bottom: 1px dashed;
+    }
+
+    .b li:nth-child(5) {
+      border-bottom: white;
+    }
+
+    footer {
+      background-color: violet;
+    }
+
+    footer p {
+      width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>hello world 请调整浏览器窗口大小查看效果</nav>
+  </header>
+
+  <p class="c">
+    页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+    页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+  </p>
+  <ul class="a">
+    <li>宽180高40(包含边框)</li>
+    <li>水平间隙30px</li>
+    <li>垂直间隙15px</li>
+    <li>边框宽度3px</li>
+    <li>产品</li>
+    <li>产品</li>
+    <li>产品</li>
+    <li>产品</li>
+    <li>产品</li>
+    <li>产品</li>
+    <li>产品</li>
+    <li>产品</li>
+  </ul>
+  <br>
+  <ul class="b">
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+    <li>link</li>
+  </ul>
+
+  <footer>
+    <p>
+      ©版权所有
+      <br>
+      本页所有布局均使用块元素
+    </p>
+  </footer>
+
+
+</body>
+
+</html>
