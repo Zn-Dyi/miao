@@ -5,52 +5,42 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <style>
-    body {
+    body,
+    html {
       margin: 0px;
+      height: 100%;
+    }
+
+    header {
+      height: 100px;
+      background-color: rgb(151, 229, 229);
     }
 
     div {
-      background-color: rgb(142, 105, 243);
-      height: 100px;
+      background-color: darkkhaki;
+      width: 150px;
+      height: calc(100% - 100px);
+      overflow: auto;
     }
 
-    ul li {
-      box-sizing: border-box;
-      display: inline-block;
-      border: solid 2px;
-      width: 200px;
-      height: calc(100vh - 120px);
-      overflow: scroll;
-      margin-top: -16px;
-    }
+    footer {
+      height: calc(100% - 100px);
+      background-color: darksalmon;
+      margin-left: 150px;
+      margin-top: calc(-100vh + 100px);
 
-    li.a {
-      background-color: peru;
-      margin-left: -40px;
-      margin-top: -16px;
-    }
-
-    li.b {
-      background-color: rgb(120, 224, 207);
-      width: calc(100vw - 200px);
-      margin-left: -5PX;
-      margin-right: -40px;
     }
   </style>
 </head>
 
 <body>
-  <div>邮箱</div>
-  <ul>
-    <li class="a">列表
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-    <li class="b">列表</li>
-  </ul>
-
-
+  <header>1</header>
+  <div>2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, vero quisquam quibusdam temporibus eaque
+    consequuntur ipsum reiciendis ducimus at aperiam, cumque repellat reprehenderit sunt rerum nostrum repudiandae culpa
+    illum possimus? ;Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum molestiae doloribus corporis
+    deleniti quasi omnis dolores accusantium sit. Dicta officia eveniet sunt enim quis soluta quaerat at, ab tempore ut!
+  </div>
+  <footer>3</footer>
 </body>
 
 </html>
