@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      background-color: rgba(0, 0, 0, 0.08);
+      box-shadow: inset 0 0 1px red;
+    }
+
+    html,
+    body {
+      margin: 0px;
+    }
+
+    main {
+      background-color: chocolate;
+      border: 1px solid;
+      width: 50px;
+      height: 30px;
+      margin-left: 52px;
+      margin-top: -32px;
+    }
+
+    div {
+      background-color: aqua;
+      border: 1px solid;
+      width: 50px;
+      height: 30px;
+
+    }
+
+    ul {
+      background-color: aquamarine;
+      position: fixed;
+      top: 16px;
+      left: -40px;
+      width: 80px;
+      list-style: none;
+      display: none;
+    }
+
+    p {
+      background-color: cadetblue;
+      margin: 0px;
+      width: 80px;
+      margin-left: 80px;
+    }
+
+    p.a {
+      margin-top: -20px;
+    }
+
+    li.b {
+      margin-top: -63px;
+    }
+
+    div:hover ul {
+      display: block;
+    }
+
+    li.z:hover p {
+      visibility: visible;
+    }
+
+    p {
+      visibility: hidden;
+    }
+
+    ol {
+      background-color: coral;
+      margin-left: -2px;
+      margin-top: 10px;
+      padding: 0px;
+      width: 80px;
+      list-style: none;
+      display: none;
+    }
+
+    main:hover ol {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    aaaa
+    <ul>
+      <li class="z">1
+        <p class="a">2</p>
+        <p>3</p>
+        <p>3</p>
+        <p>3</p>
+      </li>
+      <li class="b">2</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+    </ul>
+  </div>
+  <main>
+    bbbb
+    <ol>
+      <li class="z">
+        1 <p class="a">2</p>
+        <p>3</p>
+        <p>3</p>
+        <p>3</p>
+      </li>
+      <li class="b">2</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+      <li>3</li>
+    </ol>
+  </main>
+
+</body>
+
+</html>
