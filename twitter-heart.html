@@ -5,26 +5,38 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <style>
-    /* body,html {
+    body,html {
       margin: 0px;
       height: 100%;
-    } */
+    }
     div {
       border: 1px solid;
       width: 100px;
       height: 100px;
+      margin: auto;
+      position: relative;
       overflow: hidden;
     }
-
+    img {
+      position: absolute;
+      left: 0px;
+      /* transition: 0.466s ; */
+    }
     div:hover img {
       margin-left: -2800px;
       transition: 3s steps(28, start);
+      /* transition: 0.466s linear; */
     }
   </style>
 </head>
 
 <body>
-  <div><img src="web_heart_animation.png" alt=""> </div>
+  <div>
+    <img src="web_heart_animation.png" alt="">
+
+
+  </div>
+
 </body>
 
 </html>

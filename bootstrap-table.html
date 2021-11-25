@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .table {
+      width: 100%;
+      text-align: left;
+       border-collapse: collapse;
+  }
+    .table thead tr {
+       border-bottom: 2px solid;
+  }
+    .table tbody tr  {
+       border-bottom: 1px solid;
+  }
+     td,th {
+    padding: 8px 8px;
+  }
+   .table-striped tbody tr:nth-child(2n+1) {
+    background-color: rgb(242,242,242);
+
+  }
+    .table-hover tbody tr:hover {
+    background-color: rgb(236,236,236);
+   }
+   
+   .table-dark  {
+     background-color: rgb(33,37,41);
+     color: white;
+   }
+   .table-dark tbody tr:nth-child(2n+1){
+     background-color: rgb(44,48,52);
+   }
+   .table-dark.table-hover tbody tr:hover {
+     background-color: rgb(50,53,57);
+   }
+   /* tbody tr:nth-child(1) {
+     background-color: rgb(229,229,229);
+   }
+   tbody tr:nth-child(3) td {
+     background-color: rgb(229,229,229);
+   }
+   tbody tr:nth-child(3) td+td {
+     background-color: white;
+   }
+   .table-dark  {
+     background-color: rgb(33,37,41);
+     color: white;
+   }
+   tbody tr:nth-child(1) {
+     background-color: rgb(55,59,62);
+   }
+   tbody tr:nth-child(3) td {
+     background-color: rgb(55,59,62);
+   }
+   tbody tr:nth-child(3) td+td {
+     background-color: rgb(33,37,41);
+   } */
+
+
+  </style>
+</head>
+<body>
+  <table class="table xtable-striped table-dark table-hover" >
+    <thead>
+      <tr>
+        <th scope="col"> # </th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

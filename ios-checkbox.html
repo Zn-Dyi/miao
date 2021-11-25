@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    div {
+      background-color: lightblue;
+      position: absolute;
+      border: 2px solid;
+      margin-top: 4px;
+      margin-left: 5px;
+      width: 200px;
+      height: 200px;
+      border-radius: 200px;
+      transition: 2s;
+
+    }
+    label {
+      background-color: rgb(92, 205, 126);
+      position: relative;
+      display: inline-block;
+      border-radius: 200px;
+      border: 2px solid ;
+      width: 400px;
+      height: 212px;
+    }
+    input:checked + label div {
+      margin-left: 189px;
+      transition: 2s;
+      background-color: aqua;
+    }
+    input:checked + label{
+      background-color: deeppink;
+      transition: 2s;
+    }
+  </style>
+</head>
+<body>
+
+  <input type="checkbox" name="" id="a" hidden>
+  <label for="a">  <div></div>   </label>
+
+</body>
+</html>
