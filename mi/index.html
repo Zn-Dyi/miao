@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    * {
+      background-color: rgba(0, 0, 0, 0.08);
+      box-shadow: inset 0 0 1px red;
+    }
+
+    html,
+    body {
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+    }
+
+    div {
+      width: 1400px;
+      height: 40px;
+      margin: auto;
+      /* background-color: rgb(51,51,51); */
+    }
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+      line-height: 40px;
+    }
+
+    a.right {
+      margin-left: 214px;
+    }
+
+    img {
+      position: absolute;
+      visibility: hidden;
+      margin-left: -80px;
+      margin-top: 40px;
+      height: 0px;
+      width: 100px;
+      transition: 0.3s;
+
+    }
+
+    a:hover {
+      /* color: rgb(255,255,255); */
+    }
+
+    a.download:hover img {
+      visibility: visible;
+      transition: 0.5s;
+      height: 100px;
+
+      /* color: rgb(255,255,255); */
+    }
+
+
+    [href^="https"] {
+      /* color: rgb(176,176,176); */
+    }
+
+    [href*="javascript"] {
+      /* color: rgb(176,176,176); */
+    }
+
+    div.mia {
+      width: 1400px;
+      height: 120px;
+    }
+
+    a.button {
+      background: url(https://s02.mifile.cn/assets/static/image/logo-mi2.png);
+      background-size: 50px;
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+    }
+
+    .mia {
+      line-height: 120px;
+    }
+
+    .mia a {
+      margin-left: 20px;
+      color: black;
+    }
+
+    .mia .a {
+      margin-left: 210px;
+    }
+
+    .mia a:hover {
+      color: rgb(255, 106, 0);
+    }
+
+    span {
+      display: inline-block;
+      line-height: 25px;
+      width: 70px;
+      border: 1px solid;
+      text-align: center;
+      font-size: 13px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div>
+      <a href="https://www.mi.com/index.html">小米商城</a> |
+      <a target="_blank" href="https://www.miui.com/">MIUI</a> |
+      <a target="_blank" href="https://iot.mi.com/">loT</a> |
+      <a target="_blank" href="https://i.mi.com/">云服务</a> |
+      <a target="_blank" href="https://airstar.com/home">天星数科</a> |
+      <a target="_blank" href="https://youpin.mi.com/">有品</a> |
+      <a target="_blank" href="https://xiaoai.mi.com/">小爱开放平台</a> |
+      <a target="_blank" href="https://qiye.mi.com/">企业团购</a> |
+      <a target="_blank" href="https://www.mi.com/aptitude/list/?id=88">资质证照</a> |
+      <a target="_blank" href="https://www.mi.com/aptitude/list/">协议规则</a> |
+      <a target="_blank" class="download" href="https://www.mi.com/appdownload/">下载app
+        <img src="https://i1.mifile.cn/f/i/17/appdownload/download.png?1" alt="">
+      </a> |
+      <a target="_blank" href="https://xiaomishare.mi.com/?from=micom">智能生活</a> |
+      <a target="_blank" href="javascript:;">Select Location</a> |
+      <a class="right" href="javascript:void(0);">登录</a> |
+      <a class="xright" href="javascript:void(0);">注册</a> |
+      <a class="xright" href="javascript:void(0);">消息通知</a>
+      <a class="car" href="https://www.mi.com/buy/cart">购物车</a>
+
+    </div>
+  </header>
+  <div class="mia">
+    <a class="button" href="https://www.mi.com/index.html">  </a>
+    <!-- <span>小米官网</span> -->
+    <a class="a" href="javascript: void(0);">Xiaomi手机</a>
+    <a href="javascript: void(0);">Redmi红米</a>
+    <a href="javascript: void(0);">电视</a>
+    <a href="javascript: void(0);">笔记本</a>
+    <a href="javascript: void(0);">平板</a>
+    <a href="javascript: void(0);">家电</a>
+    <a href="javascript: void(0);">路由器</a>
+    <a href="https://www.mi.com/service/">服务</a>
+    <a href="http://www.xiaomi.cn/">社区</a>
+
+
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    html,
+    body,
+    section {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+    }
+
+    section {
+      display: flex;
+    }
+
+    div {
+      background-color: darkturquoise;
+      border: 2px solid;
+      height: 100%;
+      flex-grow: 1;
+    }
+
+    div.w {
+      flex-grow: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      background-color: deeppink;
+      border: 2px solid;
+      margin: 0px;
+      flex-grow: 1;
+    }
+
+    .hh {
+      flex-grow: 3;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <div class="h">1</div>
+    <div class="w">
+      <main>b</main>
+      <main class="hh">a</main>
+    </div>
+    <div class="h">2</div>
+    <div class="h">3</div>
+  </section>
+</body>
+
+</html>
