@@ -12,10 +12,36 @@
   console.log(x > 200 && x % 3 == 0 && x % 7 != 0) // 输出x是否大于200且为3的倍数但不是7的倍数。
   console.log(((x - (x % 100)) / 100) + 1) // 输出x做为年份时，所在的世纪，对于2021即输出21，对于1864即输出19
   console.log(x % 4 == 0 && x % 100 != 0 || x % 400 == 0) // 输出x做为年份时，是否为闰年，是输出true，不是输出false
-  console.log() // 输出x是否为素数（此时x范围为100以内）
+  console.log((x == 2 || x == 3 || x == 5 || x == 7)
+    ||
+    (x != 1 && x % 2 != 0 && x % 3 != 0 && x % 5 != 0 && x % 7 != 0)
+  ) // 输出x是否为素数（此时x范围为100以内）
 
 
+</script>
 
+<script>
+  var a = parseInt(prompt("a: "))
+  var b = parseInt(prompt("b: "))
+  var c = parseInt(prompt("c: "))
 
+  var delta = b * b - 4 * a * c
+  if (delta < 0) {
+    console.log("no")
+  } else {
+    if (delta == 0) {
+      var x = (-b) / (2 * a)
+      console.log("x1=x2=" + x)
+    } else {
+      var sqrtDelta = Math.sqrt(delta)
+      var x1 = (-b + sqrtdelta) / (2 * a)
+      var x1 = (-b - sqrtdelta) / (2 * a)
+
+      console.log("x1" + x1)
+      console.log("x2" + x2)
+    }
+  }
+
+  console.log("解答完毕")
 
 </script>
