@@ -37,7 +37,7 @@
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
 
-  console.log((a / b).toFixed(3) * 100 + "%")
+  console.log((a / b * 100).toFixed(3)  + "%")
 </script>
 <script id="ch0103/07">
   var a = Number(prompt("a: "))
@@ -249,33 +249,52 @@
 <script id="ch0104/09">
   var a = Number(prompt("a: "))
 
-  if (a % 3 == 0 && a % 5 == 0 && a % 7 == 0) {
-    console.log("3", "5", "7")
-  } else if ((a % 3 == 0 && a % 5 == 0)) {
-    console.log("3", "5")
-  } else if ((a % 3 == 0 && a % 7 == 0)) {
-    console.log("3", "7")
-  } else if ((a % 5 == 0 && a % 7 == 0)) {
-    console.log("5", "7")
-  } else if (a % 3 == 0) {
-    console.log("3")
-  } else if (a % 5 == 0) {
-    console.log("5")
-  } else if (a % 7 == 0) {
-    console.log("7")
-  } else if (a % 3 != 0 && a % 5 != 0 && a % 7 != 0) {
+  // if (a % 3 == 0 && a % 5 == 0 && a % 7 == 0) {
+  //   console.log("3", "5", "7")
+  // } else if ((a % 3 == 0 && a % 5 == 0)) {
+  //   console.log("3", "5")
+  // } else if ((a % 3 == 0 && a % 7 == 0)) {
+  //   console.log("3", "7")
+  // } else if ((a % 5 == 0 && a % 7 == 0)) {
+  //   console.log("5", "7")
+  // } else if (a % 3 == 0) {
+  //   console.log("3")
+  // } else if (a % 5 == 0) {
+  //   console.log("5")
+  // } else if (a % 7 == 0) {
+  //   console.log("7")
+  // } else if (a % 3 != 0 && a % 5 != 0 && a % 7 != 0) {
+  //   console.log("n")
+  // }
+
+  if (a % 3 == 0 || a % 5 == 0 || a % 7 == 0) {
+    if (a % 3 == 0) {
+      console.log(3)
+    }
+    if (a % 5 == 0) {
+      console.log(5)
+    }
+    if (a % 7 == 0) {
+      console.log(7)
+    }
+  } else {
     console.log("n")
   }
 </script>
 <script id="ch0104/10">
-  var a = Number(prompt("a: "))
-  var b = Number(prompt("b: "))
+  // var a = Number(prompt("a: "))
+  // var b = Number(prompt("b: "))
 
-  if (a < 60 || b < 60) {
-    console.log(1)
-  } else {
-    console.log(0)
-  }
+  // if (a < 60 || b < 60) {
+  //   console.log(1)
+  // } else {
+  //   console.log(0)
+  // }
+   var a = Number(prompt("a: "))
+   var b = Number(prompt("b: "))
+   var 不及格门数 = 不及格门数 + 1
+
+
 </script>
 <script id="ch0104/11">
   var a = Number(prompt("a: "))
@@ -377,12 +396,46 @@
 <script  id="ch0104/19">
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
-  var c 
+  var c = prompt("+, -, *, /")
 
+  if (c == "+") {
+    console.log(a + b)
+  } else if (c == "-"){
+    console.log(a - b)
+  } else if (c == "*"){
+    console.log(a * b)
+  } else if (c == "/") {
+    console.log(a / b)
+  }
 </script>
-<script type="no" id="ch0104/20">
+<script  id="ch0104/20">
+  var a = Number(prompt("a: "))
+  var b = Number(prompt("b: "))
+  var c = Number(prompt("c: "))
+  var x1 = (-b + (Math.sqrt(b * b - 4 * a * c))) / (2 * a)
+  var x2 = (-b - (Math.sqrt(b * b - 4 * a * c))) / (2 * a)
+  var 实部 = -b / (2 * a)
+  var 虚部 = (Math.sqrt(4 * a * c - b * b)) / (2 * a)
 
+
+  if (b ** 2 == 4 * a * c) {
+    console.log("x1=x2=" , x1)
+  } else if (b ** 2 > 4 * a * c && x1 > x2) {
+    console.log("x1=" , x1 , "x1=" , x2)
+  } else if (b ** 2 < 4 * a * c) {
+    console.log("x1" , 实部 + 虚部i , "x2" , 实部 - 虚部i)
+  }
 </script>
-<script type="no" id="ch0104/21">
+<script  id="ch0104/21">
+ var n = Number(prompt("n: "))
+ var x = Number(prompt("x: "))
+ var y = Number(prompt("y: "))
+ var a = n - y / x
+ var b = y / x
 
+ if (n > y / x) {
+   console.log(Math.floor(a))
+ } else if (n < y / x){
+   console.log(Math.ceil(b))
+ }
 </script>
