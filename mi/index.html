@@ -20,7 +20,7 @@
     body {
       background-color: rgb(245, 245, 245);
       margin: 0px;
-      min-width: 1400px;
+      min-width: 1440px;
       height: 100%;
     }
 
@@ -817,7 +817,7 @@
       position: relative;
       top: 825px;
       width: 1400px;
-      height: 100%;
+      /* height: 100%; */
     }
 
     section div.wear div.wear1 {
@@ -1140,15 +1140,18 @@
       position: relative;
       background-color: rgb(246, 198, 198);
       width: 1400px;
-      height: 100%;
-      top: 720px;
+      top: 1620px;
+      /* height: 100%; */
+      display: flex;
+      justify-content:  space-between;
     }
 
     div.appliance div {
-      width: 150px;
+      position: absolute;
+      width: 1400px;
       height: 100px;
       display: flex;
-      float: left;
+      justify-content:  end;
     }
 
     div.appliance div.appliance2 {
@@ -1164,6 +1167,7 @@
     div.appliance div.appliance2 span {
       font-size: 20px;
       line-height: 140px;
+
     }
 
     div.appliance div.appliance2 span.zuo {
@@ -1224,12 +1228,13 @@
 
     div.appliance div.appliance2 span.zuo li:nth-child(10) a span {
       line-height: 20px;
+      padding-left: 20px;
     }
 
     div.appliance div.appliance2 span.zuo li:nth-child(10) a span.font1 {
       color: black;
-      padding-right: 60px;
-
+      /* padding-right: 60px; */
+       padding-left: 20px;
     }
 
     div.appliance div.appliance2 span.zuo li:nth-child(10) a img {
@@ -1247,9 +1252,10 @@
       color: black;
     }
 
-    div.appliance div.appliance2 span.zuo li a span {
+    div.appliance div.appliance2 span.zuo li a  span {
       background-color: #fff;
       line-height: 60px;
+
     }
   </style>
 </head>
@@ -1860,8 +1866,9 @@
       </div>
     </div>
     <div class="appliance">
+      <span class="home">家电</span>
       <div class="appliance1">
-        <span class="home">家电</span>
+
       </div>
       <div class="appliance2">
         <span class="zuo">热门

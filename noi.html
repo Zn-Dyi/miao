@@ -37,7 +37,7 @@
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
 
-  console.log((a / b * 100).toFixed(3)  + "%")
+  console.log((a / b * 100).toFixed(3) + "%")
 </script>
 <script id="ch0103/07">
   var a = Number(prompt("a: "))
@@ -290,11 +290,25 @@
   // } else {
   //   console.log(0)
   // }
-   var a = Number(prompt("a: "))
-   var b = Number(prompt("b: "))
-   var 不及格门数 = 不及格门数 + 1
+  var a = Number(prompt("a: "))
+  var b = Number(prompt("b: "))
+  var c = Number(prompt("c: "))
+  var 不及格门数 = 0
 
-
+  if (a < 60) {
+    不及格门数 = 不及格门数 + 1
+  }
+  if (b < 60) {
+    不及格门数 = 不及格门数 + 1
+  }
+  if (c < 60) {
+    不及格门数 = 不及格门数 + 1
+  }
+  if (不及格门数 == 1) {
+    console.log("1")
+  } else {
+    console.log("0")
+  }
 </script>
 <script id="ch0104/11">
   var a = Number(prompt("a: "))
@@ -334,47 +348,60 @@
   }
 </script>
 <script id="ch0104/14">
-  var a = Number(prompt("a: "))
-  var f = 8
-  var e = prompt("y, n")
-  var b = f + ((Math.ceil((a - 1000) / 500) * 4))
+  var a = 8
+  var
+  // var a = Number(prompt("a: "))
+  // var f = 8
+  // var e = prompt("y, n")
+  // var b = f + ((Math.ceil((a - 1000) / 500) * 4))
 
-  if (a <= 1000 && e == "n") {
-    console.log(f)
-  } else if (a <= 1000 && e == "y") {
-    console.log(f + 5)
-  } else if (a > 1000 && e == "n") {
-    console.log(b)
-  } else if (a >= 1000 && e == "y") {
-    console.log(b + 5)
-  }
+  // if (a <= 1000 && e == "n") {
+  //   console.log(f)
+  // } else if (a <= 1000 && e == "y") {
+  //   console.log(f + 5)
+  // } else if (a > 1000 && e == "n") {
+  //   console.log(b)
+  // } else if (a >= 1000 && e == "y") {
+  //   console.log(b + 5)
+  // }
 </script>
 <script id="ch0104/15">
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
   var c = Number(prompt("c: "))
+  var max = a
+
+
+  if (b > max) {
+    max = b
+  }
+  if (c > max) {
+    max = c
+  }
+  console.log(max)
   // var d = Math.max(a, b, c)
 
-  if (a > b && a > c) {
-    console.log(a)
-  } else if (b > a && b > c) {
-    console.log(b)
-  } else if (c > b && c > a) {
-    console.log(c)
-  }
+  // if (a >= b && a >= c) {
+  //   console.log(a)
+  // } else if (b >= a && b >= c) {
+  //   console.log(b)
+  // } else if (c >= b && c >= a) {
+  //   console.log(c)
+  // }
+
 </script>
-<script  id="ch0104/16">
+<script id="ch0104/16">
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
   var c = Number(prompt("c: "))
 
   if (a ** 2 + b ** 2 == c ** 2) {
     console.log("yes")
-  } else{
+  } else {
     console.log("no")
   }
 </script>
-<script  id="ch0104/17">
+<script id="ch0104/17">
   var a = Number(prompt("a: "))
 
   if (a % 4 == 0 && a % 400 == 0 && a % 100 != 0) {
@@ -383,7 +410,7 @@
     console.log("N")
   }
 </script>
-<script  id="ch0104/18">
+<script id="ch0104/18">
   var x = Number(prompt("x: "))
   var y = Number(prompt("y: "))
 
@@ -393,22 +420,22 @@
     console.log("no")
   }
 </script>
-<script  id="ch0104/19">
+<script id="ch0104/19">
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
   var c = prompt("+, -, *, /")
 
   if (c == "+") {
     console.log(a + b)
-  } else if (c == "-"){
+  } else if (c == "-") {
     console.log(a - b)
-  } else if (c == "*"){
+  } else if (c == "*") {
     console.log(a * b)
   } else if (c == "/") {
     console.log(a / b)
   }
 </script>
-<script  id="ch0104/20">
+<script id="ch0104/20">
   var a = Number(prompt("a: "))
   var b = Number(prompt("b: "))
   var c = Number(prompt("c: "))
@@ -419,23 +446,217 @@
 
 
   if (b ** 2 == 4 * a * c) {
-    console.log("x1=x2=" , x1)
+    console.log("x1=x2=" + x1)
   } else if (b ** 2 > 4 * a * c && x1 > x2) {
-    console.log("x1=" , x1 , "x1=" , x2)
+    console.log("x1=" + x1, "x1=" + x2)
+  } else if (b ** 2 > 4 * a * c && x1 < x2) {
+    console.log("x1=" + x1, "x2=" + x2)
   } else if (b ** 2 < 4 * a * c) {
-    console.log("x1" , 实部 + 虚部i , "x2" , 实部 - 虚部i)
+    console.log("x1=" + (实部).toFixed(5) + "+" + (虚部).toFixed(5) + "i" + ";" + "x2=" + (实部).toFixed(5) + "-" + (虚部).toFixed(5) + "i")
+  }
+
+</script>
+<script id="ch0104/21">
+  var n = Number(prompt("n: "))
+  var x = Number(prompt("x: "))
+  var y = Number(prompt("y: "))
+  var b = Math.ceil(y / x)
+  var a = n - b
+
+  if (n > y / x) {
+    console.log(a)
+  } else if (n < y / x) {
+    console.log((b))
   }
 </script>
-<script  id="ch0104/21">
- var n = Number(prompt("n: "))
- var x = Number(prompt("x: "))
- var y = Number(prompt("y: "))
- var a = n - y / x
- var b = y / x
 
- if (n > y / x) {
-   console.log(Math.floor(a))
- } else if (n < y / x){
-   console.log(Math.ceil(b))
- }
+
+<script id="ch0105/01">
+  var n = Number(prompt())
+  var ageSum = 0
+
+  var counter = 0
+
+  while (counter < n) {
+    var age = Number(prompt())
+    ageSum = ageSum + age
+    counter = counter + 1
+  }
+
+  var ageAverage = ageSum / n
+  console.log(ageAverage.toFixed(2))
+</script>
+<script id="ch0105/02">
+  var n = Number(prompt("n: "))
+  var moneySum = 0
+  var moon = 0
+
+  while (moon < n) {
+    var money = Number(prompt("money: "))
+    moneySum = moneySum + money
+    moon = moon + 1
+  }
+  var Averagemoney = moneySum / n
+  console.log("$" + Averagemoney.toFixed(2))
+</script>
+<script id="ch0105/03">
+  var n = Number(prompt("n: "))
+  var a = 0
+  var b = 0
+
+  while (b < n) {
+    var value = Number(prompt("value: "))
+    a = a + value
+    b = b + 1
+  }
+  var Averagevalue = a / n
+  console.log(Averagevalue.toFixed(4))
+</script>
+<script id="ch0105/04">
+  var n = Number(prompt("n: "))
+  var aSum = 0
+  var b = 0
+
+  while (b < n) {
+    var value = Number(prompt("value: "))
+    aSum = aSum + value
+    b = b + 1
+  }
+  var Averagevalue = aSum / n
+  console.log(aSum)
+  console.log(Averagevalue.toFixed(5))
+
+</script>
+<script id="ch0105/05">
+ var n = Number(prompt("n: "))
+ var b = 0
+ var max = 0
+
+while (b < n) {
+  var value = Number(prompt("value: "))
+  b = b + 1
+  if (value > max)
+  max = value
+}
+console.log(max)
+</script>
+<script id="ch0105/06">
+  
+</script>
+<script id="ch0105/07">
+
+</script>
+<script id="ch0105/08">
+
+</script>
+<script id="ch0105/09">
+
+</script>
+<script id="ch0105/10">
+
+</script>
+<script id="ch0105/11">
+
+</script>
+<script id="ch0105/12">
+
+</script>
+<script id="ch0105/13">
+
+</script>
+<script id="ch0105/14">
+
+</script>
+<script id="ch0105/15">
+
+</script>
+<script id="ch0105/16">
+
+</script>
+<script id="ch0105/17">
+
+</script>
+<script id="ch0105/18">
+
+</script>
+<script id="ch0105/19">
+
+</script>
+<script id="ch0105/20">
+
+</script>
+<script id="ch0105/21">
+
+</script>
+<script id="ch0105/22">
+
+</script>
+<script id="ch0105/23">
+
+</script>
+<script id="ch0105/24">
+
+</script>
+<script id="ch0105/25">
+
+</script>
+<script id="ch0105/26">
+
+</script>
+<script id="ch0105/27">
+
+</script>
+<script id="ch0105/28">
+
+</script>
+<script id="ch0105/29">
+
+</script>
+<script id="ch0105/30">
+
+</script>
+<script id="ch0105/31">
+
+</script>
+<script id="ch0105/32">
+
+</script>
+<script id="ch0105/33">
+
+</script>
+<script id="ch0105/34">
+
+</script>
+<script id="ch0105/35">
+
+</script>
+<script id="ch0105/36">
+
+</script>
+<script id="ch0105/37">
+
+</script>
+<script id="ch0105/38">
+
+</script>
+<script id="ch0105/39">
+
+</script>
+<script id="ch0105/40">
+
+</script>
+<script id="ch0105/41">
+
+</script>
+<script id="ch0105/42">
+
+</script>
+<script id="ch0105/43">
+
+</script>
+<script id="ch0105/44">
+
+</script>
+<script id="ch0105/45">
+
 </script>
