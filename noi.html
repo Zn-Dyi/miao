@@ -528,88 +528,501 @@
 
 </script>
 <script id="ch0105/05">
- var n = Number(prompt("n: "))
- var b = 0
- var max = 0
+  var n = Number(prompt("n: "))
+  var b = 0
+  var max = 0
 
-while (b < n) {
-  var value = Number(prompt("value: "))
-  b = b + 1
-  if (value > max)
-  max = value
-}
-console.log(max)
+  while (b < n) {
+    var value = Number(prompt("value: "))
+    b = b + 1
+    if (value > max)
+      max = value
+  }
+  console.log(max)
 </script>
 <script id="ch0105/06">
-  
+  var n = Number(prompt("n: "))
+  var b = 0
+  var max = 0
+  var min = 1000
+
+  while (b < n) {
+    var value = Number(prompt("value: "))
+    b = b + 1
+    if (value > max) {
+      max = value
+    }
+    if (value < min) {
+      min = value
+    }
+  }
+  console.log(max - min)
 </script>
 <script id="ch0105/07">
+  var n = Number(prompt("n: "))
+  var b = 0
+  var g = 0
+  var s = 0
+  var c = 0
 
+  while (b < n) {
+    var gold = Number(prompt("gold: "))
+    var silver = Number(prompt("silver: "))
+    var copper = Number(prompt("copper: "))
+    b = b + 1
+    g = gold + g
+    s = silver + s
+    c = copper + c
+
+  }
+  console.log(g, s, c, (g + s + c))
 </script>
 <script id="ch0105/08">
+  var a = Number(prompt("a: "))
+  var b = 1
+  var c = 0
+  var du = (a - 2) * 180
 
+  while (b < a) {
+    var n = Number(prompt("n: "))
+    b = b + 1
+    c = n + c
+
+  }
+  console.log(du - c)
 </script>
 <script id="ch0105/09">
+  var n = Number(prompt("n: "))
+  var m = Number(prompt("m: "))
+  var start
+  var sum = 0
+  if (n % 2 == 0) {
+    start = n + 1
+  } else {
+    start = n
+  }
+  while (start < m) {
+    sum += start
+    start += 2
+  }
+  if (m % 2 != 0) {
+    sum += m
+  }
+  console.log(sum)
 
+  // var n = Number(prompt("n: "))
+  // var m = Number(prompt("m: "))
+  // var sum = 0
+
+  // while (n <= m) {
+  //   if (n % 2 == 0) {
+  //     sum = sum + n
+  //   }
+  //   n = n + 1
+  // }
+  // console.log(sum)
 </script>
 <script id="ch0105/10">
+  var n = Number(prompt("n: "))
+  var m = Number(prompt("m: "))
+  var sum = 0
+
+  while (n <= m) {
+    if (n % 17 == 0) {
+      sum = sum + n
+    }
+    n = n + 1
+  }
+  console.log(sum)
+
+
+
 
 </script>
 <script id="ch0105/11">
+  var n = Number(prompt("n: "))
+  var a = 0
+  var b = 0
+  var c = 0
+  var d = 0
 
+  while (a < n) {
+    var value = Number(prompt("value: "))
+    if (value == 1) {
+      b = b + 1
+    }
+    if (value == 5) {
+      c = c + 1
+    }
+    if (value == 10) {
+      d = d + 1
+    }
+    a = a + 1
+  }
+  console.log(b, c, d)
 </script>
 <script id="ch0105/12">
+  var N = Number(prompt("N: "))
+  var m = Number(prompt("m: "))
+  var n = Number(prompt("n: "))
+  var a = 0
+  var c = 0
 
+  while (a < n) {
+    var value = Number(prompt("value: "))
+    if (value == 2) {
+      c = c + 1
+    }
+    a = a + 1
+  }
+  console.log(c)
 </script>
 <script id="ch0105/13">
+  var a = Number(prompt("a: "))
+  var n = Number(prompt("n: "))
+  // var b = 0
+  var c = 1
 
+  // while (n - b != 0) {
+  //   if (n != 1) {
+  //     c = c * a
+  //   }
+  //   b = b + 1
+  // }
+  for (var b = 0; n - b !== 0; b++) {
+    if (n != 1) {
+      c = c * a
+    }
+  }
+  console.log(c)
 </script>
 <script id="ch0105/14">
+  var x = Number(prompt("x: "))
+  var n = Number(prompt("n: "))
+  var b = 0
+  var c = 0.001
 
+  while (n - b != 0) {
+    if (n != 1) {
+      x = x + x * c
+    }
+    b = b + 1
+  }
+  console.log(x.toFixed(4))
 </script>
 <script id="ch0105/15">
+  var R = Number(prompt("R: "))
+  var M = Number(prompt("M: "))
+  var Y = Number(prompt("Y: "))
+  var c = 0
 
+
+  while (c < Y) {
+
+    M = (R * 0.01) * M + M
+    c = c + 1
+  }
+  console.log(M)
 </script>
 <script id="ch0105/16">
+  var N = Number(prompt("N: "))
+  var K = Number(prompt("K: "))
+  var c = 1
+  var F = 200
+  var n = 0
+
+
+  while (n < F) {
+    F = (200 * (K * 0.01)) + F
+    n = N + n
+    c = c + 1
+  } if (c < 20) {
+    console.log(c)
+  } else {
+    console.log("Impossible")
+  }
+
 
 </script>
 <script id="ch0105/17">
+  var k = Number(prompt("k: "))
+  var c = 0
+  var a = 0
+  var b = 1
+  var d
 
+  while (c < k) {
+    d = a + b
+    a = b
+    b = d
+    c = c + 1
+  }
+  console.log(a)
 </script>
 <script id="ch0105/18">
+  var n = Number(prompt("n: ", "输入几组数据"))
+  var c = 1
+  var jAll = Number(prompt("jAll:"))
+  var j = Number(prompt("j:"))
+  var x = (j / jAll)
+
+  while (c < n) {
+    var newAll = Number(prompt("newAll: "))
+    var no = Number(prompt("no: "))
+    var y = (no / newAll)
+    c = c + 1
+    if (y - x > 0.05) {
+      console.log("better")
+    }
+    if (x - y > 0.05) {
+      console.log("worse")
+    }
+    if (y - x < 0.05 && x - y < 0.05) {
+      console.log("same")
+    }
+  }
 
 </script>
 <script id="ch0105/19">
+  var n = Number(prompt("n: "))
+  var time = 0
 
+  for (var i = 0; i < n; i++) {
+    var a = Number(prompt("a: "))
+    var b = Number(prompt("b: "))
+    var d = Math.sqrt(a ** 2 + b ** 2)
+    var p = Number(prompt("p: "))
+    time = time + Math.ceil((d / 50 * 2) + 1.5 * p)
+  }
+  console.log(time)
 </script>
 <script id="ch0105/20">
+  var h = Number(prompt("h: ", "球的起始高度"))
+  var a = 0
+
+  for (var i = 0; i < 11; i++) {
+    a = a + h + h / 2
+    h = h / 2
+
+
+  }
+  console.log(a, h)
 
 </script>
 <script id="ch0105/21">
+  var n = Number(prompt("n: "))
+  while (n !== 1) {
+    if (n % 2 == 1) {
+      n = (n * 3 + 1)
+      console.log((n - 1) / 3 + "*" + "3" + "+" + "1" + "=" + n)
+    }
+    if (n % 2 == 0) {
+      n = n / 2
+      console.log(n * 2 + "/" + "2" + "=" + n)
+    }
+  }
+  console.log("End")
 
 </script>
 <script id="ch0105/22">
+  var savings = 0 //储蓄
+  var i = 1
+  var judge = 0 // 判断
+  var money = 300 // 月初零花钱
 
+  while (i <= 12) {
+    var budget = Number(prompt("budget: ", "每月预算"))
+    var balance = money - budget         //结余
+    if (balance < 0) {
+      judge = 1
+      break
+    }
+    if (balance < 100 && balance >= 0) {
+      money = 300 + balance
+    }
+    if (balance > 100) {
+      savings = balance - balance % 100 + savings
+      balance = balance % 100
+      money = 300 + balance
+    }
+    i++
+  }
+  if (judge = 0) {
+    console.log(savings + savings * 0.2 + money - 300)
+  } else if (judge = 1) {
+    console.log(-i)
+  }
 </script>
 <script id="ch0105/23">
+  var m = Number(prompt("m: ", "药品总量"))
+  var n = Number(prompt("n: ", "取药人数"))
+  var x = 0 // 取药人数
+  var judge = 0
+  var i = 0
+
+  while (i < n) {
+    var drug = Number(prompt("drug: ", "取走药品数量"))
+    m = m - drug  // 剩余药品数量
+    i++
+    if (m < 0) {
+      judge = 1
+      x++
+      m = m + drug
+      continue
+    }
+  }
+  if (judge = 1) {
+    console.log(x)
+  }
 
 </script>
 <script id="ch0105/24">
+  var n = Number(prompt("n: "))
+  var i = 0
+  var judge = 0
+  var zc = 0
+  var zc1 = 0
 
+  while (i < n) {
+    var sya = Number(prompt("sya: "))
+    var zya = Number(prompt("zya: "))
+    i++
+    if ((90 <= sya && sya <= 140)
+      &&
+      (60 <= zya && zya <= 90)) {
+      judge = 1
+      zc++
+    } else {
+      if (zc > zc1) {
+        zc1 = zc
+      }
+      zc = 0
+    }
+  }
+  if (zc > zc1) {
+    zc1 = zc
+  }
+  console.log(zc1)
 </script>
 <script id="ch0105/25">
+  var n = Number(prompt("n: "))
+
 
 </script>
 <script id="ch0105/26">
+  var n = Number(prompt("n: "))
+  var i = 0
+  var judge = 0
+  var fh = 0
+  var fh1 = 0
 
+  while (i < n) {
+    var value = Number(prompt("value: "))
+    var ge = value % 10
+    var shi = (value % 100 - ge) / 10
+    var bai = (value % 1000 - value % 100) / 100
+    var qian = (value % 10000 - value % 1000) / 1000
+    i++
+    if (ge - shi - bai - qian > 0) {
+      judge = 1
+      fh++
+    }
+  }
+  console.log(fh)
 </script>
 <script id="ch0105/27">
+  var k = Number(prompt("k: "))
+  var Sn = 0
+  var an
+  var n = 1
 
+  while (Sn <= k) {
+    var an = 1 / n
+    Sn = Sn + an
+    n++
+  }
+  n = n - 1
+  console.log(n)
 </script>
 <script id="ch0105/28">
+  var n = Number(prompt("n: "))
+  var last
 
+  while ((Math.trunc(n / 10)) > 0) {
+    last = n % 10
+    n = Math.trunc(n / 10)
+    console.log(last)
+  }
+  console.log(n)
+  // var value = Number(prompt("value: "))
+  // var a = String(value).length
+  // var i = 0
+  // while (i < a) {
+  //   if (i == 0) {
+  //     var ge = value % 10
+  //     i++
+  //   } else if (i == 1) {
+  //     var shi = (value % 100 - ge) / 10
+  //     i++
+  //   } else if (i == 2) {
+  //     var bai = (value % 1000 - value % 100) / 100
+  //     i++
+  //   } else if (i == 3) {
+  //     var qian = (value % 10000 - value % 1000) / 1000
+  //     i++
+  //   } else if (i == 4) {
+  //     var wan = (value % 100000 - value % 10000) / 10000
+  //     i++
+  //   } else if (i == 5) {
+  //     var shiwan = (value % 1000000 - value % 100000) / 100000
+  //     i++
+  //   } else if (i == 6) {
+  //     var baiwan = (value % 10000000 - value % 1000000) / 1000000
+  //     i++
+  //   } else if (i == 7) {
+  //     var qianwan = (value % 100000000 - value % 10000000) / 10000000
+  //     i++
+  //   }
+  // }
+  // console.log(ge, shi, bai, qian, wan, shiwan, baiwan, qianwan)
 </script>
 <script id="ch0105/29">
+  var value = Number(prompt("value: "))
+  var a = String(value).length
+  var i = 0
+  var judge = 0
+
+  if (value > 0)
+      while (i < a) {
+      if (i == 0) {
+        var ge = value % 10
+        i++
+      } else if (i == 1) {
+        var shi = (value % 100 - ge) / 10
+        i++
+      } else if (i == 2) {
+        var bai = (value % 1000 - value % 100) / 100
+        i++
+      } else if (i == 3) {
+        var qian = (value % 10000 - value % 1000) / 1000
+        i++
+      } else if (i == 4) {
+        var wan = (value % 100000 - value % 10000) / 10000
+        i++
+      } else if (i == 5) {
+        var shiwan = (value % 1000000 - value % 100000) / 100000
+        i++
+      } else if (i == 6) {
+        var baiwan = (value % 10000000 - value % 1000000) / 1000000
+        i++
+      } else if (i == 7) {
+        var qianwan = (value % 100000000 - value % 10000000) / 10000000
+        i++
+      }
+    }
+      console.log(ge, shi, bai, qian, wan, shiwan, baiwan, qianwan
+
+
 
 </script>
 <script id="ch0105/30">

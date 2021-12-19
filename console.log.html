@@ -53,25 +53,40 @@
     if (n > number) {
       alert("too big")
     } else if (n < number) {
-      alert("too small" )
+      alert("too small")
     }
   } while (n !== number)
   alert('大聪明！恭喜')
 </script>
 <script>
-    var n = Number(prompt())
-    var ageSum = 0
+  var n = Number(prompt())
+  var ageSum = 0
 
-    var counter = 0
+  var counter = 0
 
-    while (counter < n) {
-      var age = Number(prompt())
-      ageSum = ageSum + age
-      counter = counter + 1
+  while (counter < n) {
+    var age = Number(prompt())
+    ageSum = ageSum + age
+    counter = counter + 1
+  }
+
+  var ageAverage = ageSum / n
+  console.log(ageAverage.toFixed(2))
+
+
+</script>
+<script>
+  var number = Math.round(Math.random() * 100)
+  var n
+
+  do {
+    n = Number(prompt())
+    if (n > number) {
+      alert('too big')
+    } else if (n < number) {
+      alert('too small')
     }
+  } while (n !== number)
 
-    var ageAverage = ageSum / n
-    console.log(ageAverage.toFixed(2))
-
-
+  alert('大聪明！恭喜')
 </script>
