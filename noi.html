@@ -992,36 +992,7 @@
   var i = 0
   var judge = 0
 
-  if (value < 0) {
-    while (i < a) {
-      if (i == 0) {
-        var ge = value % 10
-        i++
-      } else if (i == 1) {
-        var shi = (value % 100 - ge) / 10
-        i++
-      } else if (i == 2) {
-        var bai = (value % 1000 - value % 100) / 100
-        i++
-      } else if (i == 3) {
-        var qian = (value % 10000 - value % 1000) / 1000
-        i++
-      } else if (i == 4) {
-        var wan = (value % 100000 - value % 10000) / 10000
-        i++
-      } else if (i == 5) {
-        var shiwan = (value % 1000000 - value % 100000) / 100000
-        i++
-      } else if (i == 6) {
-        var baiwan = (value % 10000000 - value % 1000000) / 1000000
-        i++
-      } else if (i == 7) {
-        var qianwan = (value % 100000000 - value % 10000000) / 10000000
-        i++
-      }
-      console.log("-", ge, shi, bai, qian, wan, shiwan, baiwan, qianwan)
-    }
-  }
+
   if (value > 0)
     while (i < a) {
       if (i == 0) {
@@ -1051,12 +1022,59 @@
       }
     }
   console.log(ge, shi, bai, qian, wan, shiwan, baiwan, qianwan)
-
+  if (value < 0) {
+    value = Math.abs(value)
+    while (i < a - 1) {
+      if (i == 0) {
+        var ge = value % 10
+        i++
+      } else if (i == 1) {
+        var shi = (value % 100 - ge) / 10
+        i++
+      } else if (i == 2) {
+        var bai = (value % 1000 - value % 100) / 100
+        i++
+      } else if (i == 3) {
+        var qian = (value % 10000 - value % 1000) / 1000
+        i++
+      } else if (i == 4) {
+        var wan = (value % 100000 - value % 10000) / 10000
+        i++
+      } else if (i == 5) {
+        var shiwan = (value % 1000000 - value % 100000) / 100000
+        i++
+      } else if (i == 6) {
+        var baiwan = (value % 10000000 - value % 1000000) / 1000000
+        i++
+      } else if (i == 7) {
+        var qianwan = (value % 100000000 - value % 10000000) / 10000000
+        i++
+      }
+    }
+    console.log("-", ge, shi, bai, qian, wan, shiwan, baiwan, qianwan)
+  }
 
 
 </script>
 <script id="ch0105/30">
-
+  var m = Number(prompt("m: "))
+  var k = Number(prompt("k: "))
+  var a
+  var b = 0
+  if (m % 19 != 0) {
+    console.log("NO")
+  }
+  if (m % 19 == 0) {
+    while (Math.trunc(m / 10) > 0) {
+      a = m % 10
+      if (a % 3 == 0) {
+        b++
+      }
+      m = Math.trunc(m / 10)
+    }
+    k == b
+    console.log("YES")
+  }
 </script>
 <script id="ch0105/31">
 
