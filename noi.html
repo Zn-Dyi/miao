@@ -957,15 +957,34 @@
   console.log(n)
 </script>
 <script id="ch0105/28">
+  // 优化2
   var n = Number(prompt("n: "))
-  var last
+  var sign = Math.sign(n)
+  var r = 0
 
-  while ((Math.trunc(n / 10)) > 0) {
-    last = n % 10
-    n = Math.trunc(n / 10)
-    console.log(last)
-  }
-  console.log(n)
+  while (n > 0) {
+    var d = n % 10
+    n = (n - d) / 10
+    r = r * 10 + d
+  } 
+  console.log(r * sign)
+
+
+  // 优化1
+  // var n = Number(prompt("n: "))
+  // var last
+
+  // while ((Math.trunc(n / 10)) > 0) {
+  //   last = n % 10
+  //   n = Math.trunc(n / 10)
+  //   console.log(last)
+  // }
+  // console.log(n)
+
+
+
+
+
   // var value = Number(prompt("value: "))
   // var a = String(value).length
   // var i = 0
@@ -1002,6 +1021,7 @@
   var n = Number(prompt("n: "))
   var sign = Math.sign(n)
   var r = 0
+  n = Math.abs(n)
 
   while (n > 0) {
     var d = n % 10
@@ -1335,4 +1355,280 @@
     }
   }
   console.log(sum)
+</script>
+<script>
+  // 阶乘
+  function factorial(n) {
+    var result = 1
+    for (i = 1; i <= n; i++) {
+      result *= i
+    }
+    return result
+  }
+
+</script>
+
+<script>
+  // 质因数分解
+  function isPrime(n) {
+    var result = 1
+    for (i = 2; i * i <= n; i++) {
+      if (n % i == 0) {
+        return false
+      }
+    }
+    return true
+  }
+</script>
+
+<script>
+  // 敲7
+  function qiao7(n) {
+    var result = 1
+    for (i = 1; i < n; i++) {
+      if (n % 7 == 0) {
+        return true
+      }
+      while (n > 0) {
+        var a = n % 10
+        if (a == 7) {
+          return true
+        }
+        n = (n - a) / 10
+      }
+      return false
+    }
+  }
+</script>
+
+<script>
+  // 菲波那契数列
+  function fibb(n) {
+    var a = 0
+    var b = 1
+    for (i = 0; i < n; i++) {
+      b = a + b
+      a = b - a
+    }
+    return a
+  }
+</script>
+
+<script>
+  function 阶乘分之一(n) {
+    var sum = 1
+    var 阶乘 = 1
+    for (i = 1; i <= n; i++) {
+      阶乘 *= i
+      sum += 1 / 阶乘
+    }
+    return sum
+  }
+</script>
+
+<script id="narcissistic">
+  var n = Number(prompt("n: "))
+  var sum = 0
+  var m = n
+  for (i = 0; m > 0; i++) {
+    sum = (m % 10) ** 3 + sum
+    m = (m - (m % 10)) / 10
+  }
+  if (sum == n) {
+    console.log("YES")
+  } else {
+    console.log("NO")
+  }
+</script>
+<script id="narcissistics">
+  // var n = Number(prompt("n: "))
+  // var sum = 0
+
+  // for (var i = 100; i <= n; i++) {
+  //   var m = i
+  //   while (m > 0) {
+  //   sum = (m % 10) ** 3 + sum
+  //   m = (m - (m % 10)) / 10
+  //   }
+  //   if (sum == i) {
+  //     console.log(sum)
+  //   }
+  //   sum = 0
+  // }
+
+  var sum = 0
+
+  for (var i = 100; i < 10000; i++) {
+    var m = i
+    while (m > 0) {
+      sum = (m % 10) ** 3 + sum
+      m = (m - (m % 10)) / 10
+    }
+    if (sum == i) {
+      console.log(sum)
+    }
+    sum = 0
+  }
+
+
+
+
+// function 水仙花(n) {
+//   let 个 = n % 10
+//   let 十 = (n - 个) / 10 % 10
+//   let 百 = (n - (n % 100)) / 100
+//   if (个 ** 3 + 十 ** 3 + 百 ** 3 == n) {
+//     return true
+//   }
+//     return false
+//   }
+//   for (var i = 100; i < 1000 ; i++ ) {
+//     if (水仙花(i)) {
+//       console.log(i)
+//     }
+//   }
+
+</script>
+<script id="palindrom">
+  var n = Number(prompt("n: "))
+  var a
+  var c = 0
+  var n1 = n
+
+  while (n > 0) {
+    a = n % 10
+    c = c * 10 + a
+    n = (n - (a)) / 10
+  }
+  if (n1 == c) {
+    console.log("YES")
+  } else {
+    console.log("NO")
+  }
+
+</script>
+<script id="complete-number">
+  var n = Number(prompt("n: "))
+  var sum = 0
+
+  for (var i = 1; i <= n; i++) {
+    var m = i
+    if (n % i == 0) {
+      sum = sum + i
+    }
+  }
+  if (sum == (n * 2)) {
+    console.log("yes")
+  } else {
+    console.log("no")
+  }
+
+</script>
+<script id="complete-numbers">
+  for (var n = 1; n <= 1000; n++) {
+    var sum = 0
+    for (var i = 1; i < n; i++) {
+      if (n % i == 0) {
+        sum = sum + i
+      }
+    }
+    if (sum == n) {
+      console.log(n)
+
+    }
+  }
+
+
+</script>
+<script id="prime">
+  var n = Number(prompt("n: "))
+
+  for (var i = 2; i <= n; i++) {
+    if (n % i == 0) {
+      break
+    }
+
+  }
+  if (n == i) {
+    console.log("yes")
+  } else {
+    console.log("no")
+  }
+</script>
+<script id="primes">
+
+</script>
+<script id="itoa">
+  function digitToChar(n) {
+    if (n == 0) {
+      return "0"
+    }
+    if (n == 1) {
+      return "1"
+    }
+    if (n == 2) {
+      return "2"
+    }
+    if (n == 3) {
+      return "3"
+    }
+    if (n == 4) {
+      return "4"
+    }
+    if (n == 5) {
+      return "5"
+    }
+    if (n == 6) {
+      return "6"
+    }
+    if (n == 7) {
+      return "7"
+    }
+    if (n == 8) {
+      return "8"
+    }
+    if (n == 9) {
+      return "9"
+    }
+  }
+
+  function itoa(m) {
+    var result = ""
+    while (m > 0) {
+      var d = m % 10
+      result = digitToChar(d) + result
+      m = (m - d) / 10
+    }
+    return result
+  }
+
+
+</script>
+<script>
+
+</script>
+<script>
+
+</script>
+<script>
+  function getMonthDay(year, month) {
+    switch (month) {
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        return 31
+      case 2:
+        if (isLeapYear(year)) {
+          return 29
+        } else {
+          return 28
+        }
+      default: // 以上都不是
+        return 30
+    }
+  }
 </script>

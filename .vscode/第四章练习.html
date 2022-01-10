@@ -1,0 +1,349 @@
+<script id="特定范围数字求和">
+  // 特定范围数字求和
+  function sum(number) {
+    var result = 0
+    for (var i = 0; i < number.length; i++) {
+      result += number[i]
+    }
+    return result
+  }
+
+  function range(start, end) {
+    var result = []
+    for (var i = start; i < end; i++) {
+      result.push(i)
+    }
+    return result
+  }
+
+  function range(start, end, step = 1) {
+    var argCount = arguments.length  // 参数的数量
+    if (argCount == 1) {
+      end = start
+      start = 1
+    }
+    var result = 0
+    // 判定step是否大于0 数组是正向排序还是反向排序
+    for (var i = start; step > 0 ? i <= end : i >= end; i += step) {
+      result.push(i)
+    }
+    return result
+  }
+
+</script>
+
+
+<script id="数组逆转">
+  // 数组逆转
+  // (1) 创建一个新数组实现
+
+  function reverseArray(array) {
+    var len = array.length
+    var result = Arrau(len)
+    for (var i = len - 1; i >= 0; i--) {
+      result[len - i - 1] = array[i]
+    }
+    return result
+
+    // var result = []
+    // for (var i = array.length - 1; i >= 0; i--) {
+    //   result.push(array[i])
+    // }
+    // return result
+  }
+
+
+  // (2) 就地倒序数组
+  function reverseArrayInPlace(array) {
+    // 双指针法
+    // var i = 0
+    // var j = array.length - 1
+    // while (i < j) {
+    //   var temp = array[i]
+    //   array[i] = array[j]
+    //   array[j] = temp
+    //   i++
+    //   j--
+    // }
+    // return array
+
+    var len = array.length - 1
+    var halfLen = Math.floor(len / 2)
+    for (var i = 0; i < halfLen; i++) {
+      var t = len - i - 1
+      var temp = array[i]
+      array[i] = array[t]
+      array[t] = temp
+    }
+    return array
+  }
+</script>
+
+
+<script id="深度比较">
+  function deepEqual(a, b) {
+    if (a === b) {
+      return true
+    }
+    if (a !== a && b !== b) {
+      return true
+    }
+
+    // 两个都是数组
+    if (Array.isArray(a) && Array.isArray(b)) {
+      if (a.length !== b.length) {
+        return false
+      } else {
+        for (var i = 0; i < a.length; i++) {
+          if (!deepEqual(a[i], b[i])) {
+            return false
+          }
+        }
+      }
+    }
+
+    // 两个都是对象
+    if (!Array.isArray(a) && !Array.isArray(b) && a && b && typeof a === "object" && typeof b === "object") {
+      for (var key in a) {
+        // a 的每个属性都要在b里
+        // 一旦不在，就返回false
+        if (!(key in b)) {
+          return false
+        }
+      }
+      for (var key in b) {
+        // b 的每个属性都要在a里
+        // 一旦不在，就返回false
+        if (!(key in a)) {
+          return false
+        }
+      }
+      // 上方两个循环确定a跟b的属性集合是相同的
+
+      for (var key in a) {
+        if (!deepEqual(a[key], b[key])) {
+          return false
+        }
+      }
+      return true
+    }
+
+    return false
+  }
+</script>
+
+<script id="链表">
+  // 已知数组返回链表
+  // (1) 普通方法
+  function arrayToList(array) {
+    if (array.length == 0) {
+      return null
+    }
+
+    var nodes = []
+    for (var i = 0; i < array.length; i++) {
+      // 对于数组的每一个值，创建一个链表结点
+      var node = {
+        val: array[i],
+        next: null
+      }
+      nodes.push(node)
+    }
+
+    for (var i = 0; i < nodes.length - 1; i++) {
+      // 把每个结点的next指向其后续的结点
+      nodes[i].next = nodes[i + 1]
+    }
+    return nodes[0]
+  }
+
+  function arrayToList2(array) {
+    if (array.length == 0) {
+      return null
+    }
+
+    var head = {
+      val: array[0],
+      next: null
+    }
+    var prev = head
+    for (var i = 1; i < array.length; i++) {
+      var node = {
+        val: array[i],
+        next: null
+      }
+      prev.next = node
+      prev = node
+    }
+    return head
+  }
+
+  function arrayToList3(array) {
+    // 创建一个结点
+    // 适用于正向排列
+
+    var dummy = {  // dummy结点创建的常规模式
+      val: 0,
+      next: null
+    }
+    var prev = dummy
+    for (var i = 1; i < array.length; i++) {
+      var node = {
+        val: array[i],
+        next: null
+      }
+      prev.next = node
+      prev = node
+    }
+    return dummy.next
+  }
+
+  // 倒序排列
+  function arrayToList4(array) {
+    var prev = null
+    for (var i = array.length - 1; i >= 0; i--) {
+      var node = {
+        val: array[i],
+        next: null
+      }
+      node.next = prev
+      prev = node
+    }
+    return prev
+  }
+
+  // 递归方法
+  function arrayToListR(array) {
+    if (array.length == 0) {
+      return null
+    }
+    var head = {
+      val: array[0],
+      next: null
+    }
+    var tail = arrayToListR(array.slice(1))
+    head.next = tail
+    return head
+  }
+
+  // 将数组array从start开始到结束转为链表
+  function arrayToListR2(array, start = 0) {
+    if (start == array.length) {
+      return null
+    }
+    var head = {
+      val: array[start],
+      next: null
+    }
+    var tail = arrayToListR2(array, start + 1)
+    head.next = tail
+    return head
+  }
+
+  // 已知链表返回数组
+  function listToArray(head) {
+    if (head == null) {
+      return []
+    }
+    var result = []
+    while (head) {
+      result.push(head.val)
+      head = head.next
+    }
+    return result
+  }
+
+  // 递归方法
+  function listToArrayR(head) {
+    if (head == null) {
+      return []
+    }
+    var ary = listToArrayR(head.next) // 已知头结点传入函数返回剩下的数组
+    return [head.val].concat(ary)     // 已知头结点的值拼接剩下的数组
+  }
+</script>
+
+<script id="从头或尾 插入结点">
+
+  function prepend(val, head) {
+    var node = {
+      val: val,
+      next: head
+    }
+    return node
+  }
+
+  function append(val, head) {
+    var node = {
+      val: val,
+      next: null,
+    }
+    if (head == null) {
+      return node
+    }
+    var p = head
+    while (p.next) {
+      p = p.next
+    }
+    p.next = node
+    return head
+  }
+</script>
+
+<script id="返回链表中第n个元素">
+
+  function nth(list, n) {
+    if (list == null || n < 0) {
+      return undefined
+    }
+    var p = list
+    var c = 0
+
+    while (p && c < n) {
+      c++
+      p = p.next
+    }
+
+    if (p) {
+      return p.val
+    } else {
+      return undefined
+    }
+  }
+
+  // 递归方法
+  function nth(list, n) {
+    if (list == null || n < 0) {
+      return undefined
+    }
+    if (n == 0) {    // 如果n == 0 返回链表第一项
+      return list.val
+    }
+    return nth(list.next, n - 1)  // 返回剩下的部分和n - 1项
+  }
+
+  function insert(list, n, val) {
+    var node = {
+      val: val,
+      next: null
+    }
+    if (n == 0) {
+      node.next = list
+      return node
+    }
+    var p = list
+    var c = 0
+    while (p && c < n - 1) {
+      c++
+      p = p.next
+    }
+    // var q = p.next
+    // p.next = node
+    // node.next = q
+
+    node.next = p.next
+    p.next = node
+
+    return list
+  }
+</script>

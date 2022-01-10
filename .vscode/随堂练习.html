@@ -1,0 +1,569 @@
+<script>
+  function findSolution(targetx, targety) {
+
+    // var target = 151
+    var array = []
+
+    function find(start, history) {
+      if (start == targetx && start == targety) {
+        array.push(history)
+        return
+      }
+      if (x > targetx || y > targety) {
+        return
+      }
+      find(x + 1, y, history + ">")
+      find(start + 5, history + '^')
+    }
+
+    find(0, 0, '')
+    return array
+  }
+</script>
+
+<script>
+  function findSolution(target) {
+
+    // var target = 151
+    var array = []
+
+    function find(start, history) {
+      if (start == target) {
+        array.push(history)
+        return
+      }
+      if (start > target) {
+        return
+      }
+      find(start * 3, '(' + history + ') * 3')
+      find(start + 5, history + ' + 5')
+    }
+
+    find(1, '1')
+    return array
+  }
+</script>
+
+<script>
+  // 递归找出字符串中的"B" de 个数
+  function countBs(str) {
+    var count = 0
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] == 'B') {
+        count++
+      }
+    }
+    return count
+  }
+
+  function countChar(str, char) {
+    var count = 0
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] == char) {
+        count++
+      }
+    }
+
+    return count
+  }
+  function countBs(str) {
+    return countChar(str, "B")
+  }
+</script>
+
+<script>
+  function countChar(str, char) {
+    var count = 0
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] == char) {
+        count++
+      }
+    }
+    return count
+  }
+</script>
+
+<script>
+  function min(a, b) {
+    if (a > b) {
+      return b
+    } else {
+      return a
+    }
+  }
+</script>
+
+<script>
+  function isEven(n) {
+    if (n == 0) {
+      return true
+    }
+    if (n % 2 == 0) {
+      return false
+    } else {
+      return isEven(n - 2)
+    }
+  }
+</script>
+
+<script>
+  // 棋盘格
+
+  function chessBoard(size) {
+    var oddLine = ''  // 奇数行
+    var evenLine = '' // 偶数行
+
+    for (var i = 0; i < size; i++) {
+      if (i % 2 == 0) {
+        evenLine += ' '
+        oddLine += '#'
+      } else {
+        evenLine += '#'
+        oddLine += ' '
+      }
+    }
+
+    var result = ''
+    for (var i = 0; i < size; i++) {
+      if (i % 2 == 0) {
+        result += evenLine + '\n'
+      } else {
+        result += oddLine + '\n'
+      }
+    }
+    return result
+  }
+</script>
+
+<script>
+  function findSolution(numbers) {
+    var max = 0
+    var maxHistory = null
+
+    function find(x, y, sum, history) {
+      if (x == numbers.length - 1) { // 已经走到最后一行了
+        if (sum + numbers[x][y] > max) {
+          max = sum + numbers[x][y]
+          maxHistory = history
+        }
+        return
+      }
+      find(x + 1, y, sum + numbers[x][y], history + '左')
+      find(x + 1, y + 1, sum + numbers[x][y], history + '右')
+    }
+
+    find(0, 0, 0, '')
+
+    return [max, maxHistory]
+  }
+
+
+
+  var numbers = [
+    [2],
+    [3, 1],
+    [9, 8, 4],
+    [7, 1, 5, 6],
+    [3, 0, 4, 9, 8],
+    [10, 0, 0, 0, 0, 0],
+    [10, 0, 0, 0, 0, 0, 200],
+  ]
+
+
+  function maxSum(x, y) {
+    if (x == numbers.length - 1) {
+      return numbers[x][y]
+    }
+    return numbers[x][y] + Math.max(maxSum(x + 1, y), maxSum(x + 1, y + 1))
+  }
+</script>
+
+<script>
+  // 字符串拼接矩形
+
+  var h = Number(prompt()) // 矩形高
+  var w = Number(prompt()) // 矩形宽
+  var 符号 = prompt()  // 画矩形的符号
+  var 矩形内部 = Number(prompt()) // 0 或 1 空心或实心
+  var result = ''
+  for (var c = 0; c < h; c++) {
+    for (var i = 0; i < w; i++) {
+      if (c == 0 || c == h - 1 || i == 0 || i == w - 1) {//判断是否为矩形 上下 或 左右 两边
+        result += 符号
+      } else {
+        if (矩形内部) {//实心
+          result += 符号
+        } else {
+          result += ' '
+        }
+      }
+    }
+    if (c < h - 1) {//判断是否为最后一行 最后一行末尾不加回车
+      result += '\n'
+    }
+  }
+  console.log(result)
+</script>
+
+<script>
+  function m(a, n) {
+    if (n < 0) {
+      return 1 / m(a, -n)
+    }
+    if (n == 0) {
+      return 1
+    }
+
+    if (n % 2 == 0) {
+      var t = m(a, (n / 2))
+      return t * t
+    } else {
+      var t = m(a, Math.floot(n / 2))
+      return t * t * a
+    }
+  }
+</script>
+
+
+1 01111111001 1110001000000000000000000000000000000000000000000000
+
+
+
+
+37.55
+
+100101
+
+
+<script>
+  function indexOf(array, value, fromIndexOf = 0) { // fromIndexOf 从哪里开始
+    for (var i = fromIndexOf; i < array.length; i++) {
+      if (array[i] === value) {
+        return i
+      }
+    }
+    return -1
+  }
+
+
+  function lastindexOf(array, value) {
+    for (var i = array.length - 1; i >= 0; i--) {
+      if (array[i] === value) {
+        return i
+      }
+    }
+    return -1
+  }
+
+</script>
+
+<script>
+  function push(array, val) {
+    array[array.length] = val
+    return array.length
+  }
+  a = [1, 2, 4]
+  push(a, 5)
+
+
+  function pop(array, val) {
+    var t = array[array.length - 1]
+    array.length--
+    return t
+  }
+
+  function slice(array, start, end) {
+    var a = []
+    for (var i = start; i = end; i++) {
+      a.push(array[i])
+    }
+    return a
+  }
+</script>
+<script>
+  function fill(array, val) {
+    for (var i = 0; i < array.length; i++) {
+      array[i] = val
+    }
+    return array
+  }
+</script>
+
+<script>
+  function sum() {
+    var result = 0
+    for (var i = 0; i < arguments.length; i++) {
+      result += arguments[i]
+    }
+    return result
+  }
+</script>
+
+
+<script>
+  function reverseArray(array) {
+    var n = []
+    for (var i = array.length - 1; i >= 0; i--) {
+      n.push(array[i])
+    }
+    return n
+  }
+
+  function reverseArrayInPlace(array) {
+
+  }
+</script>
+
+
+
+
+
+<script>
+
+  var node = {
+    val: 2,
+    next: null
+  }
+
+  function arrayToList(array) {
+
+
+
+  }
+
+
+  function arrayToList2(array) {
+
+  }
+
+
+
+
+
+  function prepend(val, head) {
+    return {
+      val: val,
+      next: head
+    }
+  }
+
+  function append(val, head) {
+    var node = {
+      val: val,
+      next: null,
+    }
+    if (head == null) {
+      return node
+    }
+    var p = head
+
+    while (p.next) {
+      p = p.next
+    }
+    p.next = node
+    return head
+  }
+
+
+  function nth(list, n) {
+    var p = list
+    var c = 0
+
+    while (p && c < n) {
+      c++
+      p = p.next
+    }
+    return p.val
+  }
+
+
+  // 递归做法
+  function nth(list, n) {
+    if (list == null) {
+      return undefined
+    }
+    if (n == 0) {
+      return list.val
+    }
+    return nth(list, list - 1)
+  }
+
+  function insert(list, n, val) {
+
+  }
+
+
+
+</script>
+
+
+<script>
+  // 生成n个由n以内的整数组成的随机数组
+  function randomAry(n) {
+    var ary = []
+    var rands = []
+    for (var i = 0; i < n; i++) {
+      var rand = Math.random()
+      rands.push(rand)
+      ary.push(Math.floor(rand * n))
+    }
+    console.log(rands)
+    return ary
+  }
+  // 插入排序
+  function insertSort(ary) {
+    for (var i = 1; i < ary.length; i++) {
+      var t = ary[i]
+      for (var j = i - 1; j > 0; j--) {
+        if (j[i] > t) {
+          ary[j + 1] = ary[j]
+        } else {
+          break
+        }
+      }
+      ary[j + 1] = t
+    }
+    return ary
+  }
+
+  // 判断一个数组是否是升序
+  function isSorted(ary) {
+    for (var i = 0; i < ary.length; i++) {
+      if (ary[i + 1] > ary[i]) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+
+
+  // 冒号排序
+  function bubbleSort(ary) {
+    for (var i = ary.length - 2; i >= 0; i--) { // 外城元素结束的位置
+      // 判断内城元素是否交换过，如果没有交换过可以提前结束
+      var swapped = false
+      for (var j = 0; j <= i; j++) { // 从0到i各元素分别跟左右的元素比较交换
+        if (ary[j] > ary[j + 1]) {
+          swapped = true
+          swap(ary, j, j + 1)
+          // var t = ary[j]
+          // ary[j] = ary[j + 1]
+          // ary[j + 1] = t
+        }
+      }
+      if (!swapped) {
+        break
+      }
+    }
+    return ary
+  }
+
+  // 交换函数
+  function swap(ary, i, j) {
+    var t = ary[i]
+    ary[i] = ary[j]
+    ary[j] = t
+  }
+
+  // 选择排序
+  function selectSort(ary) {
+    for (var i = 0; i < ary.length - 1; i++) {
+      // 找出剩下的元素中最小的放入i
+      var min = i  // 假设查找范围的第一项即是最小项
+      for (var j = i + 1; j < ary.length; j++) {
+        if (ary[j] < ary[min]) {
+          min = j
+        }
+      }
+      swap(ary, i, min) // 将最小项放到元素i位置上，并将i位置原来的值放到最小项位置
+    }
+    return ary
+  }
+
+  // 归并排序
+  function mergeSort(ary) {
+    if (ary.length < 2) {
+      return ary
+    }
+
+    // 把数组一分为二
+    var mid = Math.floor(ary.length / 2)
+    var left = ary.slice(0, mid)
+    var right = ary.slice(mid)
+    // 左边
+    mergeSort(left)
+    // 右边
+    mergeSort(right)
+
+    // 合起来
+    var i = 0 // 指向left数组
+    var j = 0 // 指向right数组
+    var k = 0 // 指向结果数组
+
+    while (i < left.length && j < right.length) {
+      if (left[i] < right[j]) {
+        ary[k++] = left[i++]
+      } else {
+        ary[k++] = right[j++]
+      }
+    }
+
+    while (i < left.length) {
+      ary[k++] = left[i++]
+    }
+    while (j < right.length) {
+      ary[k++] = right[j++]
+    }
+
+    return ary
+  }
+
+
+  function mergeSortInPlace(ary, start = 0, end = ary.length) {
+
+  }
+</script>
+
+<script>
+  function parseCsv(csvStr) {
+    var lines = csvStr.split('\n')
+    var firstLine = lines.shift()
+    var headers = firstLine.split(',')
+
+    var result = []
+    lines.forEach(function (line) {
+      var values = line.split(',')
+      var obj = {}
+
+      for (var i = 0; i < headers.length; i++) {
+        var h = headers[i]
+        var v = values[i]
+        obj[h] = v
+      }
+
+      result.push(obj)
+    })
+
+    return result
+
+  }
+</script>
+
+<script>
+  function parseQueryString(str) {
+    var lines = str.split('&')
+    var obj = {}
+
+
+  }
+</script>
+
+<script>
+  var ages = []
+  for (var i = 0; i < array.length; i++) {
+    ages.push()
+  }
+
+
+</script>
