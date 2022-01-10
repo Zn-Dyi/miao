@@ -26,7 +26,18 @@ var zn_dyi = {
   },
 
 
-  concat: function (array, [values]) {
-
+  drop: function (array, n) {
+    var res = []
+    var ary = array
+    if (n == 0) {
+      return ary
+    }
+    if (!n) {
+      n = 1
+    }
+    for (var i = n; i < ary.length; i++) {
+      res.push(ary[i])
+    }
+    return res
   }
 }
