@@ -4,11 +4,29 @@ var zn_dyi = {
     var res = []
     for (var i = 0; i < array.length; i += size) {
       var temp = []
-      for (var j = i; j < size; j++) {
+      var n = Math.min(i + size, len)
+      for (var j = i; j < n; j++) {
         temp.push(array[j])
       }
       res.push(temp)
     }
     return res
+  },
+
+
+  compact: function (array) {
+    var res = []
+    var ary = array
+    for (var i = 0; i < array.length; i++) {
+      if (ary[i]) {
+        res.push(ary[i])
+      }
+    }
+    return res
+  },
+
+
+  concat: function (array, [values]) {
+
   }
 }
