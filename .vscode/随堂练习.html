@@ -567,3 +567,27 @@
 
 
 </script>
+
+<script>
+  function bind(f, ...fixedArgs) {
+    return function (...args) {
+      return f(...fixedArgs, ...args)
+    }
+  }
+</script>
+
+<script>
+  function mapValues(obj, mapper) {
+    var result = {}
+    for (var key in obj) { // key属性是一个键，从头遍历到尾。
+      var val = obj[key]
+      result[key] = mapper(val, key)
+    }
+    return result
+  }
+</script>
+<script>
+  function every(ary, predicate) {
+
+  }
+</script>
