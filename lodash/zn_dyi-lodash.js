@@ -1,3 +1,8 @@
+var zn_dyi = function () {
+
+} ()
+
+
 var zn_dyi = {
   chunk: function (array, size) {
     var len = array.length
@@ -221,8 +226,8 @@ var zn_dyi = {
   },
 
 
-  lastlndexOf: function (array, value, fromIndex = array.length) {
-    for (var i = array.length - 1; i >= 0; i--) {
+  lastlndexOf: function (array, value, fromIndex = array.length - 1) {
+    for (var i = fromIndex; i >= 0; i--) {
       if (array[i] == value) {
         return i
       }
@@ -315,6 +320,81 @@ var zn_dyi = {
 
 
   zip: function (arrays) {
+    var a = []
+    var b = []
+    a.push(...arguments)
+    var min = a[0].length
+    for (i in a) {
+      if (a[i].length < min) {
+        min = i.length
+      }
+    }
+    for (var i = 0; i < min; i++) {
+      var a1 = []
+      for (var j = 0; j < a.length; j++) {
+        a1.push(a[j][i])
+      }
+      b.push(a1)
+    }
+    return b
+  },
+
+
+  add: function (augend, addend) {
+    return augend + addend
+  },
+
+
+  ceil: function (number, precision = 0) {
 
   },
+
+
+  max: function (array) {
+    if (array.length == 0) {
+      return undefined
+    }
+    var max = 0
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] > max) {
+        max = array[i]
+      }
+    }
+    return max
+  },
+
+
+  maxBy: function (array, iteratee = _identity) {
+
+  },
+
+
+  sum: function (array) {
+    return array.reduce((sum, item) => {
+      return sum + item
+    }, 0)
+
+    //   var sum = 0
+    //   for (var i = 0; i < array.length; i++) {
+    //     sum += array[i]
+    //   }
+    //   return sum
+  },
+
+
+  sumBy: function (array, iteratee = _.identity) {
+
+  },
+
+
+  repeat: function (string = '', n = 1) {
+    var res = ''
+    if (n == 0) {
+      return res
+    }
+    for (var i = 0; i < n; i++) {
+      res += string
+    }
+    return res
+  }
 }
