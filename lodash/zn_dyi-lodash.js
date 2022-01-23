@@ -1,7 +1,3 @@
-var zn_dyi = function () {
-
-} ()
-
 
 var zn_dyi = {
   chunk: function (array, size) {
@@ -107,19 +103,19 @@ var zn_dyi = {
 
 
   flatten: function (array) {
-    return array.reduc((res, item) => {
-      return res.concat(item)
-    }, [])
+    // return array.reduc((res, item) => {
+    //   return res.concat(item)
+    // }, [])
 
     // reduce 版
-    // return array.reduce((res, item) => {
-    //   if (Array.isArray(item)) {
-    //     res.push(...item)
-    //   } else {
-    //     res.push(item)
-    //   }
-    //   return res
-    // }, [])
+    return array.reduce((res, item) => {
+      if (Array.isArray(item)) {
+        res.push(...item)
+      } else {
+        res.push(item)
+      }
+      return res
+    }, [])
 
     // 常规版
     // var res = []
@@ -213,9 +209,9 @@ var zn_dyi = {
 
 
   join: function (array, separator = ',') {
-    var res = '' + array[i]
+    var res = '' + array[0]
     for (var i = 1; i < array.length; i++) {
-      res = res + separator + array[i]
+      res += '' + separator + array[i]
     }
     return res
   },
@@ -238,7 +234,7 @@ var zn_dyi = {
 
   reverse: function (array) {
     var i = 0
-    var j = array.length
+    var j = array.length - 1
     if (j > i) {
       var temp = array[i]
       array[i] = array[j]
@@ -306,7 +302,7 @@ var zn_dyi = {
     var obj = {}
     var res = []
     for (var j = 1; j < arguments.length; j++) {
-      obj[arguments[i]] = 0
+      obj[arguments[j]] = 0
     }
     for (var i = 0; i < array.length; i++) {
       if (array[i] in obj) { // 数组的值在对象中没找到对应的下标位置，就push到res数组中。

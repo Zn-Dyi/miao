@@ -591,3 +591,62 @@
 
   }
 </script>
+
+<script>
+  // push一个值不返回数组长度，而是返回数组本身
+  Array.prototype.push2 = function (val) {
+    this[this.length] = val
+    return this
+  }
+
+  // 复制从start 到 end
+  Array.prototype.slice2 = function (start, end) {
+    var res = []
+    for (var i = start; i < end && i < this.length; i++) {
+      res.push(this[i])
+    }
+    return res
+  }
+</script>
+
+<script>
+  Array.prototype.map = function (f) {
+    var res = []
+    for (var i = 0; i < this.length; i++) {
+      res.push(f(this[i]))
+    }
+    return res
+  }
+
+  Function.prototype.mybind = function mybind(thisAry, ...args) {
+    var func = this
+    return function (...args2) {
+      return func.call(thisAry, ...args, ...args2)
+    }
+  }
+</script>
+
+<script>
+  var hasOwn = Object.prototype.hasOwnProperty
+  function forOwn(obj, iterator) {
+    for (var key in obj) {
+      if (hasOwn.call(obj, val)) {
+        iterator(obj[key], key)
+      }
+    }
+  }
+
+  forOwn(obj, (val, key) => {
+
+  })
+</script>
+
+<script>
+  textCell.prototype.draw = function(width, height) {
+    var res = []
+    for (var i = 0; i < height; i++) {
+      var line = this.
+      res.push(height[i])
+    }
+  }
+</script>
