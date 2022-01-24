@@ -29,10 +29,20 @@ var zn_dyi = {
 
   difference: function (array, value) {
     var res = []
-    for (var i = 0; i < array.length; i++) {
-      if (array[i] in value) {
-        res.push(array[i])
+    var arr = []
+    for (var key in arguments) {
+      if (key == '0') {
+        continue
       }
+      arr.push(...arguments[key])
+    }
+    for (var item in array) {
+      if (arr.includes(item)) {
+        continue
+      } else {
+        res.push(item)
+      }
+
     }
     return res
   },
@@ -103,10 +113,6 @@ var zn_dyi = {
 
 
   flatten: function (array) {
-    // return array.reduc((res, item) => {
-    //   return res.concat(item)
-    // }, [])
-
     // reduce 版
     return array.reduce((res, item) => {
       if (Array.isArray(item)) {
@@ -207,8 +213,55 @@ var zn_dyi = {
     return res
   },
 
+  intersection: function (...array) {
+    var result = []
+    for (var i = 0; i < array[0].leghth; i++) {
+      for (var j = 0; i < array.length; j++) {
+        if (!(array[j].includes(array[0][i]))) {
+          break
+        }
+      }
+      if (j == array.length) {
+        result.push(array[0][i])
+      }
+      return result
+     }
+  },
 
-  join: function (array, separator = ',') {
+
+  intersectionBy: function (...array) {
+    var predicate = iteratee(array.pop())
+    var ary1 = array[0]
+    var ary2 = array[1]
+    var res = []
+    for (var i = 0; i < ary1.length; i++) {
+      for (var j = 0; j < ary2.length; j++) {
+        if (predicate(ary1j[i]) === predicate(ary2[j])) {
+          res.push(array[i])
+        }
+      }
+    }
+    return res
+  },
+
+
+  intersectionWith: function (...arrays) {
+    var res = []
+    var compact = iteratee(arrays.pop())
+    var ary1 = arrays[0]
+    var ary2 = arrays[1]
+    for (var i = 0; i < ary1.lenght; i++) {
+      for (var j = 0; j < ary2.lenght; j++) {
+        if (compact(ary1[i]), (ary2[j])) {
+          res.push(ary1[i])
+        }
+      }
+    }
+    return res
+  },
+
+
+  join: function (array, [separator = ',']) {
     var res = '' + array[0]
     for (var i = 1; i < array.length; i++) {
       res += '' + separator + array[i]
@@ -231,6 +284,17 @@ var zn_dyi = {
     return -1
   },
 
+
+  pull: function (array, ...values) {
+    for (var i = 0; i < values.length; i++) {
+      for (var j = 0; j < array.length; j++) {
+        if (array[j] == values[i]) {
+          array.splice(j, 1)
+        }
+      }
+    }
+    return array
+  },
 
   reverse: function (array) {
     var i = 0
@@ -315,6 +379,12 @@ var zn_dyi = {
   },
 
 
+  xor: function (...arrays) {
+    var res = []
+    var temp = []
+  },
+
+
   zip: function (arrays) {
     var a = []
     var b = []
@@ -392,5 +462,32 @@ var zn_dyi = {
       res += string
     }
     return res
+  },
+
+
+  sortedIndex: function (array, values) {
+    for (var i = 0; i < array.length;  i++) {
+      if (values > array[i]) {
+        return i + 1
+      }
+    }
+  },
+
+
+  union: function (arrays) {
+    var res = []
+    for (var ary of arguments) {
+      for (var i = 0; i < ary.length; i++) {
+        if (res.indexOf(ary[i]) == -1) {
+          res.push(ary[i])
+        }
+      }
+    }
+    return res
+  },
+
+
+  unionBy: function (arrays, iteratee = _.identity) {
+
   }
 }

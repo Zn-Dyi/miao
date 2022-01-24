@@ -642,11 +642,122 @@
 </script>
 
 <script>
-  textCell.prototype.draw = function(width, height) {
+  textCell.prototype.draw = function (width, height) {
     var res = []
     for (var i = 0; i < height; i++) {
       var line = this.
-      res.push(height[i])
+        res.push(height[i])
+    }
+  }
+</script>
+
+<script>
+  function property(name) {
+    return function (obj) {
+      return obj[name]
+    }
+  }
+
+  function get(obj, path) {
+    var names = path.split('.')
+    for (var name of names) {
+      obj = obj[name]
+      if (obj == null) {
+        return obj
+      }
+    }
+    return obj
+  }
+
+
+  function matches(target) {
+    return function (obj) {
+      for (var key in target) {
+        if (obj[key] === target[key]) {
+          return false
+        }
+      }
+      return true
+    }
+  }
+
+  function isMatch(obj = { a: 1, b: 2, c: { x: 1, y: 2 } }, src = { b: 2, c: { y: 2 } }) {
+
+    for (var key in src) {
+      if (src[key] && typeof src[key] === 'object') {
+        if (!isMatch(obj[key], src[key])) {
+          return false
+        }
+      } else {
+        if (src[key] !== obj[key]) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
+  function matchesProperty(path, val) {
+
+    return function (obj) {
+      return isEqual(get(obj.path), val)
+    }
+  }
+
+  function ary(func, n = func.length) {
+    return function(...arys) {
+      return func(...arys.slice(0, n))
+    }
+  }
+
+  function unary(func) {
+    return function(...args) {
+      return func(...arys.slice(0, 1))
+    }
+  }
+
+  function negate(f) {
+    return function (...args) {
+      return !f(...args)
+    }
+  }
+
+  function spread(f) {
+    return function(ary) {
+      // return f(...ary)
+      return f.apply(this, ary)
+    }
+  }
+
+  function flip(func) {
+    return function (...args) {
+      return func (...args.reverse())
+    }
+  }
+
+  function before(n, func) {
+    var c = 0
+    var result
+    return function(...args) {
+      if (c < n) {
+        result = func(...args)
+        c++
+      }
+      return result
+    }
+  }
+
+  function mempoize(func, resolver = it => it) {
+
+    var map = new Map()
+
+    return function(...args) {
+      var key = resolver(...args)
+
+      if (map.has(key)) {
+        return map.get(key)
+      }
+      var result = func(...args)
     }
   }
 </script>
