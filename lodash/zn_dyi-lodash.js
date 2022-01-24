@@ -1,6 +1,6 @@
 
-var zn_dyi = {
-  chunk: function (array, size) {
+var zn_dyi = (function () {
+  function chunk(array, size) {
     var len = array.length
     var res = []
     for (var i = 0; i < array.length; i += size) {
@@ -12,10 +12,10 @@ var zn_dyi = {
       res.push(temp)
     }
     return res
-  },
+  }
 
 
-  compact: function (array) {
+  function compact(array) {
     var res = []
     var ary = array
     for (var i = 0; i < array.length; i++) {
@@ -24,10 +24,10 @@ var zn_dyi = {
       }
     }
     return res
-  },
+  }
 
 
-  difference: function (array, value) {
+  function difference(array, value) {
     var res = []
     var arr = []
     for (var key in arguments) {
@@ -45,10 +45,10 @@ var zn_dyi = {
 
     }
     return res
-  },
+  }
 
 
-  drop: function (array, n) {
+  function drop(array, n) {
     var res = []
     var ary = array
     if (n == 0) {
@@ -61,10 +61,10 @@ var zn_dyi = {
       res.push(ary[i])
     }
     return res
-  },
+  }
 
 
-  dropRight: function (array, n) {
+  function dropRight(array, n) {
     var res = []
     var ary = array
     var len = ary.length
@@ -81,38 +81,18 @@ var zn_dyi = {
       res.push(ary[i])
     }
     return res
-  },
+  }
 
 
-  dropRightWhile: function () {
-
-  },
-
-
-  dropWhile: function () {
-
-  },
-
-
-  fill: function (array, value, start = 0, end = array.length) {
+  function fill(array, value, start = 0, end = array.length) {
     for (var i = start; i < end; i++) {
       array[i] = value
     }
     return array
-  },
+  }
 
 
-  findlndex: function (array, predicate = _.identity, fromIndex = 0) {
-
-  },
-
-
-  findLastlndex: function (array, predicate = _.identity, fromIndex = 0) {
-
-  },
-
-
-  flatten: function (array) {
+  function flatten(array) {
     // reduce 版
     return array.reduce((res, item) => {
       if (Array.isArray(item)) {
@@ -137,10 +117,10 @@ var zn_dyi = {
     //   }
     // }
     // return res
-  },
+  }
 
 
-  flattenDeep: function (array) {
+  function flattenDeep(array) {
     return array.reduce((res, item) => {
       if (Array.isArray(item)) {
         return res.concat(flattenDeep(item))
@@ -163,10 +143,10 @@ var zn_dyi = {
     //   }
     // }
     // return res
-  },
+  }
 
 
-  flattenDepth: function (array, depth = 1) {
+  function flattenDepth(array, depth = 1) {
     if (depth == 0) {
       return array.slice()
     }
@@ -177,43 +157,38 @@ var zn_dyi = {
       }
       return res.concat(item)
     }, [])
-  },
+  }
 
 
-  fromPairs: function () {
-
-  },
-
-
-  head: function (array) {
+  function head(array) {
     var ary = array
     if (!ary) {
       return undefined
     } else {
       return ary[0]
     }
-  },
+  }
 
 
-  indexOf: function (array, value, fromIndex = 0) {
+  function indexOf(array, value, fromIndex = 0) {
     for (var i = fromIndex; i < array.length; i++) {
       if (array[i] == value) {
         return i
       }
     }
     return -1
-  },
+  }
 
 
-  initial: function (array) {
+  function initial(array) {
     var res = []
     for (var i = 0; i < array.length - 1; i++) {
       res.push(array[i])
     }
     return res
-  },
+  }
 
-  intersection: function (...array) {
+  function intersection(...array) {
     var result = []
     for (var i = 0; i < array[0].leghth; i++) {
       for (var j = 0; i < array.length; j++) {
@@ -225,27 +200,28 @@ var zn_dyi = {
         result.push(array[0][i])
       }
       return result
-     }
-  },
+    }
+  }
 
 
-  intersectionBy: function (...array) {
+  function intersectionBy(...array) {
     var predicate = iteratee(array.pop())
     var ary1 = array[0]
     var ary2 = array[1]
     var res = []
     for (var i = 0; i < ary1.length; i++) {
       for (var j = 0; j < ary2.length; j++) {
-        if (predicate(ary1j[i]) === predicate(ary2[j])) {
+        if (predicate(ary1[i]) === predicate(ary2[j])) {
           res.push(array[i])
+          break
         }
       }
     }
     return res
-  },
+  }
 
 
-  intersectionWith: function (...arrays) {
+  function intersectionWith(...arrays) {
     var res = []
     var compact = iteratee(arrays.pop())
     var ary1 = arrays[0]
@@ -258,34 +234,34 @@ var zn_dyi = {
       }
     }
     return res
-  },
+  }
 
 
-  join: function (array, [separator = ',']) {
+  function join(array, separator = ',') {
     var res = '' + array[0]
     for (var i = 1; i < array.length; i++) {
       res += '' + separator + array[i]
     }
     return res
-  },
+  }
 
 
-  last: function (array) {
+  function last(array) {
     return array[array.length - 1]
-  },
+  }
 
 
-  lastlndexOf: function (array, value, fromIndex = array.length - 1) {
+  function lastlndexOf(array, value, fromIndex = array.length - 1) {
     for (var i = fromIndex; i >= 0; i--) {
       if (array[i] == value) {
         return i
       }
     }
     return -1
-  },
+  }
 
 
-  pull: function (array, ...values) {
+  function pull(array, ...values) {
     for (var i = 0; i < values.length; i++) {
       for (var j = 0; j < array.length; j++) {
         if (array[j] == values[i]) {
@@ -294,9 +270,9 @@ var zn_dyi = {
       }
     }
     return array
-  },
+  }
 
-  reverse: function (array) {
+  function reverse(array) {
     var i = 0
     var j = array.length - 1
     if (j > i) {
@@ -307,10 +283,10 @@ var zn_dyi = {
       j--
     }
     return array
-  },
+  }
 
 
-  uniq: function (array) {
+  function uniq(array) {
     var res = []
     var map = {}
     for (var i = 0; i < array.length; i++) {
@@ -322,10 +298,10 @@ var zn_dyi = {
       }
     }
     return res
-  },
+  }
 
 
-  uniqBy: function (array, iteratee = _.identity) {
+  function uniqBy(array, iteratee = _.identity) {
     var res = []
     var map = {}
     for (var i = 0; i < array.length; i++) {
@@ -337,7 +313,7 @@ var zn_dyi = {
       }
     }
     return res
-  },
+  }
 
 
   // without: function (array, ...values) {
@@ -362,7 +338,7 @@ var zn_dyi = {
   //   }
   //   return res
   // },
-  without: function (array, values) {
+  function without(array, values) {
     var obj = {}
     var res = []
     for (var j = 1; j < arguments.length; j++) {
@@ -376,16 +352,10 @@ var zn_dyi = {
       }
     }
     return res
-  },
+  }
 
 
-  xor: function (...arrays) {
-    var res = []
-    var temp = []
-  },
-
-
-  zip: function (arrays) {
+  function zip(arrays) {
     var a = []
     var b = []
     a.push(...arguments)
@@ -403,20 +373,20 @@ var zn_dyi = {
       b.push(a1)
     }
     return b
-  },
+  }
 
 
-  add: function (augend, addend) {
+  function add(augend, addend) {
     return augend + addend
-  },
+  }
 
 
-  ceil: function (number, precision = 0) {
+  function ceil(number, precision = 0) {
 
-  },
+  }
 
 
-  max: function (array) {
+  function max(array) {
     if (array.length == 0) {
       return undefined
     }
@@ -427,15 +397,10 @@ var zn_dyi = {
       }
     }
     return max
-  },
+  }
 
 
-  maxBy: function (array, iteratee = _identity) {
-
-  },
-
-
-  sum: function (array) {
+  function sum(array) {
     return array.reduce((sum, item) => {
       return sum + item
     }, 0)
@@ -445,15 +410,10 @@ var zn_dyi = {
     //     sum += array[i]
     //   }
     //   return sum
-  },
+  }
 
 
-  sumBy: function (array, iteratee = _.identity) {
-
-  },
-
-
-  repeat: function (string = '', n = 1) {
+  function repeat(string = '', n = 1) {
     var res = ''
     if (n == 0) {
       return res
@@ -462,19 +422,19 @@ var zn_dyi = {
       res += string
     }
     return res
-  },
+  }
 
 
-  sortedIndex: function (array, values) {
-    for (var i = 0; i < array.length;  i++) {
+  function sortedIndex(array, values) {
+    for (var i = 0; i < array.length; i++) {
       if (values > array[i]) {
         return i + 1
       }
     }
-  },
+  }
 
 
-  union: function (arrays) {
+  function union(arrays) {
     var res = []
     for (var ary of arguments) {
       for (var i = 0; i < ary.length; i++) {
@@ -484,10 +444,41 @@ var zn_dyi = {
       }
     }
     return res
-  },
-
-
-  unionBy: function (arrays, iteratee = _.identity) {
-
   }
-}
+
+
+  return {
+    chunk: chunk,
+    compact: compact,
+    difference: difference,
+    drop: drop,
+    dropRight: dropRight,
+    fill: fill,
+    flatten: flatten,
+    flattenDeep: flattenDeep,
+    flattenDepth: flattenDepth,
+    head: head,
+    indexOf: indexOf,
+    initial: initial,
+    intersection: intersection,
+    intersectionBy: intersectionBy,
+    intersectionWith: intersectionWith,
+    join: join,
+    last: last,
+    lastlndexOf: lastlndexOf,
+    pull: pull,
+    reverse: reverse,
+    uniq: uniq,
+    uniqBy: uniqBy,
+    without: without,
+    zip: zip,
+    add: add,
+    ceil: ceil,
+    max: max,
+    sum: sum,
+    repeat: repeat,
+    sortedIndex: sortedIndex,
+    union: union,
+  }
+})()
+
