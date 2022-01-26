@@ -221,21 +221,17 @@ var zn_dyi = (function () {
   }
 
 
-  function intersectionWith(...arrays) {
-    var res = []
-    var compact = iteratee(arrays.pop())
-    var ary1 = arrays[0]
-    var ary2 = arrays[1]
-    for (var i = 0; i < ary1.lenght; i++) {
-      for (var j = 0; j < ary2.lenght; j++) {
-        if (compact(ary1[i]), (ary2[j])) {
-          res.push(ary1[i])
+  function intersectionWith(array1, array2, comparor) {
+    var result = []
+    for (var i = 0; i < array1.length; i++) {
+      for (var j = 0; j < array2.length; j++) {
+        if (comparor(array1[i], array2[j])) {
+          result.push(array1[i])
         }
       }
     }
-    return res
+    return result
   }
-
 
   function join(array, separator = ',') {
     var res = '' + array[0]
@@ -381,11 +377,6 @@ var zn_dyi = (function () {
   }
 
 
-  function ceil(number, precision = 0) {
-
-  }
-
-
   function max(array) {
     if (array.length == 0) {
       return undefined
@@ -447,6 +438,139 @@ var zn_dyi = (function () {
   }
 
 
+  function unionBy(...array) {
+    var predicate = array.pop()
+    predicate = iteratee(predicate)
+    var ary = []
+    var res = []
+    for (var idx of array) {
+      for (var j = 0; j < idx.length; j++) {
+        var init = idx[j]
+        if (!ary.includes(predicate(idx[j]))) {
+          ary.push(predicate(idx[j]))
+          res.push(init)
+        }
+      }
+    }
+    return res
+  }
+
+  function filter(array, predicate) {
+    var result = []
+    for (var i = 0; i < array.length; i++) {
+      if (predicate(array[i], i)) {
+        result.push(array[i])
+      }
+    }
+    return result
+  }
+
+
+  function toPath(path) {
+    if (typeof path == 'string') {
+      return path.split('[')
+        .flatMap(it => it.split(']'))
+        .flatMap(it => it.split('.'))
+        .flatMap(it => it)
+    }
+    return path
+  }
+
+
+  // function get(object, path) {
+  //   path = toPath(path)
+  //   if (object == null) {
+  //     return object
+  //   }
+  //   if (path.length == 0) {
+  //     return object
+  //   }
+  //   return get(object[0], path.slice(1))
+  // }
+  function get(object, path) {
+    var name = toPath(path)
+    return name.reduce((object, name) => {
+      return object ?? objcet[name]
+    }, object)
+  }
+
+
+  function property(name) {
+    return function (obj) {
+      return get(obj, name)
+    }
+  }
+
+
+  function matches(target) {
+    return function (obj) {
+      for (var key in target) {
+        if (obj[key] !== target[key]) {
+          return false
+        }
+      }
+      return true
+    }
+  }
+
+
+  function isMatch(obj, src) {
+    for (var key in src) {
+      if (src[key] && typeof src[key] === 'object') {
+        if (!isMatch(obj[key], src[key])) {
+          return false
+        }
+      } else {
+        if (src[key] !== obj[key]) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
+
+  function memoize(func, resolver = it => it) {
+    var map = new memoize.Cache()
+    function memoized(...args) {
+      var key = resolver(...args)
+
+      if (map.has(key)) {
+        return map.get(key)
+      }
+      var result = func(...args)
+      map.set(key, result)
+      return result
+    }
+
+    memoized.cache = map
+
+    return memoized
+  }
+  memoize.Cache = Map
+
+
+
+
+
+
+
+
+
+  function iteratee(predicate) {
+    if (typeof predicate === 'string') {
+      predicate = property(predicate)
+    }
+    if (Array.isArray(predicate)) {
+      // predicate = matchesProperty(...predicate)
+      return (obj) => obj[predicate[0]] === predicate[1]
+    }
+    if (predicate && typeof predicate === 'object') {
+      predicate = matches(predicate)
+    }
+    return predicate
+  }
+
   return {
     chunk: chunk,
     compact: compact,
@@ -473,12 +597,17 @@ var zn_dyi = (function () {
     without: without,
     zip: zip,
     add: add,
-    ceil: ceil,
     max: max,
     sum: sum,
     repeat: repeat,
     sortedIndex: sortedIndex,
     union: union,
+    unionBy: unionBy,
+    filter: filter,
+    toPath: toPath,
+    get: get,
+    matches: matches,
+    isMatch: isMatch,
   }
 })()
 

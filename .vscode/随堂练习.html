@@ -705,13 +705,13 @@
   }
 
   function ary(func, n = func.length) {
-    return function(...arys) {
+    return function (...arys) {
       return func(...arys.slice(0, n))
     }
   }
 
   function unary(func) {
-    return function(...args) {
+    return function (...args) {
       return func(...arys.slice(0, 1))
     }
   }
@@ -723,7 +723,7 @@
   }
 
   function spread(f) {
-    return function(ary) {
+    return function (ary) {
       // return f(...ary)
       return f.apply(this, ary)
     }
@@ -731,14 +731,14 @@
 
   function flip(func) {
     return function (...args) {
-      return func (...args.reverse())
+      return func(...args.reverse())
     }
   }
 
   function before(n, func) {
     var c = 0
     var result
-    return function(...args) {
+    return function (...args) {
       if (c < n) {
         result = func(...args)
         c++
@@ -751,7 +751,7 @@
 
     var map = new Map()
 
-    return function(...args) {
+    return function (...args) {
       var key = resolver(...args)
 
       if (map.has(key)) {
@@ -760,4 +760,21 @@
       var result = func(...args)
     }
   }
+</script>
+
+
+<script>
+  function curry(f, n = f.length) {
+    return function (...args) {
+      if (args.length < n) {
+        return curry(f.bind(null, ...args), n - args.length)
+      } else {
+        return f(...args)
+      }
+    }
+  }
+</script>
+
+<script>
+  
 </script>
