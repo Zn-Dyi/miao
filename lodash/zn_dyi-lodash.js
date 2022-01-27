@@ -1,5 +1,6 @@
 
 var zn_dyi = (function () {
+  // 把数组按size长度拆分
   function chunk(array, size) {
     var len = array.length
     var res = []
@@ -14,7 +15,7 @@ var zn_dyi = (function () {
     return res
   }
 
-
+  // 过滤出数组的假值，生成新数组返回真值
   function compact(array) {
     var res = []
     var ary = array
@@ -26,7 +27,7 @@ var zn_dyi = (function () {
     return res
   }
 
-
+  // 排除掉与value数组中相同的数值
   function difference(array, value) {
     var res = []
     var arr = []
@@ -47,7 +48,7 @@ var zn_dyi = (function () {
     return res
   }
 
-
+  // 去除数组前面的n个元素
   function drop(array, n) {
     var res = []
     var ary = array
@@ -63,7 +64,7 @@ var zn_dyi = (function () {
     return res
   }
 
-
+  // 去除数组后面的n个元素
   function dropRight(array, n) {
     var res = []
     var ary = array
@@ -83,7 +84,7 @@ var zn_dyi = (function () {
     return res
   }
 
-
+  // 使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）。
   function fill(array, value, start = 0, end = array.length) {
     for (var i = start; i < end; i++) {
       array[i] = value
@@ -91,7 +92,7 @@ var zn_dyi = (function () {
     return array
   }
 
-
+  // 展平数组一次(减少一级嵌套深度)
   function flatten(array) {
     // reduce 版
     return array.reduce((res, item) => {
@@ -119,7 +120,7 @@ var zn_dyi = (function () {
     // return res
   }
 
-
+  // 展平数组成一维数组
   function flattenDeep(array) {
     return array.reduce((res, item) => {
       if (Array.isArray(item)) {
@@ -145,7 +146,7 @@ var zn_dyi = (function () {
     // return res
   }
 
-
+  // 根据depth的值展平数组次数
   function flattenDepth(array, depth = 1) {
     if (depth == 0) {
       return array.slice()
@@ -159,7 +160,7 @@ var zn_dyi = (function () {
     }, [])
   }
 
-
+  // 获取数组第一个元素
   function head(array) {
     var ary = array
     if (!ary) {
@@ -169,7 +170,7 @@ var zn_dyi = (function () {
     }
   }
 
-
+  // 从fromIndex位置查找value在数组中的位置
   function indexOf(array, value, fromIndex = 0) {
     for (var i = fromIndex; i < array.length; i++) {
       if (array[i] == value) {
@@ -179,7 +180,7 @@ var zn_dyi = (function () {
     return -1
   }
 
-
+  // 去除数组中最后的一个元素
   function initial(array) {
     var res = []
     for (var i = 0; i < array.length - 1; i++) {
@@ -188,6 +189,7 @@ var zn_dyi = (function () {
     return res
   }
 
+  // 求给定数组的交集
   function intersection(...array) {
     var result = []
     for (var i = 0; i < array[0].leghth; i++) {
@@ -233,6 +235,7 @@ var zn_dyi = (function () {
     return result
   }
 
+  // 将数组转为字符串用separator分隔
   function join(array, separator = ',') {
     var res = '' + array[0]
     for (var i = 1; i < array.length; i++) {
@@ -241,12 +244,12 @@ var zn_dyi = (function () {
     return res
   }
 
-
+  // 获取数组最后一项
   function last(array) {
     return array[array.length - 1]
   }
 
-
+  // 从后向前fromIndex位置查找value在数组中的位置
   function lastlndexOf(array, value, fromIndex = array.length - 1) {
     for (var i = fromIndex; i >= 0; i--) {
       if (array[i] == value) {
@@ -256,7 +259,7 @@ var zn_dyi = (function () {
     return -1
   }
 
-
+  // 移除数组中与给定值相同的元素
   function pull(array, ...values) {
     for (var i = 0; i < values.length; i++) {
       for (var j = 0; j < array.length; j++) {
@@ -268,6 +271,8 @@ var zn_dyi = (function () {
     return array
   }
 
+
+  // 反转数组
   function reverse(array) {
     var i = 0
     var j = array.length - 1
@@ -282,6 +287,7 @@ var zn_dyi = (function () {
   }
 
 
+  // 保留数组中第一次出现的值
   function uniq(array) {
     var res = []
     var map = {}
@@ -295,6 +301,7 @@ var zn_dyi = (function () {
     }
     return res
   }
+
 
 
   function uniqBy(array, iteratee = _.identity) {
@@ -334,6 +341,7 @@ var zn_dyi = (function () {
   //   }
   //   return res
   // },
+
   function without(array, values) {
     var obj = {}
     var res = []
@@ -425,6 +433,7 @@ var zn_dyi = (function () {
   }
 
 
+  //求并集
   function union(arrays) {
     var res = []
     for (var ary of arguments) {
@@ -550,6 +559,50 @@ var zn_dyi = (function () {
   memoize.Cache = Map
 
 
+  function xor(...arrays) {
+    var res = []
+    var temp = []
+    for (var arrays of arguments) {
+      for (var i = 0; i < arrays.length; i++) {
+        if (!res.includes(arrays[i])) {
+          res.push(arrays[i])
+        } else {
+          temp.push(arrays[i])
+        }
+      }
+    }
+    pull(res, ...temp)
+    return res
+  }
+
+
+  function countBy(collection, predicate) {
+    var predicate = iteratee(predicate)
+    var map = {}
+    for (var i = 0; i < collection.length; i++) {
+      var p = predicate(collection[i])
+      if (p in map) {
+        map[p]++
+      } else {
+        map[p] = 1
+      }
+    }
+    return map
+  }
+
+
+  function every(collection, predicate) {
+    var predicate = iteratee(predicate)
+    var flag = false
+    for (var i = 0; i < collection.length; i++) {
+      if (predicate(collection[i])) {
+        flag = true
+      } else {
+        return false
+      }
+    }
+    return flag
+  }
 
 
 
@@ -558,17 +611,26 @@ var zn_dyi = (function () {
 
 
   function iteratee(predicate) {
-    if (typeof predicate === 'string') {
-      predicate = property(predicate)
+    if (typeof predicate == "function") {
+      return predicate
+    }
+    if (typeof predicate == "string") {
+      return function (obj) {
+        return obj[predicate]
+      }
     }
     if (Array.isArray(predicate)) {
-      // predicate = matchesProperty(...predicate)
       return (obj) => obj[predicate[0]] === predicate[1]
     }
-    if (predicate && typeof predicate === 'object') {
-      predicate = matches(predicate)
+    if (typeof predicate == "object") {
+      return (obj) => {
+        for (var item in predicate) {
+          if (obj[item] == undefined || obj[item] !== predicate[item])
+            return false
+        }
+        return true
+      }
     }
-    return predicate
   }
 
   return {
@@ -608,6 +670,9 @@ var zn_dyi = (function () {
     get: get,
     matches: matches,
     isMatch: isMatch,
+    xor: xor,
+    countBy: countBy,
+    every: every,
   }
 })()
 
