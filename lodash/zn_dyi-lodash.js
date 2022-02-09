@@ -464,15 +464,6 @@ var zn_dyi = (function () {
     return res
   }
 
-  function filter(array, predicate) {
-    var result = []
-    for (var i = 0; i < array.length; i++) {
-      if (predicate(array[i], i)) {
-        result.push(array[i])
-      }
-    }
-    return result
-  }
 
 
   function toPath(path) {
@@ -591,6 +582,7 @@ var zn_dyi = (function () {
   }
 
 
+  // 都是真值返回真
   function every(collection, predicate) {
     var predicate = iteratee(predicate)
     var flag = false
@@ -603,6 +595,38 @@ var zn_dyi = (function () {
     }
     return flag
   }
+
+
+  function filter(collection, predicate) {
+    var predicate = iteratee(predicate)
+    var result = []
+    for (var i = 0; i < collection.length; i++) {
+      if (predicate(collection[i], i)) {
+        result.push(collection[i])
+      }
+    }
+    return result
+  }
+
+
+  function find(collection, predicate, fromIndex = 0) {
+    var predicate = iteratee(predicate)
+    var res = []
+    for (var i = fromIndex; i < collection.length; i++) {
+      if (predicate(collection[i], i)) {
+        res.push(collection[i])
+      }
+    }
+    return res
+  }
+
+
+
+
+
+
+
+
 
 
 
@@ -665,14 +689,16 @@ var zn_dyi = (function () {
     sortedIndex: sortedIndex,
     union: union,
     unionBy: unionBy,
-    filter: filter,
     toPath: toPath,
     get: get,
+    property: property,
     matches: matches,
     isMatch: isMatch,
     xor: xor,
     countBy: countBy,
     every: every,
+    filter: filter,
+    find: find,
   }
 })()
 
