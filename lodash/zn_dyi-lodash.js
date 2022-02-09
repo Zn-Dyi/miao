@@ -613,14 +613,12 @@ var zn_dyi = (function () {
     var predicate = iteratee(predicate)
     var res = []
     for (var i = fromIndex; i < collection.length; i++) {
-      if (predicate(collection[i], i)) {
+      if (predicate(collection[i])) {
         res.push(collection[i])
       }
     }
     return res
   }
-
-
 
 
 
@@ -657,7 +655,13 @@ var zn_dyi = (function () {
     }
   }
 
+
+  function identity(...value) {
+    return value[0]
+  }
+
   return {
+
     chunk: chunk,
     compact: compact,
     difference: difference,
@@ -699,6 +703,8 @@ var zn_dyi = (function () {
     every: every,
     filter: filter,
     find: find,
+    map: map,
+
   }
 })()
 
