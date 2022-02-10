@@ -621,8 +621,125 @@ var zn_dyi = (function () {
   }
 
 
+  // function flatMap(collection, predicate) {
+  //   var result = []
+  //   var predicate = iteratee(predicate)
+  //   for (var item of collection) {
+  //     result.push(...predicate(item))
+  //   }
+  //   return result
+  // }
+  function flatMap(collection, predicate) {
+    var predicate = iteratee(predicate)
+    var result = []
+    for (var i = 0; i < collection.length; i++) {
+      var item = predicate(collection[i], i, collection)
+      result.push(...item)
+    }
+    return result
+  }
 
 
+  function flatMapDeep(collection, predicate) {
+    var result = []
+    var predicate = iteratee(predicate)
+    for (var i = 0; i < collection.length; i++) {
+      var item = predicate(collection[i], i, collection)
+      result.push(...flatMapDeep(item))
+    }
+    return result
+  }
+
+  function flatMapDepth(collection, predicate) {
+    var result = []
+    var predicate = iteratee(predicate)
+    for (var i = 0; i < collection.length; i++) {
+      var item = predicate(collection[i], i, collection)
+      result.push(...flatMapDepth(item))
+    }
+    return result
+  }
+
+
+  function forEach(collection, predicate) {
+    var predicate = iteratee(predicate)
+    for (var key in collection) {
+      predicate(collection[key], key, collection)
+    }
+    return collection
+  }
+
+
+  function groupBy(collection, predicate) {
+    var obj = {}
+    var predicate = iteratee(predicate)
+    for (let item of collection) {
+      let key = predicate(item)
+      if (!(key in obj)) {
+        obj[key] = [item]
+      } else {
+        obj[key].push(item)
+      }
+    }
+    return obj
+  }
+
+
+  function keyBy(collection, predicate) {
+    var obj = {}
+    var predicate = iteratee(predicate)
+    for (let item in collection) {
+      let key = predicate(collection[item])
+      obj[key] = collection[item]
+    }
+    return obj
+  }
+
+
+  function sample(collection) {
+    return collection[Math.floor(Math.random() * collection.length)]
+  }
+
+
+  function shuffle(collection) {
+    var result = []
+    var count = 0
+    while (count < collection.length) {
+      var val = collection[Math.floor(Math.random() * collection.length)]
+      if (result.includes(val)) {
+        continue
+      }
+      result.push(val)
+      count++
+    }
+    return result
+  }
+
+
+  function size(collection) {
+    if (Array.isArray(collection) || typeof collection === 'string') {
+      return collection.length
+    } else if (typeof collection === 'object') {
+      return Object.keys(collection).length
+    }
+  }
+
+
+  function some(collection, predicate) {
+    var predicate = iteratee(predicate)
+    for (var key in collection) {
+      if (predicate(collection[key], key, collection)) {
+        return true
+      }
+    }
+    return false
+  }
+
+
+  function sortBy(collection, predicate) {
+    var predicate = iteratee(predicate)
+    
+  }
 
 
 
@@ -656,9 +773,7 @@ var zn_dyi = (function () {
   }
 
 
-  function identity(...value) {
-    return value[0]
-  }
+
 
   return {
 
@@ -703,7 +818,18 @@ var zn_dyi = (function () {
     every: every,
     filter: filter,
     find: find,
-    map: map,
+    flatMap: flatMap,
+    flatMapDeep: flatMapDeep,
+    flatMapDepth: flatMapDepth,
+    forEach: forEach,
+    groupBy: groupBy,
+    keyBy: keyBy,
+    sample: sample,
+    shuffle: shuffle,
+    size: size,
+    some: some,
+
+
 
   }
 })()
