@@ -1,0 +1,123 @@
+<script>
+
+  var str = '{"xxxx":[1,1,1,{"a":1,"b":[2,2,2]},1],"y":2,"a":null,"b":false,"c":[1,2,null,{"a":1,"b":2},true,[4,5,6]],"d":{"z":{"y":1,"x":33}}}'
+  var i = 0   //     i
+
+  /**
+   * 思路：
+   *  用一个指针指向当前解析的位置
+   *  根据当前位置的符号就能确定解析出何种值
+   *  对于每种，写出解析其值的一个函数
+   *  解析完成将指针移动到解析完成的下一位
+   *
+   *  这个写法叫“递归下降”
+   */
+
+  function parseObject() {
+    var obj = {}
+    i++ // 跳过第一个 '{'
+    if (str[i] == '}') {
+      i++
+      return obj
+    }
+    while (true) {
+      var key = parseString()
+      i++  // 跳过字符 ':'
+      var val = parseValue()
+      obj[key] = val
+      if (str[i] == ',') {
+        i++
+        continue
+      }
+      if (str[i] == '}') {
+        i++
+        return obj
+      }
+    }
+  }
+
+  function parseArray() {
+    var ary = []
+    i++ // 跳过第一个 '['
+    if (str[i] == ']') {
+      i++  // 跳过符号 ']'
+      return ary
+    }
+    while (true) {
+      var value = parseValue()
+      ary.push(value)
+      if (str[i] == ',') {
+        i++ // 跳过字符 ','
+        continue
+      }
+    }
+    i++
+    return ary
+  }
+
+  // 此时i指向一个字符串的开始，即一个"
+  // 解析字符串，移动指针，返回解析出的字符串
+
+  function parseString() {
+    i++ // 跳过第一个字符"
+    var start = i
+    while (str[i] !== '"') {
+      i++
+    }
+    // 此时i指向第二个"
+    var s = str.slice(start, i)
+    i++
+    return s
+
+  }
+
+  function Number() {
+    var numStr = ''
+    while (str[i] >= '0' && str[i] <= '9') {
+      numStr += str[i++]
+    }
+    return parseInt(numStr, 10)
+  }
+
+  function parseTrue() {
+    i += 4
+    return true
+  }
+  function parseFalse() {
+    i += 5
+    return false
+  }
+  function parseNull() {
+    i += 4
+    return null
+  }
+
+
+  // 从某个位置开始解析出一个值
+  // 解析出什么类型取决于当前位置的符号
+  function parseValue() {
+    if (str[i] == '"') {
+      return parseString()
+    }
+    if (str[i] == 't') {
+      return parseTrue()
+    }
+    if (str[i] == 'f') {
+      return parseFalse()
+    }
+    if (str[i] == 'n') {
+      return parseNull()
+    }
+    if (str[i] >= '0' && str[i] <= '9') {
+      return parseNumber()
+    }
+    if (str[i] == '[') {
+      return parseArray()
+    }
+    if (str[i] == '{') {
+      return parseObject()
+    }
+  }
+
+
+</script>

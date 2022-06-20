@@ -1,0 +1,44 @@
+
+<p>Name: <input type="text" data-help="Input your name"></p>
+<p>Age: <input type="text" data-help="Input your age"></p>
+
+<p id="help"></p>
+
+<div>
+
+  <input type="checkbox" checked>
+</div>
+
+<script>
+  var help = document.querySelector('#help')
+  var fields = document.querySelectorAll('input')
+
+
+  // for (let i = 0; i < fields.length; i++) {
+  //   fields[i].addEventListener('focus', function(e) {
+  //     // debugger
+  //     help.textContent = fields[i].dataset.help
+  //   })
+  //   fields[i].addEventListener('blur', function(e) {
+  //     help.textContent = ''
+  //   })
+  // }
+
+  for (var i = 0; i < fields.length; i++) {
+
+    (function(i) {
+
+      fields[i].addEventListener('focus', function(e) {
+        help.textContent = fields[i].dataset.help
+      })
+      fields[i].addEventListener('blur', function(e) {
+        help.textContent = ''
+      })
+
+    })(i)
+
+  }
+
+
+
+</script>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div, p {
+      border: 1px solid;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <p>
+      <button>a</button>
+      <button>b</button>
+    </p>
+    <p>
+      <button>c</button>
+      <button>d</button>
+    </p>
+  </div>
+
+
+  <script>
+    // var div = document.querySelector('div')
+
+    document.body.addEventListener('click', function(e) {
+      console.log(e.target, e)
+    })
+
+    document.body.addEventListener('mousemove', function(e) {
+      console.log(e.movementX)
+    })
+
+    document.body.addEventListener('dblclick', function(e) {
+      console.log('body dblclicked', e)
+    })
+    document.body.addEventListener('tripleclick', function(e) {
+      console.log('triple dblclicked')
+    })
+
+  </script>
+</body>
+</html>

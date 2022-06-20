@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+<script>
+  // func 是用户传入需要防抖的函数
+  // wait 是等待的时间
+  const debounce = (func, wait = 50) => {
+    // 缓存一个定时器的id
+    let timer = 0
+    // 这里返回的函数时每次用户实际调用的防抖函数
+    // 如果已经设定过定时器就清空上次的定时器
+    // 开始一个新的定时器，演出执行用户传入的方法
+    return function (...args) {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, wait)
+    }
+  }
+</script>
+</body>
+
+</html>

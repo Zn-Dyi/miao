@@ -1,0 +1,75 @@
+
+<p>Drag the bar</p>
+
+<div style="background: orange; width: 60px; height: 20px;"></div>
+
+<script>
+  var bar = document.querySelector('div')
+  var lastX
+
+  bar.addEventListener('mousedown', function(e) {
+    if (e.which == 1) {
+      lastX = e.pageX
+      console.log(lastX)
+      window.addEventListener('mousemove', onMove)
+      e.preventDefault()
+    }
+  })
+
+  // window.addEventListener('mouseup', function() {
+  //   console.log('window mouseup')
+  //   window.removeEventListener('mousemove', onMove)
+  // })
+
+  function buttonPressed(event) {
+    if (event.buttons == null) {
+      return event.which !== 0
+    } else {
+      return event.buttons !== 0
+    }
+  }
+  function onMove(e) {
+    if (!buttonPressed(e)) { // 鼠标移动时如果没有按钮按下去，则解绑
+      window.removeEventListener('mousemove', onMove)
+    } else {
+      console.log('pageX', e.pageX, 'lastX', lastX, 'width', bar.offsetWidth)
+      var diff = e.pageX - lastX
+      var newWidth = Math.max(10, bar.offsetWidth + diff)
+      bar.style.width = newWidth + 'px'
+      lastX = e.pageX
+    }
+  }
+
+</script>
+
+
+<!-- <p> Drag the bar to change its width :</p>
+<div style="background : orange ; width : 60px; height : 20px">
+</div >
+<script >
+  var lastX; // Tracks the last observed mouse X position
+  var rect = document.querySelector(" div ");
+  rect.addEventListener("mousedown", function (event) {
+    if (event.which == 1) {
+      lastX = event.pageX;
+      addEventListener("mousemove", moved);
+      event.preventDefault(); // Prevent selection
+    }
+  });
+  function buttonPressed(event) {
+    if (event.buttons == null)
+      return event.which != 0;
+    else
+      return event.buttons != 0;
+  }
+  function moved(event) {
+    if (!buttonPressed(event)) {
+      removeEventListener("mousemove", moved);
+    } else {
+      var dist = event.pageX - lastX;
+      var newWidth = Math.max(10, rect.offsetWidth + dist);
+      rect.style.width = newWidth + "px";
+      lastX = event.pageX;
+    }
+  }
+</script> -->

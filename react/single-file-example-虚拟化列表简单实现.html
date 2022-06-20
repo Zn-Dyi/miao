@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>虚拟化列表简单实现</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    class List extends React.Component {
+      constructor(props) {
+        super(props)
+
+        this.state = {
+          scrollTop: 0
+        }
+        this.wrapper = React.createRef()
+
+      }
+
+      handleScroll = (e) => {
+        this.setState({
+          scrollTop: this.wrapper.current.scrollTop
+        })
+      }
+
+      render() {
+        var { width, height, rowCount, rowHeight, rowRenderer } = this.props
+        var { scrollTop } = this.state
+        var startIdx = Math.floor(scrollTop / rowHeight)
+        var endIdx = startIdx + Math.ceil(height / rowHeight)
+        var children = []
+
+        console.log(startIdx)
+
+        for (let i = startIdx; i <= endIdx; i++) {
+          var element = rowRenderer({
+            key: String(i),
+            index: i,
+            style: {
+              position: 'absolute',
+              height: rowHeight,
+              top: i * rowHeight,
+              left: 0,
+              width: '100%',
+            }
+          })
+          children.push(element)
+        }
+        return (
+          <div ref={this.wrapper} onScroll={this.handleScroll} style={{ width, height, overflow: 'auto', border: '1px solid' }}>
+            <div style={{ height: String(rowCount * rowHeight) + 'px', position: 'relative' }}>
+              {
+                children
+              }
+            </div>
+          </div>
+        )
+      }
+    }
+
+    var list = Array(1000).fill(0).map(it => String(Math.random()))
+
+    function rowRenderer({
+      key, // Unique key within array of rows
+      index, // Index of row within collection
+      isScrolling, // The List is currently being scrolled
+      isVisible, // This row is visible within the List (eg it is not an overscanned row)
+      style, // Style object to be applied to row (to position it)
+    }) {
+      return (
+        <div key={key} style={style}>
+          {list[index]}
+        </div>
+      )
+    }
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+
+    root.render(
+      <List
+        width={300}
+        height={300}
+        rowCount={list.length}
+        rowHeight={20}
+        rowRenderer={rowRenderer}
+      />
+    );
+
+  </script>
+
+</body>
+
+</html>

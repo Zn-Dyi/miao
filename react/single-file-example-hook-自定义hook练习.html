@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hook-练习</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+  <script src="./lodash-4.17.5.min.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+    var {
+      useState,
+      useEffect,
+      useLayoutEffect,
+      useContext,
+      useRef,
+      useCallback,
+      useMemo,
+      useReducer,
+      useImperativeHandle,
+      useDebugValue,
+    } = React
+
+    /*
+        useWindowSize
+        useDidMount
+        useDidUpdate
+        useWillUnmount
+        useToggle
+        useInput
+        useHover
+        useArray
+        useInterval
+        useDebounce
+      */
+
+
+    function useWindowSize() {
+      var [size, setSize] = useState({ width: 0, height: 0 })
+
+      useEffect(() => {
+        function onResize(e) {
+          setSize({
+            width: window.innerWidth,
+            height: window.innerHeight,
+          })
+        }
+
+        window.addEventListener('resize', onResize)
+
+        return () => window.removeEventListener('resize', onResize)
+      }, [])
+      return size
+    }
+
+    function useDidMount(f) {
+      useEffect(() => {
+        f()
+      }, [])
+    }
+
+    function useDidUpdate(f) {
+      useEffect(f)
+    }
+
+    function useWillUnmount(f) {
+      var ref = useRef()
+
+      ref.current = f
+
+      useEffect(() => {
+        return () => {
+          ref.current()
+        }
+      }, [])
+    }
+
+    // 强制更新
+    function useForceUpdate() {
+      var [i, setI] = useState(0)
+
+      function forceUpdate() {
+        setI(i => i + 1)
+      }
+
+      return useCallback(forceUpdate, [])
+    }
+
+    function useToggle(init) {
+      var [on, setOn] = useState(init)
+
+      function toggle() { //切换状态
+        setOn(on => !on)
+      }
+
+      function reset() { //重置状态
+        setOn(init)
+      }
+
+      return {
+        on,
+        toggle: useCallback(toggle, []),
+        reset: useCallback(reset, []),
+      }
+    }
+
+    function useInput(init = '') {
+      var [value, setValue] = useState(init)
+      var [checked, setChecked] = useState(init)
+
+      function onChange(e) {
+        var target = e.target
+        if (target.type == 'checkbox' || target.type == 'radio') {
+          setChecked(target.checked)
+        } else {
+          setValue(target.value)
+        }
+      }
+
+      function clear() {
+        setValue('')
+      }
+
+      var ret = {
+        value,
+        checked,
+        // clear: useCallback(clear, []),
+        onChange: useCallback(onChange, [])
+      }
+
+      Object.defineProperty(ret, 'clear', {
+        value: useCallback(clear, []),
+      })
+
+      return ret
+    }
+
+    function useHover() {
+      var [isHovered, setIsHovered] = useState(false)
+      var hoverRef = useRef()
+
+      useEffect(() => {
+        function enter() {
+          setIsHovered(true)
+        }
+
+        function leave() {
+          setIsHovered(false)
+        }
+
+        hoverRef.current.addEventListener('mouseenter', enter)
+        hoverRef.current.addEventListener('mouseleave', leave)
+
+        return () => {
+          hoverRef.current.removeEventListener('mouseenter', enter)
+          hoverRef.current.removeEventListener('mouseleave', leave)
+        }
+      }, [hoverRef.current])
+
+      return [hoverRef, isHovered]
+    }
+
+    // 渲染
+    function TestHook() {
+      var { width, height } = useWindowSize()
+
+      var forceUpdate = useForceUpdate()
+
+      var [i, setI] = useState({ x: 1, y: 5 })
+
+      function onClick() {
+        // debugger
+        // setI(i => ({...i, y: i.y + 2}))
+        i.x += 2
+
+        forceUpdate()
+      }
+
+      var { on, toggle } = useToggle(false)
+
+      var nameInput = useInput('miao')
+      var flagInput = useInput(true)
+
+      var [hoverRef, isHovered] = useHover()
+
+      return (
+        <div onClick={toggle}>
+          {width},{height},
+          {i.x}, {i.y},
+          {String(on)}
+
+          <p>the button is {String(isHovered)}</p>
+          <button ref={hoverRef}>hove me</button>
+
+          <input type="text"  {...nameInput} />
+          <input type="checkbox" {...flagInput} />
+          the name is {nameInput.value} {String(flagInput.checked)}
+        </div>
+      )
+    }
+
+
+
+
+
+    function useArray(init) {
+      var [array, setArray] = useState(init)
+
+      var ref = useRef()
+      ref.current = array
+
+      var add = useCallback(
+        function add(value) {
+          setArray(array => [...array, value])
+        }, [])
+
+      var clear = useCallback(
+        function clear() {
+          setArray([])
+        }, [])
+
+      var removeIndex = useCallback(
+        function removeIndex(index) {
+          setArray(array => array.filter((it, idx) => idx !== index))
+        }, [])
+
+      var removeById = useCallback(
+        function removeById(id) {
+          var index = ref.current.findIndex(it => it.id == id)
+          if (index >= 0) {
+            removeIndex(index)
+          }
+        }, [])
+
+
+      return {
+        add, clear, removeIndex, removeById,
+        value: array,
+      }
+
+    }
+
+
+    function useInterval(func, time) {
+      var ref = useRef()
+      ref.current = func
+
+      useEffect(() => {
+        if (time !== null) {
+          var id = setInterval(() => {
+            ref.current()
+          }, time)
+        }
+
+        return () => {
+          clearInterval(id)
+        }
+      }, [time])
+    }
+
+    function useDebounce(f, time) {
+      var ref = useRef()
+      ref.current = f
+
+      return useMemo(() => {
+        return _.debounce(function (...args) {
+          return ref.current.call(this, ...args)
+        }, time)
+      }, [time])
+    }
+
+    function useThrottle(f, time) {
+      var ref = useRef()
+      ref.current = f
+
+      var lastCallTime = 0
+
+      function func(...arys) {
+        if (Date.now() - lastCallTime > time) {
+          lastCallTime = Date.now()
+          return ref.current.call(this, ...args)
+        }
+      }
+
+      return useCallback(func, [])
+    }
+
+    function useThrottle1(f, time) {
+      var ref = useRef()
+      ref.current = f
+
+      return useMemo(() => {
+        return _.throttle(function (...args) {
+          return ref.current.call(this, ...args)
+        }, time)
+      }, [time])
+    }
+
+    function useTick() {
+      var [tick, setTick] = useState(0)
+
+      useDebugValue('Tick')
+
+      useEffect(() => {
+        var id = setInterval(() => {
+          setTick(tick => tick + 1)
+        }, 1000)
+
+        return () => {
+          clearInterval(id)
+        }
+      }, [])
+
+      return tick 
+    }
+
+    function TestUseArray() {
+      var todos = useArray(['aaa', 'bbb'])
+      var todo = useInput('')
+
+      var tick = useTick()
+
+      var [time, setTime] = useState(1000)
+
+      useInterval(() => {
+        // console.log(tick)
+      }, time)
+
+      var log = useDebounce(function log() {
+        todos.add('aa')
+        console.log('throttle')
+      }, 2000)
+
+
+      return (
+        <div>
+          {tick}
+          <button id="foo:bar" onClick={log}>debounced</button>
+
+
+          <button onClick={() => setTime(2000)}>add Time </button>
+          <input type="text" {...todo} />
+
+
+          <input type="text" {...todo} />
+          <button onClick={() => {
+            todos.add(todo.value)
+            todo.clear()
+          }}>add</button>
+
+          <ul>
+            {
+              todos.value.map((it, idx) => {
+                return <div key={idx}>{it}</div>
+              })
+            }
+          </ul>
+
+        </div>
+      )
+    }
+
+    function App() {
+
+      return (
+        <div>
+          <TestUseArray />
+          {/* <TestHook /> */}
+        </div>
+      )
+    }
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+
+    root.render(<App />);
+
+  </script>
+</body>
+
+</html>

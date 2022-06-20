@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模拟网盘</title>
+</head>
+
+<body>
+  <div>
+    <div>
+      <div>
+        路径：<input type="text" size="60" id="cwd" value="/" />
+        <button id="ok">确定</button>
+        <button id="newFolder">新建文件夹</button>
+        <input id="upload" hidden type="file"> <label for="upload">上传</label>
+
+      </div>
+      <div id="fileListDiv">
+
+      </div>
+
+      <div id="viewerDiv"
+        style="display: none;position: fixed; border:3px solid;top:10px;left: 10px;right: 10px;bottom: 10px;background-color: white;">
+        <button onclick="viewerDiv.style.display='none';document.body.style.overflow = ''">关闭</button>
+        <pre></pre>
+      </div>
+
+      <div id="editorDiv"
+        style="display: none;position: fixed; border:3px solid;top:10px;left: 10px;right: 10px;bottom: 10px;background-color: white;">
+        <button onclick="editorDiv.style.display='none';document.body.style.overflow = ''">关闭</button>
+        <button id="save">保存</button>
+        <span class="filepath"></span>
+        <textarea style="width:99%;"></textarea>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function showFiles(path) {
+      var files = (await fetch(path).then(it => it.json()))
+
+      files.sort((a, b) => {
+        if (!a.isFile && b.isFile) {
+          return -1
+        } else if (!a.isFile && b.isFile) {
+          return 1
+        } else {
+          return 0
+        }
+      })
+
+      location.hash = path
+
+      fileListDiv.innerHTML = `<div><a class="name" href="${cwd.value}../">../</a></div>` + files.map(file => {
+        var slash = file.isFile ? '' : '/'
+        return `
+            <div style="overflow:hidden;">
+              <a class="name" href="${cwd.value}${file.name}${slash}">${file.name}${slash}</a>
+
+              <span style="float:right">
+                <button class="delete">删除</button>
+                <button class="view">查看</button>
+                <button class="edit">编辑</button>
+                <button class="download">下载</button>
+              <span>
+
+            </div>
+        `
+      }).join('')
+    }
+
+    ok.onclick = function () {
+      showFiles(cwd.value)
+    }
+
+    newFolder.onclick = async function () {
+      var name = prompt('请输入文件夹的名字')
+      if (name) {
+        try {
+          await fetch(cwd.value + name, {
+            method: 'MKCOL'
+          })
+          alert('创建成功')
+          showFiles(cwd.value)
+        } catch (e) {
+          alert(e.toString())
+        }
+      }
+    }
+
+    upload.onchange = async function () {
+      if (this.files.length) {
+        var file = this.files[0]
+        var targetPath = cwd.value + file.name
+
+        await fetch(targetPath, {
+          method: 'PUT',
+          body: file
+        })
+        alert('上传成功')
+        showFiles(cwd.value)
+      }
+    }
+
+    fileListDiv.addEventListener('click', async (e) => {
+      if (e.target.classList.contains('name')) {
+        e.preventDefault()
+
+        if (e.target.getAttribute('href').at(-1) == '/') {
+          cwd.value = e.target.pathname // 读取a标签端口之后？之前的东西
+          ok.click()
+        }
+      }
+
+      if (e.target.classList.contains('delete')) {
+        var targetFile = e.target.parentNode.previousElementSibling.href
+        console.log(targetFile)
+        if (confirm('确认删除吗？')) {
+          await fetch(targetFile, {
+            method: 'DELETE'
+          })
+          alert('删除成功')
+          showFiles(cwd.value)
+        }
+      }
+
+      if (e.target.classList.contains('view')) {
+        var targetFile = e.target.parentNode.previousElementSibling.href
+        var text = await fetch(targetFile).then(it => it.text())
+        viewerDiv.children[1].textContent = text
+        viewerDiv.style.display = 'block'
+
+        document.body.style.overflow = 'hidden'
+      }
+
+      if (e.target.classList.contains('edit')) {
+        var targetFile = e.target.parentNode.previousElementSibling.href
+        var text = await fetch(targetFile).then(it => it.text())
+
+        editorDiv.lastElementChild.value = text
+        editorDiv.lastElementChild.previousElementSibling.textContent = new URL(targetFile).pathname
+        editorDiv.style.display = 'block'
+
+        document.body.style.overflow = 'hidden'
+      }
+
+      if (e.target.classList.contains('download')) {
+        var targetFile = e.target.parentNode.previousElementSibling.href
+        // var blob = await fetch(targetFile).then(it => it.blob())
+        // var url = URL.createObjectURL(blob)
+        // var link = document.createElement('a')
+        // link.href = url
+        // link.download = targetFile.split('/').at(-1)
+        // link.click()
+        var link = document.createElement('a')
+        link.href = targetFile
+        link.download = targetFile.split('/').at(-1)
+        link.click()
+      }
+    })
+
+
+    save.onclick = async function () {
+      var path = this.nextElementSibling.textContent
+      var data = this.nextElementSibling.nextElementSibling.value
+      await fetch(path, {
+        method: 'PUT',
+        body: data,
+      })
+    }
+
+    window.onload = function () {
+      var initialPath = location.hash ? location.hash.slice(1) : '/'
+      cwd.value = initialPath
+      showFiles(initialPath)
+    }
+
+    window.onhashchange = function () {
+      var initialPath = location.hash ? location.hash.slice(1) : '/'
+      cwd.value = initialPath
+      showFiles(initialPath)
+    }
+  </script>
+</body>
+
+</html>

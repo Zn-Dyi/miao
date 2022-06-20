@@ -1,0 +1,85 @@
+// XSS (Cross Site Scripting) 跨站脚本攻击
+用户在网站发贴时在贴子内容中插入了script标签，帖子在展示时，script标签的代码运行了
+解决方案：模板引擎，因为模板引擎默认都会将变量的值转义后再插值
+
+CSP: Content Security Policy 内容安全策略
+是一个页面的http头，里面写了各种限制指令，限制该页面只能执行特定操作：
+如：只能连接特定服务器(ajax or websocket)，只能从特定域名加载字体/css/js
+只能执行静态代码（非动态拼接代码），即禁用eval, Function,
+<div onclick="foo()" />,
+<script>alert(1)</script>
+content - security - policy:
+
+default -src 'none';
+
+base-uri 'self';
+
+阻止所有混合内容（即https页面不能加载http资源）
+block-all-mixed-content;
+
+child-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/;
+
+页面里的js能连接哪些域名
+connect-src 'self' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com collector.github.com
+raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com
+github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
+github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events
+*.actions.githubusercontent.com wss://*.actions.githubusercontent.com online.visualstudio.com/api/v1/locations
+github-production-repository-image-32fea6.s3.amazonaws.com github-production-release-asset-2e65be.s3.amazonaws.com
+insights.github.com wss://alive.github.com github.githubassets.com;
+
+能加载来自哪里的字体
+font-src github.githubassets.com;
+
+表单能提交到哪里
+form-action 'self' github.com gist.github.com objects-origin.githubusercontent.com;
+
+当前页面能被嵌套在哪个页面内的iframe
+frame-ancestors 'none';
+
+能放来自哪里的iframe
+frame-src render.githubusercontent.com viewscreen.githubusercontent.com notebooks.githubusercontent.com;
+
+能加载来自哪里的图片
+img-src 'self' data: github.githubassets.com identicons.github.com github-cloud.s3.amazonaws.com
+secured-user-images.githubusercontent.com/ github-production-user-asset-6210df.s3.amazonaws.com *.githubusercontent.com
+customer-stories-feed.github.com spotlights-feed.github.com;
+
+能加载来自哪里的manifest
+manifest-src 'self';
+
+能加载来自哪里的媒体（音频和视频）
+media-src github.com user-images.githubusercontent.com/ github.githubassets.com;
+
+能运行来自哪里的js
+script-src github.githubassets.com;
+
+能应用来自哪里的样式
+style-src 'unsafe-inline' github.githubassets.com;
+
+能运行来自哪里的worker
+worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/
+
+
+
+// CSRF (Cross Site Request Forgery) 跨站请求伪造
+
+一个页面向其它服务器发送请求（即跨域请求），这个请求会自动带上其它服务器的cookie，就伪造了用户身份，那么服务器就会执行该请求
+解决方案：
+服务器通过Referer头判断请求来自哪个站点的页面，不是自己站拒绝执行
+在请求中带上token（csrf token）（不放在cookie里），其它页面是无法获得这个token的，自然也就无法发送有效请求了
+在现代浏览器中使用非简单请求，因为非简单请求在跨域时会先发预检请求，预检请求失败，也就不会发真正的请求了
+设置cookie的SameSite属性，让该cookie在跨域请求时不自动带上
+cookie的其它属性：
+httpOnly 只在请求中带上，不能被js通过document.cookie读到
+Secure 只在https请求时带上，http请求不带
+cookie的域不包含协议与端口，只包含域名
+事实上现代浏览器中，CSRF已死
+
+
+
+// SQL Inject SQL 注入
+使用用户的输入拼接出sql来运行
+xxx' OR TRUE OR '
+db.prepare(`select * from users where name=?`).get(xxx' OR TRUE OR ')
+select * from users where name='xxx' OR TRUE OR ''

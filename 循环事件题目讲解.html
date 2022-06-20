@@ -1,0 +1,219 @@
+<script>
+  async function async1() {
+    console.log('async1 start');
+    await async2();
+    console.log('async1 end');
+  }
+  async function async2() {
+    console.log('async2');
+  }
+  console.log('script start');
+  setTimeout(function () {
+    console.log('setTimeout');
+  }, 0)
+  async1()
+  new Promise(function (resolve) {
+    console.log('promise1')
+    resolve()
+  }).then(function () {
+    console.log('promise2')
+  })
+
+  console.log('script end')
+
+
+  // script start
+  // async1 start
+  // async2
+  // promise1
+  // script end
+  // async1 end
+  // promise2
+  // setTimeout
+
+
+</script>
+<script>
+  setTimeout(() => {
+    console.log('0');
+  }, 0)
+
+  new Promise((resolve, reject) => { // 1
+    console.log('1');
+    resolve();
+  }).then(() => { // 2
+    console.log('2');
+    new Promise((resolve, reject) => {
+      console.log('3');
+      resolve();
+    }).then(() => {     // 3
+      console.log('4');
+    }).then(() => {// 4
+      console.log('5');
+    })
+  }).then(() => { //3
+    console.log('6');   //
+  })
+
+  new Promise((resolve, reject) => { // 1
+    console.log('7');
+    resolve()
+  }).then(() => {
+    console.log('8');// 2
+  })
+
+  // 1
+  // 7
+  // 2
+  // 3
+  // 8
+  // 4
+  // 6
+  // 5
+  // 0
+
+</script>
+
+<script>
+  async function async1() {
+    await async2()
+    console.log('async1 end')
+  }
+  async function async2() {
+    console.log('async2 end')
+  }
+  async1()
+  setTimeout(function () {
+    console.log('setTimeout')
+  }, 0)
+  new Promise(resolve => {
+    console.log('Promise')
+    resolve
+  })
+    .then(function () {
+      console.log('promise1')
+    })
+    .then(function () {
+      console.log('promise2')
+    })
+
+
+  // async2 end
+  // Paromise
+  // async1 end
+  // setTimeout
+
+
+</script>
+
+<script>
+  console.log("script start")
+  async function async1() {
+    await async2()
+    console.log('async1 end')
+  }
+  async function async2() {
+
+    console.log('async2 end')
+    return Promise.resolve().then(() => {
+      console.log('async2 end1')
+    })
+  }
+  async1()
+
+  setTimeout(function () { console.log('setTimeOut') }, 0)
+
+  new Promise(function (resolve, reject) {
+    console.log('Promise')
+    resolve()
+  }).then(function () {
+    console.log('promise 1')
+  }).then(function () {
+    console.log('promise 2')
+  })
+  console.log('script end')
+</script>
+
+<script>
+  setTimeout(() => {
+    console.log(2)
+  }, 2000)
+
+  new Promise((resolve, reject) => {
+    console.log('p')
+    resolve('p')
+  }).then(() => {
+    setTimeout(() => {
+      console.log(3)
+    }, 10)
+  })
+</script>
+
+<script>
+  async function async1() {
+    console.log('async1 start')
+    await async2()
+    console.log('async1 end')
+  }
+  async function async2() {
+    console.log('async2')
+  }
+  console.log('script start')
+  setTimeout(function () {
+    console.log('setTimeout0')
+  }, 0)
+  setTimeout(function () {
+    console.log('setTimeout3')
+  }, 3)
+  setImmediate(() => console.log('setImmediate'));
+  process.nextTick(() => console.log('nextTick'));
+  async1();
+  new Promise(function (resolve) {
+    console.log('promise1')
+    resolve();
+    console.log('promise2')
+  }).then(function () {
+    console.log('promise3')
+  })
+  console.log('script end')
+</script>
+
+<script>
+  setTimeout(() => console.log('a'), 0)
+  var p = new Promise((resolve) => {
+    console.log('b');
+    resolve();
+  }
+  );
+  p.then(() => console.log('c'));
+  p.then(() => console.log('d'));
+
+  console.log('e');
+
+  async function async1() {
+    console.log("a");
+    await async2();
+    console.log("b");
+  }
+  async function async2() {
+    console.log('c');
+  }
+
+  console.log("d");
+
+  setTimeout(function () {
+    console.log("e");
+  }, 0);
+
+  async1();
+
+  new Promise(function (resolve) {
+    console.log("f");
+    resolve();
+  }
+  ).then(function () {
+    console.log("g");
+  });
+
+  console.log('h');
+</script>

@@ -1,0 +1,49 @@
+
+<div>
+  Lorem ipsum
+    <button>Button</button><button>Button</button>
+  dolor sit, amet
+</div>
+<style>
+  div.mouseover {
+    background-color: red;
+  }
+</style>
+
+<script>
+  var div = document.querySelector('div')
+  var button = document.querySelector('button')
+
+  div.addEventListener('mouseenter', function(e) {
+    console.log('div mouse enter capture')
+  }, true)
+
+  button.addEventListener('mouseenter', function(e) {
+    console.log('button mouse enter capture')
+  })
+
+  div.addEventListener('mouseenter', function(e) {
+    // if (!div.contains(e.relatedTarget)) { // e.relatedTarget 不在 div 里面
+      console.log(e)
+      div.classList.add('mouseover')
+    // }
+  })
+  div.addEventListener('mouseleave', function(e) {
+    // if (!div.contains(e.relatedTarget)) {
+      console.log(e)
+      div.classList.remove('mouseover')
+    // }
+  })
+
+  // node.contains(target)
+  // 判断node是否包含target
+  function contains(node, target) {
+    while(target) {
+      if (target == node) {
+        return true
+      }
+      target = target.parentNode
+    }
+    return false
+  }
+</script>

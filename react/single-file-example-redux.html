@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello-redux</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+  <script src="redux.js"></script>
+  <script src="react-redux.js"></script>
+  <script src="./immer.umd.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react"> // data-presets 只编译与react有关的东西
+    var { produce } = immer
+
+    var {
+      Provider,
+      useDispatch,
+      useSelector,
+      useStore,
+      connect,
+    } = ReactRedux
+
+    var {
+      useState,
+      useCallback,
+      useEffect,
+    } = React
+
+    // var actions = {
+    //   ADD_TODO(draft, action) {
+    //     draft.todos.push({ text: action.text, done: false })
+    //   },
+    //   DELETE_TODO(draft, action) {
+    //     draft.todos.splice(action.idx, 1)
+    //   },
+    //   CLEAR_COMPLETED(draft, action) {
+    //     draft.todos = draft.todos.filter(it => it.done == false)
+    //   },
+    //   TOGGLE_TODO(draft, action) {
+    //     var idx = action.idx
+    //     draft.todos[idx].done = !draft.todos[idx].done
+    //   },
+    // }
+
+    // for (var key in actions) {
+    //   actions[key] = produce(actions[key])
+    // }
+
+    function todoReducer(state, action) {
+      // var f = action[action.type]
+
+      // if (f) {
+      //   return f(state, action)
+      // } else {
+      //   return state
+      // }
+
+      switch (action.type) {
+        case 'ADD_TODO':
+          return produce(state, draft => {
+            draft.todos.push({ text: action.text, done: false })
+          })
+        case 'DELETE_TODO':
+          return produce(state, draft => {
+            draft.todos.splice(action.idx, 1)
+          })
+        case 'CLEAR_COMPLETED':
+          return produce(state, draft => {
+            draft.todos = draft.todos.filter(it => it.done == false)
+          })
+          // return {
+          //   ...state,
+          //   toods: state.todos.filter((it, idx) => it.done == false)
+          // }
+        case 'TOGGLE_TODO':
+          return produce(state, draft => {
+            var idx = action.idx
+            draft.todos[idx].done = !draft.todos[idx].done
+          })
+        default:
+          return state
+      }
+
+      return state
+    }
+
+    var store = Redux.createStore(todoReducer, {
+      todos: [{ text: 'eat', done: true }, { text: 'drink', done: false }],
+      editingIdx: -1,
+      visible: 'all'
+    })
+
+    function useInput(init = '') {
+      // debugger
+      var [value, setValue] = useState(init)
+      var [checked, setChecked] = useState(init)
+
+      function onChange(e) {
+        var target = e.target
+        if (target.type == 'checkbox' || target.type == 'radio') {
+          setChecked(target.checked)
+        } else {
+          setValue(target.value)
+        }
+      }
+
+      function clear() {
+        setValue('')
+      }
+
+      var ret = {
+        value,
+        checked,
+        // clear: useCallback(clear,[]),
+        onChange: useCallback(onChange, []),
+      }
+
+      Object.defineProperty(ret, 'clear', {
+        value: useCallback(clear, []),
+      })
+
+      return ret
+    }
+
+    function TodoInput() {
+      var todo = useInput()
+      var dispatch = useDispatch()
+
+      function add() {
+        // debugger
+        if (todo.value.trim()) {
+          dispatch({
+            type: 'ADD_TODO',
+            text: todo.value.trim()
+          })
+          todo.clear()
+        }
+      }
+
+      return (
+        <div>
+          <input type="text"  {...todo} />
+          <button onClick={add}>add</button>
+        </div>
+      )
+    }
+
+
+
+    function TodoList() {
+      var todos = useSelector(state => {
+        return state.todos
+      })
+      var dispatch = useDispatch()
+
+      function toggleTodo(idx) {
+        dispatch({
+          type: 'TOGGLE_TODO',
+          idx: idx,
+        })
+      }
+
+      function deleteTodo(idx) {
+        dispatch({
+          type: 'DELETE_TODO',
+          idx: idx,
+        })
+      }
+
+      return (
+        <ul>
+          {
+            todos.map((todo, idx) => {
+              return <li key={idx}>
+                <input type="checkbox" checked={todo.done} onChange={() => toggleTodo(idx)} />
+                {todo.text}
+                <button onClick={() => deleteTodo(idx)}>delete</button>
+              </li>
+            })
+          }
+        </ul>
+      )
+    }
+
+    function TodoState() {
+      var todos = useSelector(state => {
+        return state.todos
+      })
+
+      var dispatch = useDispatch()
+
+      function clear() {
+        dispatch({
+          type: 'CLEAR_COMPLETED',
+        })
+      }
+
+      return (
+        <div>
+          <span>{todos.filter(it => it.done).length} item(s) left</span>
+
+          {todos.some(it => it.done) &&
+            <button onClick={clear}>clear completed</button>
+          }
+        </div>
+      )
+    }
+
+    function TodoApp() {
+
+      return (
+        <div>
+          <TodoInput />
+          <TodoList />
+          <TodoState />
+        </div>
+      )
+    }
+
+
+    function App() {
+
+      return (
+        <Provider store={store}>
+          <TodoApp />
+        </Provider>
+      )
+    }
+
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+
+    root.render(<App />)
+
+
+  </script>
+</body>
+
+</html>

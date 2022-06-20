@@ -737,8 +737,22 @@ var zn_dyi = (function () {
 
 
   function sortBy(collection, predicate) {
-    var predicate = iteratee(predicate)
-    
+    var pre = iteratee(predicate.pop())
+    for (var i = 1; i < collection.length; i++) {
+      var t = collection[i]
+      for (var j = i - 1; j >= 0; j--) {
+        if (pre(collection[j]) > pre(t)) {
+          collection[j + 1] = collection[j]
+        } else {2
+          break
+        }
+      }
+      collection[j + 1] = t
+      if (predicate.length) {
+        sortBy(collection, predicate)
+      }
+    }
+    return collection
   }
 
 
@@ -771,8 +785,6 @@ var zn_dyi = (function () {
       }
     }
   }
-
-
 
 
   return {
@@ -828,6 +840,7 @@ var zn_dyi = (function () {
     shuffle: shuffle,
     size: size,
     some: some,
+    sortBy: sortBy,
 
 
 

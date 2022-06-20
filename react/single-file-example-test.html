@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todos-React</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+  <style>
+    ul.active li.completed {
+      display: none;
+    }
+
+    ul.completed li.active {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    function App() {
+      return (
+        <div>
+          <h1>Hi</h1>
+          <ul>
+            <li>aaa</li>
+            <li>bbb</li>
+            <li>ccc</li>
+          </ul>
+          <Footer company="kaifeng" limited={false}>
+            <div>--------------</div>
+          </Footer>
+        </div>
+      )
+    }
+
+
+    {  /* dssdfsfsfsf */ }  // JSX注释形式
+
+    function Welcome(props) {
+      return (
+        <p>Welcome !{props.name} </p>
+      )
+    }
+
+    function Footer(props) {
+      console.log(props)
+      return (
+        <div>
+          <Welcome name="Tian" />
+          <p>{props.company}{props.limited ? '有限' : ''}公司</p>
+          <p>@版权</p>
+          {props.children}
+        </div>
+      )
+
+    }
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<App />);
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<p>Lorem ipsum <button>aaa</button> dolor sit amet, consectetur adipisicing elit. Quisquam, rerum adipisci! Sapiente,
+  tenetur quaerat. Id doloribus quos aliquid quas nulla, fugiat eos doloremque tenetur harum, dolores, reprehenderit
+  quis architecto quasi!</p>
+
+<script>
+  // debugger
+  var button = document.querySelector('button')
+  var p = document.querySelector('p')
+
+
+  // document.body.addEventListener('click', function(e) {
+  //   window.a = e
+  //   console.log('body click 1')
+  //   // event.stopPropagation() // 阻止事件继续向下一个元素传播，当前元素上的事件都还会调用
+  //   // event.stopImmediatePropagation() // 立刻阻止事件的传播，当前元素的后续事件函数都不会调用
+  // })
+  // document.body.addEventListener('click', function(e) {
+  //   window.b = e
+  //   console.log('body click 2')
+  // })
+
+
+  // document.documentElement.addEventListener('click', function(e) {
+  //   console.log('html click', e)
+  // })
+
+  // document.addEventListener('click', function(e) {
+  //   console.log('document click')
+  // })
+
+  // window.addEventListener('click', function(e) {
+  //   console.log('window click')
+  // })
+
+  p.addEventListener('click', function (e) {
+    if (e.target === p) {
+      console.log('p 自身被点击!!')
+    }
+  })
+
+  button.addEventListener('click', function (e) {
+    console.log('button clicked')
+    // e.stopPropagation()
+  })
+
+
+
+
+  var obj = {
+    // a:0,
+    // b:0,
+    count: 0,
+    get a() {
+      return this._a
+    },
+    set a(val) {
+      this._atime = this.count++
+      this._a = val
+    },
+    get b() {
+      return this._b
+    },
+    set b(val) {
+      this._btime = this.count++
+      this._b = val
+    }
+  }
+
+  function f(obj) {
+
+    obj.a = 8
+    obj.b = 9
+
+    return obj
+  }
+
+  f(obj)
+
+
+
+
+</script>

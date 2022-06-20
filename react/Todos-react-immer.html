@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todos-immer</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+  <script src="immer.umd.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class Todo extends React.Component {
+      constructor(props) {
+        super(props)
+
+        this.state = {
+          visible: 'all',
+          editingIdx: -1,
+          todos: [{
+            text: 'eat',
+            done: true,
+          }, {
+            text: 'drink',
+            done: false,
+          }, {
+            text: 'sleep',
+            done: true,
+          }]
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .progress {
+      height: 20px;
+      background-color: aqua;
+    }
+  </style>
+</head>
+
+<body>
+  <!--
+  实现类似progressJS的功能：
+
+  pg = new progressJs()
+
+  pg.start()
+  pg.increase()
+  pg.increase(5)
+  pg.set(80) 任意值
+
+  pg.end()
+-->
+
+
+  <script>
+
+    let body = document.querySelector('body')
+    let progreesnode
+
+
+    class progressJs {
+      start() {
+        progreesnode = document.createElement('div')
+        progreesnode.className = 'progress'
+        progreesnode.style.width = '1%'
+        body.appendChild(progreesnode)
+      }
+
+      increase(n = 5) {
+        requestAnimationFrame(function move() {
+          progreesnode.style.width = parseInt(progreesnode.style.width) + n + '%'
+          requestAnimationFrame(move)
+          if (parseInt(progreesnode.style.width) >= 100) {
+            progreesnode.remove()
+          }
+        })
+      }
+
+      end() {
+
+        progreesnode.style.width = '100%'
+        if (progreesnode.style.width == '100%') {
+          setTimeout(() => progreesnode.remove(), 1000)
+        }
+      }
+
+      set(n) {
+        progreesnode.style.width = n + '%'
+        if (progreesnode.style.width == '100%') {
+          progreesnode.remove()
+        }
+      }
+    }
+
+
+
+
+
+    // let body = document.querySelector('body')
+    // let progerssnode
+
+    // class progressJs {
+    //   start() {
+    //     progerssnode = document.createElement('dir')
+    //     progerssnode.className = 'progress'
+    //     progerssnode.style.width = '1%'
+    //     body.appendChild(progerssnode)
+    //   }
+    //   increase(n = 5) {
+    //     progerssnode.style.width = parseInt(progerssnode.style.width) + n + '%'
+    //     if (progerssnode.style.width == '100%') {
+    //       progerssnode.remove()
+    //     }
+    //   }
+    //   set(n) {
+    //     progerssnode.style.width = n + '%'
+    //     if (progerssnode.style.width == '100%') {
+    //       progerssnode.remove()
+    //     }
+    //   }
+    //   end() {
+    //     progerssnode.style.width = '100%'
+    //     if (progerssnode.style.width == '100%') {
+    //       progerssnode.remove()
+    //     }
+    //   }
+    // }
+
+  </script>
+
+</body>
+
+</html>

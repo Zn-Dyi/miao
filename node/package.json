@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "debug": "^4.3.4",
+    "express": "^4.17.3",
+    "figlet": "^1.5.2",
+    "lodash": "^4.17.21",
+    "mime": "^3.0.0",
+    "next.js": "^1.0.3",
+    "nextjs": "^0.0.3",
+    "qs": "^6.10.3",
+    "react-scripts": "^5.0.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

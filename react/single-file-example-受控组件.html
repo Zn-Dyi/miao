@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+
+    class App extends React.Component {
+      state = {
+        name: 'aaa'
+      }
+      handleNameChange = e => {
+        // debugger
+        console.log('1')
+        this.setState({
+          name: undefined
+        })
+      }
+      render() {
+        console.log('render')
+        return (
+          <div>
+            受控组件的状态不取决于交互
+            取决于它的value/checked属性
+            <input type="text" value={this.state.name} onChange={this.handleNameChange} />
+            <input type="checkbox" checked={true} />
+
+            <select multiple={true} value={["0571", "010"]}>
+              <option value="010">beijing</option>
+              <option value="0571">hangzhou</option>
+              <option value="020">shanghai</option>
+            </select>
+
+            <input type="file" />
+
+            <ul>
+              <li>aaa</li>
+              <li>bbb</li>
+              <li>ccc</li>
+            </ul>
+          </div>
+        )
+      }
+    }
+
+    function Welcome(props) {
+      console.log(props)
+      return <div>hello, {props.name}, {String(props.children[1])}      {props.children}</div>
+    }
+
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+
+    root.render(<App />);
+
+
+
+
+  </script>
+</body>
+
+</html>

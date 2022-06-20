@@ -1,0 +1,159 @@
+<script>
+  function* fibbs(n) {
+    var a = 0
+    var b = 1
+
+    while (n-- > 0) {
+      yield b
+      b = b + a
+      a = b - a
+
+    }
+  }
+
+
+
+
+  function forof(iterable, f) {
+    var generated = iterable.next()
+    while (!generated.done) {
+      if (f(generated.value) === false) {
+        break
+      }
+      generated = iterable.next()
+    }
+    iterable.return()
+  }
+
+
+
+
+  // 生成器函数(generator function) function* () { }
+  // 生成器函数之间可以相互调用：yield * bar()
+  //
+  // 生成器对象(generator) 生成器函数返回的对象
+  //
+  // 可迭代对象(iterable) 具有一个Symbol.iterator方法的对象，并且该方法能够返回一个生成器对象
+  //
+  // for of与展开运算符都可以处理生成器对象和可迭代对象
+  //
+  // Symbol:
+  // 原始类型
+  // 不会产生自动类型转换
+  // 用做唯一性对比
+  // 用来做对象或Map的映射的key
+
+
+
+
+  // 实现Symbol.for('xxx')功能，用做唯一性对比
+  var map = new Map()
+
+  function SymbolFor(key) {
+    if (map.has(key)) {
+      return map.get(key)
+    } else {
+      var s = Symbol(key)
+      map.set(key, s)
+      return s
+    }
+  }
+
+  // 实现Number的for of 功能
+  // 原型上添加Symbol.iterator 可以实现for of功能
+  Number.prototype[Symbol.iterator] = function* () {
+    for (var i = 0; i < this; i++) {
+      yield i
+    }
+  }
+
+  for (var i of 10) {
+    console.log(i)
+  }
+
+
+
+  obj = { a: 1, b: 2, c: 3 }
+
+  Object.prototype[Symbol.iterator] = function* () {
+    for (var key in this) {
+      yield this[key]
+    }
+  }
+
+  for (var key of obj) {
+    console.log(val)
+  }
+
+  // .entries 自带的返回迭代器生成对象
+  for (var [key, val] of Object.entries(obj)) {
+    console.log(key, val)
+  }
+</script>
+
+<script id="生成器函数">
+  function* foo() {
+    yield 1
+    yield 2
+
+  }
+
+  function forof(generator, f) {
+    var obj = generator.next()
+    while (obj.done == false) {
+      f(obj.value)
+      obj = generator.next()
+    }
+  }
+  forof(foo(), x => {
+    console.log(x)
+  })
+
+
+  a[Symbol.iterator] = function* () {
+    for (var i = 1; i < this.length; i++) {
+      yield this[i]
+    }
+  }
+
+
+
+
+  Number.prototype[Symbol.iterator] = function* () {
+    var n = this
+    for (var i = 1; i <= n; i++) {
+      yield i
+    }
+  }
+
+
+  // 可以不是生成器函数，只要和生成器函数一样有next方法的函数就行
+  Number.prototype[Symbol.iterator] = function () {
+    var start = 1
+    var n = this
+
+    // 返回一个有next方法的对象
+    return {
+      next() {
+        return {
+          value: start++,
+          done: start >= n + 1
+        }
+      }
+    }
+  }
+
+  for (var x of 10) {
+    console.log(x)
+  }
+
+
+  // 异步生成器
+  async function * foo() {
+    var x = await getValue(5, 2000)
+    yield x * x
+    var y = await getValue(7, 2000)
+    yield y * y
+  }
+
+</script>

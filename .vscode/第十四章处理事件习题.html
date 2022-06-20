@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    span {
+      position: fixed;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      background-color: blue;
+    }
+
+
+    #red {
+
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    #yellow {
+
+      width: 60px;
+      height: 60px;
+      background-color: yellow;
+
+    }
+  </style>
+
+</head>
+
+<body>
+  <input type="text">
+  <script id="禁用:W-Q-X">
+    var input = document.querySelector('input')
+
+    input.addEventListener('keydown', function (e) {
+      if (e.code == 'KeyW' || e.code == 'KeyQ' || e.code == 'KeyX') {
+        e.preventDefault()
+      }
+    })
+  </script>
+
+
+
+
+  <span class="fire"></span>
+  <span class="fire"></span>
+  <span class="fire"></span>
+  <script id="三昧真火">
+    var spans = document.querySelectorAll('.fire')
+    var mx = 0
+    var my = 0
+
+    window.addEventListener('mousemove', function(e) {
+      mx = e.clientX
+      my = e.clientY
+
+    })
+
+    requestAnimationFrame(function move(time) {
+      var angleDiff = 2 * Math.PI / spans.length
+
+
+      var speed = time * 0.01
+      var r = 150
+
+      for (let i = 0; i < spans.length; i++ ) {
+        var x = Math.sin(speed) * r + mx
+        var y = Math.cos(speed) * r + my
+
+        spans[i].style.left = x + 'px'
+        spans[i].style.top = y + 'px'
+
+        speed += angleDiff
+      }
+      requestAnimationFrame(move)
+    })
+
+    
+
+
+    function trajectory(e) {
+
+      var dot = document.createElement('span')
+      dot.style.left = e.pageX + 'px'
+      dot.style.top = e.pageY + 'px'
+      document.body.append(dot)
+      setTimeout(() => dot.remove(), 100)
+
+    }
+    document.addEventListener('mousemove', trajectory)
+
+  </script>
+
+
+</body>
+
+</html>

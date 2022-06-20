@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+
+    class App extends React.Component {
+      state = {
+        flag: true
+      }
+      toggle = e => {
+        // debugger
+        console.log('1')
+        this.setState({
+          flag: !this.state.flag
+        })
+      }
+      render() {
+        console.log('render')
+        if (this.state.flag) {
+          return (
+            <div >
+              aaa
+              <div key="a">
+                <button onClick={this.toggle}>切换</button>
+                <input type="text" placeholder="用户名" />
+                <input type="text" placeholder="密码" />
+              </div>
+            </div>
+          )
+        } else {
+          return (
+            <div >
+              bbb
+              <div key="b">
+                <button onClick={this.toggle}>切换</button>
+                <input type="text" placeholder="手机号" />
+                <input type="text" placeholder="验证码" />
+              </div>
+            </div>
+          )
+        }
+
+      }
+    }
+
+
+
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+
+    root.render(<App />);
+
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo-jQuery</title>
+  <style>
+    body {
+      counter-reset: items-left;
+    }
+
+    li.completed {
+      counter-increment: items-left;
+    }
+
+    .items-left2::before {
+      content: counter(items-left)
+    }
+
+    li.completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Todos</h1>
+  <div>
+    <div>
+      <input type="checkbox" id="toggle-select-all">
+      <input type="text" id="todo-input">
+    </div>
+
+    <ul class="todo-list"></ul>
+
+    <div class="status">
+      <span><span class="items-left">0</span> item(s) left</span>
+      <span><span class="items-left2"></span> item(s) left</span>
+
+      <div class="state-select">
+        <label><input type="radio" value="all" name="visible" checked> All</label>
+        <label><input type="radio" value="active" name="visible"> Active</label>
+        <label><input type="radio" value="completed" name="visible"> Completed</label>
+      </div>
+
+      <button class="clear-completed" style="display: none;">clear completed</button>
+    </div>
+
+  </div>
+</body>
+<script src="./\/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+  var todos = []
+
+  $('#todo-input').on('keyup', function (e) {
+    if (e.code == 'Enter') {
+      var todoText = this.value.trim()
+      // console.log(todoText);
+      if (todoText == '') {
+        return
+      }
+
+      var a = $(`
+        <li class="active">
+          <input type="checkbox" />
+          <span>${todoText}</span>
+          <input type="text" style="display:none;" value="${todoText}" />
+          <button>&times;</button>
+        </li>
+      `).appendTo('.todo-list')
+
+      console.log(this.value)
+      updateCountAndButton()
+      this.value = ''
+    }
+  })
+
+  $('.todo-list').on('click', 'button', function (e) {
+    $(this).parent().remove()
+    updateCountAndButton()
+  }).on('dblclick', 'span', function (e) {
+    $(this).hide().next().show().focus().prop({
+      selectionStart: 9999,
+      selectionEnd: 9999,
+    })
+  }).on('keyup', 'input[type="text"]', function (e) {
+    if (e.code == 'Enter') {
+      $(this).prev().text(this.value)
+      $(this).hide().prev().show()
+    }
+    if (e.code == "Escape") {
+      this.value == $(this).prev().text()
+      $(this).hide().prev().show()
+    }
+  }).on('blur', 'input[type="text"]', function (e) {
+    this.value = $(this).prev().text()
+    $(this).hide().prev().show()
+  }).on('click', 'input[type="checkbox"]', function (e) {
+    if (this.checked) {
+      $(this).parent().addClass('completed').removeClass('active')
+    } else {
+      $(this).parent().removeClass('completed').addClass('active')
+    }
+    updateCountAndButton()
+  })
+
+  $('#toggle-select-all').on('click', function (e) {
+    if (allSelected()) {
+      $('.todo-list li input').prop('checked', false)
+      $('.todo-list li').removeClass('completed').addClass('active')
+    } else {
+      $('.todo-list li input').prop('checked', true)
+      $('.todo-list li').addClass('completed').removeClass('active')
+    }
+    updateCountAndButton()
+  })
+
+  $('.state-select').on('click', 'input', function (e) {
+    if (this.value == 'all') {
+      $('ul li').show()
+    }
+    if (this.value == 'active') {
+      $('ul li.active').show()
+      $('ul li.completed').hide()
+    }
+    if (this.value == 'completed') {
+      $('ul li.completed').show()
+      $('ul li.active').hide()
+    }
+  })
+
+  $('.clear-completed').on('click', function (e) {
+    $('li.completed').remove()
+    updateCountAndButton()
+  })
+
+  function updateCountAndButton() {
+    $('.items-left')[0].innerText = $('.todo-list input[type="checkbox"]:not(:checked)').length
+    var completedCount = $('.todo-list input[type="checkbox"]:checked').length
+    if (completedCount > 0) {
+      $('.clear-completed').show()
+    } else {
+      $('.clear-completed').hide()
+    }
+
+    var unselectedCount = $('.todo-list input[type="checkbox"]:not(:checked)').length
+    if (unselectedCount == 0) {
+      $('#toggle-select-all')[0].checked = true
+    } else {
+      $('#toggle-select-all')[0].checked = false
+    }
+
+    saveData()
+  }
+
+  function allSelected() {
+    return $('.todo-list li input[type="checkbox"]:not(:checked)').length == 0
+  }
+
+  function saveData() {
+    var todos = $('li').get().map(it => {
+      return {
+        text: $(it).find('span').text(),
+        done: $(it).find('input').prop('checked'),
+      }
+    })
+
+    localStorage.todoList = JSON.stringify(todos)
+  }
+
+  function init() {
+    var todoList = JSON.parse(localStorage.todoList)
+
+    for (var todo of todoList) {
+      $('.todo-list').append(`
+        <li class="active">
+          <input type="checkbox" ${todo.done ? checked : ''}/>
+          <span>${todo.text}</span>
+          <input type="text" style="display: none;" value="${todo.text}"/>
+          <button>&times;</button>
+        </li>
+      `)
+    }
+  }
+  init()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  elt('li', { class: 'woef', id: 'wef' }, 'owiejf', elt('input'), elt('span', {}, 'todoText'), elt('button'))
+
+  function elt(type, attrs = {}, ...children) {
+    var node = document.createElement(type)
+
+    for (var [key, val] of Object.entries(attrs)) {
+      node.setAttribute(key, val)
+    }
+
+    for (var child of children) {
+      node.append(child)
+    }
+    return node
+  }
+</script>
+
+</html>

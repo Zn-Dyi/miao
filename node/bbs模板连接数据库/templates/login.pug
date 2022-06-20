@@ -1,0 +1,49 @@
+extend layout.pug
+
+
+block append scripts
+  script(src="/spark-md5.min.js")
+
+block content
+  <h1>Login</h1>
+  if session.刚刚登录失败的原因
+    p= session.刚刚登录失败的原因
+  <form action="/login?next=#{returnUrl}" method="post">
+    <div>用户名: <input type="text" name="name"></div>
+    <div>密码: <input type="password" name="password"></div>
+
+    if session.loginFailCount >= 3
+      <div>验证码: <input type="text" name="captcha"></div>
+      <div><img src="/captcha" ></div>
+
+    <button>Submit</button>
+    |
+    |
+    a(href="/forget-password") 忘记密码？
+  </form>
+
+  script.
+    $('form').on('submit', (e) => {
+      var pwd = $('input[type="password"]').val()
+      pwd = SparkMD5.hash(pwd) // SparkMD5不能单独使用需要调用.hash
+      $('input[type="password"]').val(pwd)
+    })
+    $('img').on('click', function() {
+      this.src = '/captcha?t=' + Date.now()
+    })
+
+    //- $('form').on('submit', async (e) => {
+    //-   var name = $('input[name="name"]').val()
+    //-   var password = $('input[name="password"]').val()
+
+    //-   var data = await fetch('/login?action=ajax', {
+    //-     method: 'post',
+    //-     body: $('form').serialize()
+    //-   }).then(it => it.json())
+
+    //-   if (data.success) {
+    //-     location.href = '/'
+    //-   } else {
+    //-     alert(data.error)
+    //-   }
+    //- })

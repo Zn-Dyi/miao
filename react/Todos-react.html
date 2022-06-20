@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todos-React</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+  <style>
+    ul.active li.completed {
+      display: none;
+    }
+    ul.completed li.active {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class Todo extends React.Component {
+      constructor(props) {
+        super(props)
+
+        console.log(this)
+        this.state = {
+          visible: 'all',
+          editingIdx: -1,
+          todos: [{
+            text: 'eat',
+            done: true,
+          }, {
+            text: 'drink',
+            done: false,
+          }, {
+            text: 'sleep',
+            done: true,
+          }]
+        }
+      }
+
+      toggleStatus = (idx) => {
+
+        this.setState({
+          todos: this.state.todos.map((todo, index) => {
+            if (idx == index) {
+              return {
+                ...todo,
+                done: !todo.done
+              }
+            } else {
+              return todo
+            }
+          })
+        })
+
+
+        // this.setState({
+        //   todos: [
+        //     ...this.state.todos.slice(0, idx),
+        //     {...this.state.todos[idx], done: !this.state.todos[idx].done},
+        //     ...this.state.todos.slice(idx + 1)
+        //   ]
+        // })
+      }
+
+      deleteTodo = (idx) => {
+
+        this.setState({
+          todos: this.state.todos.filter((it, i) => {
+            if (idx == i) {
+              return false
+            } else {
+              return true
+            }
+          })
+        })
+      }
+
+      addTodo = (e) => {
+        if (e.code == 'Enter') {
+          var text = e.target.value.trim()
+          if (text) {
+            var todo = {
+              text: text,
+              done: false,
+            }
+
+            this.setState({
+              todos: [...this.state.todos, todo]
+            })
+
+            e.target.value = ''
+          }
+        }
+      }
+
+      toggleAll = () => {
+        if (this.state.todos.every(it => it.done) ) {
+          this.setState({
+            todos: this.state.todos.map(it => {
+              return {
+                ...it,
+                done: false,
+              }
+            })
+          })
+        } else {
+          this.setState({
+            todos: this.state.todos.map(it => {
+              if (it.done == true) {
+                return it
+              } else {
+                return {
+                  ...it,
+                  done: true,
+                }
+              }
+            })
+          })
+        }
+      }
+
+      clearCompleted = () => {
+        this.setState({
+          todos: this.state.todos.filter(it => !it.done)
+        })
+      }
+
+      setVisible = (e) => {
+        this.setState({
+          visible: e.target.value
+        })
+      }
+
+      editTodo(e, idx) {
+        if (e.code == "Enter") {
+          var text = e.target.value.trim()
+          this.setState({
+            todos: this.state.todos.map((it, index) => {
+              if (index == idx) {
+                return {
+                  ...it,
+                  text: text,
+                }
+              } else {
+                return it
+              }
+            })
+          })
+          this.setState({
+            editingIdx: -1,
+          })
+        }
+        if (e.code == "Escape") {
+          this.setState({
+            editingIdx: -1,
+          })
+        }
+      }
+
+      startEdit = (idx) => {
+        this.setState({
+          editingIdx: idx,
+        })
+        setTimeout(() => {
+          document.querySelector('.todo-item .edit-box').focus()
+        });
+      }
+
+      render() {
+        var state = this.state
+        return (
+          <div>
+            <h1>todos</h1>
+            <div>
+              <input type="checkbox" onChange={this.toggleAll} checked={this.state.todos.every(it => it.done)}/>
+              <input type="text" onKeyUp={this.addTodo} />
+
+            </div>
+            <ul className={"todo-list " + state.visible}>
+              {
+                this.state.todos.map((todo, idx) => {
+                  // if (state.visible == 'active' && todo.done == true) {
+                  //   return null
+                  // }
+                  // if (state.visible == 'completed' && todo.done == false) {
+                  //   return null
+                  // }
+                  return (
+                    <li className={"todo-item " + (todo.done ? 'completed' : 'active')} key={idx}>
+                      <input type="checkbox" onChange={ () => this.toggleStatus(idx) } checked={todo.done} />
+
+                      {
+                        idx == this.state.editingIdx
+                          ? <input type="text" className="edit-box" defaultValue={todo.text} onBlur={() => this.setState({editingIdx: -1})} onKeyUp={(e) => this.editTodo(e, idx)} />
+                          : <span onDoubleClick={() => this.startEdit(idx)}>{todo.text}</span>
+                      }
+
+                      {' '}
+                      <button onClick={ () => this.deleteTodo(idx) }>&times;</button>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+            <div>
+              <span>{this.state.todos.filter(it => !it.done).length} items(s) left</span>
+              <div>
+                <label><input type="radio" name="visible" value="all" onChange={this.setVisible} checked={state.visible == 'all'} /> All</label>
+                <label><input type="radio" name="visible" value="active" onChange={this.setVisible} checked={state.visible == 'active'} /> Active</label>
+                <label><input type="radio" name="visible" value="completed" onChange={this.setVisible} checked={state.visible == 'completed'} /> Completed</label>
+              </div>
+
+              {
+                this.state.todos.some(it =>it.done)
+                  ? <button onClick={this.clearCompleted}>Clear Completed</button>
+                  : ''
+              }
+
+            </div>
+          </div>
+        )
+      }
+    }
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<Todo />);
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore eos omnis culpa excepturi laboriosam, ea similique molestiae voluptates eum obcaecati.
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, exercitationem.
+      <button>BUTTON</button>
+    </p>
+  </div>
+
+  <script>
+    var div = document.querySelector('div')
+    var p = document.querySelector('p')
+    var button = document.querySelector('button')
+
+    div.addEventListener('click', function(e) {
+      console.log('div capture')
+    }, true)
+
+    div.addEventListener('click', function(e) {
+      console.log('div non capture')
+    })
+
+
+    p.addEventListener('click', function(e) {
+      console.log('p capture')
+      // e.stopPropagation()
+    }, true)
+
+    p.addEventListener('click', function(e) {
+      console.log('p non capture')
+    })
+
+
+    button.addEventListener('click', function(e) {
+      console.log('button non capture')
+    })
+
+    button.addEventListener('click', function(e) {
+      console.log('button capture 1')
+      e.stopPropagation() // 阻止传入下一个元素，也阻止事件流程进入下一个阶段。元素阻止当前元素当前阶段的事件函数的执行
+    }, true)
+    button.addEventListener('click', function(e) {
+      console.log('button capture 2')
+    }, true)
+    button.addEventListener('click', function(e) {
+      console.log('button capture 3')
+    }, true)
+
+
+
+
+  </script>
+</body>
+</html>

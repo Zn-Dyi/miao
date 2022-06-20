@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>learn-hook</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    var { useState, useEffect, useContext, useRef, useCallback, useMemo, useReducer } = React
+
+
+    function Example(props) {
+
+      const [count, setCount] = useState(5)
+      const [age, setAge] = useState(2)
+
+      return (
+        <div>
+          <p>You clicked {count} times {age}</p>
+          <button onClick={() => { setCount(count + 1) }}>Click me</button>
+          <button onClick={() => { setAge(age + 1) }}>add age</button>
+        </div>
+      )
+    }
+
+    function Tick() {
+      var [i, setI] = useState(0)
+      var color = useContext(ColorContext)
+      var theme = useContext(ThemeContext)
+
+      console.log(color, theme)
+
+      useEffect(() => {
+        var id = setInterval(() => {
+          setI(it => it + 1)
+        }, 1000)
+
+        return () => {
+          clearInterval(id)
+        }
+      }, [])
+
+      return <div>baz: {i}</div>
+    }
+
+    var ColorContext = React.createContext()
+    ColorContext.displayName = 'ColorContext'
+
+    var ThemeContext = React.createContext()
+    ThemeContext.displayName = 'ThemeContext'
+
+
+    function Counter() {
+      var [count, setCount] = useState(0)
+      var dec = useCallback(function dec() {
+        setCount(count - 1)
+      }, [])
+
+      function inc() {
+        setCount(count + 1)
+      }
+
+      return (
+        <span>
+          <Button onClick={dec}>-</Button>
+          {count}
+          <MyButton onClick={inc}>+</MyButton>
+        </span>
+      )
+    }
+
+    var Button = React.memo(function Button({ onClick, children }) {
+      return <button onClick={onClick}>{children}</button>
+    })
+
+    class MyButton extends React.Component {
+
+      shouldComponentUpdate(nextProps) {
+        if (nextProps.children !== this.props.children) {
+          return true
+        }
+        return false
+      }
+
+      handleClick = (e) => {
+        this.props.onClick(e)
+      }
+
+      render() {
+        console.log('MyButton render')
+
+        var { children } = this.props
+
+        return <button onClick={this.handleClick}>{children}</button>
+      }
+    }
+
+    // 使用自定义hook抽象利用逻辑
+    function useMousePos() {
+      var [pos, setPos] = useState({ x: 0, y: 0 })
+      useEffect(() => {
+        function onMove(e) {
+          setPos({
+            x: e.x,
+            y: e.y,
+          })
+        }
+        window.addEventListener('mousemove', onMove)
+        return () => {
+          window.removeEventListener('mousemove', onMove)
+        }
+      }, [])
+
+      return pos
+    }
+
+    function useTick() {
+      var [tick, setTick] = useState(0)
+      useEffect(() => {
+        var id = setInterval(() => {
+          setTick(tick => tick + 1)
+        }, 1000)
+
+        return () => clearInterval(id)
+      }, [])
+
+      return tick
+    }
+
+    function useMouseAndTick() {
+      var pos = useMousePos()
+      var tick = useTick()
+
+      return {
+        pos, tick
+      }
+    }
+
+    function TestCustomHook() {
+      var { pos, tick } = useMouseAndTick()
+
+      return <div>{pos.x}, {pos.y}, {tick}</div>
+    }
+
+    function TestCustomHook2() {
+      var pos = useMousePos()
+      var tick = useTick()
+
+      return <div>{pos.x},{pos.y}, {tick}</div>
+    }
+
+
+    function App() {
+      var ref1 = useRef()
+
+      var [showTick, setShowTick] = useState(true)
+
+      return (
+        <React.Fragment>
+          <TestCustomHook />
+          <TestCustomHook2 />
+
+          <Counter />
+          <ColorContext.Provider value={showTick}>
+            <div ref={ref1} onClick={() => { setShowTick(false) }}>
+              {showTick &&
+                <Tick />
+              }
+
+              <ThemeContext.Provider value="light">
+                <Tick />
+              </ThemeContext.Provider>
+
+              <Example />
+              <Example />
+            </div>
+          </ColorContext.Provider>
+        </React.Fragment>
+      )
+    }
+
+
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    root.render(<App />)
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todos-React</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="babel.min.js"></script>
+  <style>
+    ul.active li.completed {
+      display: none;
+    }
+
+    ul.completed li.active {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class App extends React.Component{
+      constructor() {
+        super()
+
+        this.state = {
+          showTime: false,
+        }
+      }
+
+      toggle = () => {
+        this.setState({
+          showTime: !this.state.showTime
+        })
+      }
+
+      onTimeChange = (h, m, s) => {
+        console.log(h,m,s)
+      }
+
+      render() {
+        function foo(e) {
+          console.log(h,m,s)
+        }
+        return (
+          <div>
+            <h1 onClick={foo}>Hi</h1>
+            <ul>
+              <li>aaa</li>
+              <li>bbb</li>
+              <li>ccc</li>
+            </ul>
+            <button onClick={this.toggle}>切换时间</button>
+            {this.state.showTime &&
+              <Clock type="square" onUpdate={this.onTimeChange}/>
+            }
+            {/* <Footer company="kaifeng" limited={false}>
+              <div>--------------</div>
+            </Footer> */}
+            {
+              React.createElement(Footer, {
+                company: 'damiao',
+                limited: false,
+              })
+            }
+          </div>
+        )
+      }
+    }
+
+
+
+    {  /* dssdfsfsfsf */ }  // JSX注释形式
+
+    function Welcome(props) {
+      return (
+        <p>Welcome !{props.name} </p>
+      )
+    }
+
+    function Footer(props) {
+      console.log(props)
+      return (
+        <div>
+          <Welcome name="Tian" />
+          <p>{props.company}{props.limited ? '有限' : ''}公司</p>
+          <p>@版权</p>
+          {props.children}
+        </div>
+      )
+
+    }
+
+
+
+    class Clock extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          date: new Date(),
+        }
+      }
+
+      componentDidMount() {
+        debugger
+        this.tickId = setInterval(() => {
+          this.setState({
+            date: new Date()
+          }, () => {
+            var [h, m, s] = this.state.date.toLocaleTimeString().split(':')
+            this.props.onUpdate(h, m, s)
+          })
+        }, 1000)
+      }
+
+      componentWillUnmount() {
+        clearInterval(this.tickId)
+      }
+
+      render() {
+        if (this.props.type == 'circle') {
+          return (
+          <div style={{border:'1px solid', borderRadius:'999px'}}> 
+            <h1>Hi</h1>
+            <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+          </div>
+          )
+        } else {
+          return (
+            <div style={{ border: '1px solid'  }}>
+              <h1>Hi</h1>
+              <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+          )
+        }
+
+      }
+    }
+
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<App />);
+
+
+  </script>
+</body>
+
+</html>

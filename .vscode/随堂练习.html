@@ -776,5 +776,1239 @@
 </script>
 
 <script>
-  
+  function deepFreeze(obj) {
+    Object.freeze(obj)
+    for (var key in obj) {
+      if (obj[key] && typeof obj[key] === 'object') {
+        deepFreeze(obj[key])
+      }
+    }
+    return obj
+  }
+</script>
+
+
+
+
+<script id="exec的相关函数">
+  RegExp.prototype.test2 = function (str) {
+    // 'this' is the regexp object
+    return !!this.exec(str)
+  }
+
+
+  'asofojwoeifodfw'.search(/fo./g)
+
+  String.prototype.search2 = function (re) {
+    if (typeof re == 'string') {
+      return this.indexOf(re)
+    }
+    var oldLastIndex = re.lastIndex
+    re.lastIndex = 0
+    var match = re.exec(this)
+    re.lastIndex = oldLastIndex
+    if (match == null) {
+      return -1
+    } else {
+      return match.index
+    }
+  }
+
+
+  'asofiwefoijlsfoweflsfwef'.match(/f(.)/)
+
+  String.prototype.match2 = function (re) {
+    var str = this
+    if (typeof re == 'string') {
+      re = new RegExp(re)
+    }
+    if (!re.global) {
+      return re.exec(str)
+    }
+
+    var result = []
+    var oldLastIndex = re.lastIndex
+    re.lastIndex = 0
+    var match
+    while (match = re.exec(str)) {
+      result.push(match[0])
+    }
+    re.lastIndex = oldLastIndex
+    return result
+  }
+
+
+
+
+
+  String.prototype.matchAll2 = function (re) {
+    if (!re.global) {
+      throw new TypeError('String.prototype.matchAll called with a non-global RegExp argument')
+    }
+    return this.match2(re)
+  }
+
+
+  String.prototype.split2 = function (spliter) {
+    if (typeof spliter == 'string') {
+      var result = []
+      if (spliter == '') {
+        for (var i = 0; i < this.length; i++) {
+          result.push(this[i])
+        }
+        return result
+      }
+      var startIdx = 0
+      while (true) {
+        var idx = this.indexOf(spliter, startIdx)
+        if (idx >= 0) {
+          result.push(this.slice(startIdx, idx))
+          startIdx = idx + spliter.length
+        } else {
+          result.push(this.slice(startIdx))
+          break
+        }
+      }
+      return result
+    } else {
+      var result = []
+      var re = new RegExp(spliter.source, spliter.global ? spliter.flags : spliter.flags + 'g')
+      var startIdx = 0
+      var match
+      while (match = re.exec(this)) {
+        result.push(this.slice(startIdx, match.index))
+        result.push(...match.slice(1))
+        startIdx = re.lastIndex
+      }
+      result.push(this.slice(startIdx))
+      return result
+    }
+  }
+
+
+
+  String.prototype.replace2 = function (replacer, replacement) {
+    if (typeof replacer == 'string') {
+      var idx = this.indexOf(replacer)
+      if (idx >= 0) {
+        var p1 = this.slice(0, idx)
+        var p3 = this.slice(idx + replacer.length)
+        var p2
+        if (typeof replacement == 'function') {
+          p2 = replacement(replacer, idx, this)
+        } else {
+          p2 = replacement.split2('$&').join(replacer)
+        }
+
+        return p1 + p2 + p3
+      }
+      return this
+    } else {
+      var result = ''
+      var match
+      var startIdx = 0
+      while (match = replacer.exec(this)) {
+        result += this.slice(startIdx, match.index)
+        if (typeof replacement == 'string') {
+          replacement = replacement.split2('$1').join(match[1])
+          replacement = replacement.split2('$2').join(match[2])
+          replacement = replacement.split2('$3').join(match[3])
+          replacement = replacement.split2('$4').join(match[4])
+          replacement = replacement.split2('$5').join(match[5])
+          replacement = replacement.split2('$6').join(match[6])
+          replacement = replacement.split2('$7').join(match[7])
+          replacement = replacement.split2('$8').join(match[8])
+          replacement = replacement.split2('$9').join(match[9])
+          replacement = replacement.split2('$&').join(match[0])
+          result += replacement
+        } else {
+          result += replacement(...match, match.index, this.toString())
+        }
+        startIdx = replacer.lastIndex
+        if (!replacer.global) {
+          break
+        }
+      }
+      result += this.slice(startIdx)
+      return result
+    }
+  }
+
+  String.prototype.replaceAll2 = function () { }
+</script>
+
+
+
+<script>
+
+  function parseObject() {
+    var obj = {}
+    i++
+    if (str[i] == '"') {
+      i++
+      return resStr
+    }
+
+
+  }
+
+
+
+
+
+  function parseArray() {
+    var ary = []
+    i++
+
+    if (str[i] == ']') {
+      i++
+      return ary
+    }
+    while (true) {
+      var value = parseValue()
+      ary.push(value)
+      if (str[i] == ',') {
+        i++
+        continue
+      }
+      if (str[i] == ']') {
+        i++
+        return ary
+      }
+    }
+  }
+
+
+
+
+
+
+  function parseString() {
+
+    var start = i
+    while (str[i] !== '"') {
+      i++
+    }
+    var s = str.slice(start, i)
+    i++
+    return s
+
+  }
+
+  function parseNumber() {
+
+    var numStr = ''
+
+    while (str[i] >= '0' && str[i] <= '9') {
+      numStr += str[i++]
+    }
+    return parseInt(numStr, 10)
+
+  }
+
+
+
+
+</script>
+
+
+<script>
+  function toJS(syntaxTree)
+
+
+  var str = "|(!(f),&(t,|(t,f)))"
+  var i = 0
+
+  function parseFcall() {
+    var obj = {
+      fname: str[i],
+      paraneters: []
+    }
+    i++
+    i++
+    if (xxx) { }
+  }
+
+  function parseValue() {
+
+    if (str[i] == 't') {
+      return true
+
+    }
+    if (str[i] == 'f') {
+      return false
+
+    }
+
+
+  }
+</script>
+
+<script>
+  function getTextContent(node) {
+
+    if (node.nodeType == document.TEXT_NODE) {
+      return node.noedValue
+    } else if (node.nodeType == document.ELEMENT_NODE) {
+      var result = ''
+      for (var i = 0; i < childNodes.length; i++) {
+        result += getTextContent(node.childNodes[i])
+      }
+      return result
+    }
+
+  }
+
+
+  function getElementsByTagName(parent, tagName) {
+    var result = []
+    for (var i = 0; i < parent.children.length; i++) {
+      if (parent.children[i].tagName == tagName) {
+        result.push(parent.children[i])
+        result.push(...getElementsByTagName(parent.children[i], tagName))
+      }
+    }
+
+
+  }
+
+  function traverse(node, action) {
+
+  }
+
+  function getElementById(id, node) {
+    var result = null
+
+    if (node.id == id) {
+      return node
+    }
+    for (var child of node.children) {
+      var result = getElementById(id, child)
+      if (result) {
+        return result
+      }
+    }
+    return null
+  }
+
+
+  Array.prototype.slice2 = function (start, end) {
+    var result = []
+    for (var i = start; i < end; i++) {
+      result.push(this[i])
+    }
+    return result
+  }
+
+</script>
+
+<script>
+
+  function getOuterHTML(node) {
+    if (node.nodeType == 1) {
+      return `<${node.tagName}>${Array.from(node.childNodes).map(getOuterHTML)}</${node.tagName}>`
+    } else if (node.nodeType == 3) {
+      return node.nodeValue
+    } else if (node.nodeType == 8) {
+      return '<!--' + node.nodeValue + '-->'
+    } else {
+      return ''
+    }
+  }
+
+
+  // 将node的连续文本子结点合并成一个
+  function normalize(node) {
+    var sum = ''
+    var childs = Array.from(node.childNodes)
+    for (var i = 0; i < childs.length; i++) {
+      var child = childs[i]
+      if (child.nodeType == document.TEXT_NODE) {
+        sum += child.nodeValue
+        node.removeChild(child)
+      } else {
+        node.insertBefore(document.createTextNode(sum), child)
+        sum = ''
+      }
+    }
+    if (sum.length) {
+      node.appendChild(document.createTextNode(sum))
+    }
+  }
+
+
+</script>
+
+<script>
+  // node.contains(target)
+  // 判断node是否包含target
+  function contains(node, target) {
+    while (target) {
+      if (target == node) {
+        return true
+      } else {
+        target = target.parentNode
+      }
+    }
+    return false
+  }
+</script>
+
+
+<script id="面试">
+  function debounce(func, time) {
+    var timeout;
+    return function () {
+      clearTimeout(timeout);
+      timeout = setTimeout(func, time)
+    }
+  }
+
+
+
+  function throttle(func, time) {
+    var timeout
+    var 有安排 = false
+    var event
+    return function (e) {
+      event = e
+      // clearTimeout(timeout)
+      if (!有安排) {
+        有安排 = true
+        timeout = setTimeout(() => {
+          func(event)
+          有安排 = false
+        }, time)
+      }
+    }
+  }
+
+
+  function throttle2(func, time) {
+    var lastTime = 0
+    // var timeout
+    // var 有安排 = false
+    var event
+    return function (e) {
+      event = e
+      var now = Date.now()
+
+      // clearTimeout(timeout)
+      if (now - lastTime > time) {
+        有安排 = true
+        timeout = setTimeout(() => {
+          func(e)
+          lastTime = now
+        })
+      }
+    }
+  }
+</script>
+
+<script id="面试">
+  // name=zhangshan&message=hello%3F&age=28
+  // {name:'zhangshan', message:'hello', age:'28'}
+  function parseQueryString(str) {
+    var pairs = str.split('&')
+    var obj = {}
+    for (var pair of pairs) {
+      var [key, val] = pair.split('=')
+      obj[key] = decodeURIComponent(val)
+    }
+    return obj
+
+  }
+</script>
+
+<script id="生成器函数">
+  function* foo() {
+    yield 1
+    yield 2
+
+  }
+  function forof(generator, f) {
+    var obj = generator.next()
+    while (obj.done == false) {
+      f(obj.value)
+      obj = generator.next()
+    }
+  }
+  forof(foo(), x => {
+    console.log(x)
+  })
+
+
+  a[Symbol.iterator] = function* () {
+    for (var i = 0; i < this; i++) {
+      yield this[i]
+    }
+  }
+
+
+
+
+  Number.prototype[Symbol.iterator] = function* () {
+    var n = this
+    for (var i = 1; i <= n; i++) {
+      yield i
+    }
+  }
+
+
+  // 可以不是生成器函数，只要和生成器函数一样有next方法的函数就行
+  Number.prototype[Symbol.iterator] = function () {
+    var start = 1
+    var n = this
+
+    // 返回一个有next方法的对象
+    return {
+      next() {
+        return {
+          value: start++,
+          done: start >= n + 1
+        }
+      }
+    }
+  }
+
+  for (var x of 10) {
+    console.log(x)
+  }
+
+</script>
+
+
+<script id="async实现serise方法">
+
+  function series(tasks, callback) {
+    var i = 0
+
+    function 取出下一个任务运行() {
+      if (i < tasks.length) {
+        var task = tasks[i++]
+        task(function done() {
+          取出下一个任务运行()
+        })
+      } else {
+        callback()
+      }
+    }
+
+    取出下一个任务运行()
+  }
+
+  series([function (done) {
+    console.log(1)
+    done()
+  }, function (done) {
+    console.log(2)
+    setTimeout(done, 1000)
+  }, function (done) {
+    console.log(3)
+    setTimeout(done, 2000)
+  }, function (done) {
+    console.log(4)
+    done()
+  }], function () {
+
+    console.log('all task done')
+  })
+</script>
+
+<script id="async实现parallel方法">
+  function parallel(tasks, callback) {
+    var 完成数 = 0
+    if (tasks.length > 0) {
+      for (var task of tasks) {
+        task(function () {
+          完成数++
+          if (完成数 == tasks.length) {
+            callback()
+          }
+        })
+      }
+    } else {
+      callback()
+    }
+  }
+
+  parallel([function (done) {
+    console.log(1)
+    done()
+  }, function (done) {
+    console.log(2)
+    setTimeout(done, 1000)
+  }, function (done) {
+    console.log(3)
+    setTimeout(done, 2000)
+  }, function (done) {
+    console.log(4)
+    done()
+  }], function () {
+
+    console.log('all task done')
+  })
+</script>
+
+
+<script id='Promise'>
+  var p = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(2)
+    }, 3000)
+  })
+
+  p.then((value) => {
+    console.log(1 + value)
+  }, (reason) => {
+    console.log(2 + reason)
+  })
+
+
+  p = new Promise((resolve, reject) => {
+    resolve(5)
+  })
+
+  p.then(val => {
+    console.log(val)
+    return 6
+  }, reason => {
+    console.log(2)
+    return reason * reason
+  }).then(val => {
+    throw 8
+  }, reason => {
+    console.log(2 * reason)
+  }).then(val => {
+    console.log(val)
+  }, reason => {
+    console.log(reason)
+  })
+
+</script>
+
+<script id="面试实现Promise方法实现">
+  function resolve(value) {
+    return new Promise(resolve => {
+      resolve(value)
+    })
+  }
+
+  function reject(reason) {
+    return new Promise((resolve, reject) => {
+      reject(reason)
+    })
+  }
+
+  function all(promises) {
+    return new Promise((resolve, reject) => {
+      var result = []
+      var success = 0
+      if (promise.length) {
+        for (let i = 0; i < promises.length; i++) {
+          var promise = promises[i]
+          Promise.resolve(promise).then(value => {
+            result[i] = value
+            success++
+            if (success == promises.length) {
+              resolve(result)
+            }
+          }, reason => {
+            reject(reason)
+          })
+        }
+      } else {
+        resolve([])
+      }
+    })
+  }
+
+
+  function race(promises) {
+    return new Promise((resolve, reject) => {
+      for (var p of promises) {
+        p.then(resolve, reject)
+      }
+    })
+  }
+
+
+  function any(promises) {
+    return new Promise((resolve, reject) => {
+      var result = []
+      var complete = 0
+      if (promise.length) {
+        for (let i = 0; i < promises.length; i++) {
+          var promise = promises[i]
+          Promise.resolve(promise).then(value => {
+            resolve(value)
+          }, reason => {
+            result[i] = reason
+            complete++
+            if (complete == promises.length) {
+              resolve(result)
+            }
+          })
+        }
+      } else {
+        resolve([])
+      }
+    })
+  }
+
+
+  function allSettled(promises) {
+    return new Promise((resolve) => {
+      var result = []
+      if (promise.length == ) {
+        resolve(result)
+      }
+      for (let i = 0; i < promises.length; i++) {
+        var promise = promises[i]
+        promise.then(value => {
+          result[i] = {
+            status: 'fulfilled',
+            value,
+          }
+          settled++
+          if (settled == promise.length) {
+            resolve(result)
+          }
+        }, reason => {
+          result[i] = {
+            status: 'rejected',
+            reason,
+          }
+          settled++
+          if (settled == promise.length) {
+            resolve(result)
+          }
+        })
+      }
+    })
+  }
+
+  Promise.prototype.finally = function (onFinally) {
+    return this.then(value => {
+      return Promise.resolve(onFinally()).then(() => value)
+    }, reason => {
+      return Promise.resolve(onFinally()).then(() => { throw reason })
+    })
+  }
+
+  Promise.deferred = function () {
+    var dfd = {}
+    dfd.promise = new Promise((resolve, reject) => {
+      dfd.resolve = resolve
+      dfd.reject = reject
+    })
+    return dfd
+  }
+
+</script>
+
+<script id="Promise.then方法的链式调用">
+  getJSON('story.json')
+    .then(story => {
+      var chapterUrls = story.chapters
+
+      // 循环方法
+      // var re = Promise.resolve()
+      // for(var url of chapterUrls) {
+      //   re = re.then(() => {
+      //     return getJSON(url)
+      //   }).then(chapter => {
+      //     showHTML(chapter)
+      //   })
+      // }
+
+
+      var promises = chapterUrls.map(getJSON)
+
+      Promise.resolve()
+        .then(() => {
+          return promise1
+        })
+        .then(c1 => {
+          showHTML(c1)
+        })
+        .then(() => {
+          return promise2
+        })
+        .then(c2 => {
+          showHTML(c2)
+        })
+        .then(() => {
+          return promise3
+        })
+        .then(c3 => {
+          showHTML(c3)
+        })
+        .then(() => {
+          return promise4
+        })
+        .then(c4 => {
+          showHTML(c4)
+        })
+
+    })
+
+</script>
+
+<script id="Promise 生成器函数的自动执行器（co）">
+  function run(generatorFunc) {
+    return new Promise((resolve, reject) => {
+      var generator = generatorFunc()
+      var generated = generator.next()
+
+      step()
+
+      function step() {
+        if (!generated.done) {
+          generated.value.then(val => {
+            try {
+              generated = generator.next(val)
+            } catch (e) {
+              reject(e)
+            }
+            step()
+          }, reason => {
+            try {
+              generated = generator.throw(reason)
+            } catch (e) {
+              reject(e)
+            }
+            step()
+          })
+        } else {
+          resolve(generated.value)
+        }
+      }
+    })
+  }
+
+
+  // 优化版
+  function run(generatorFunc) {
+    return new Promise((resolve, reject) => {
+      var generator = generatorFunc()
+      var generated = generator.next()
+
+      step()
+
+      function step() {
+        if (!generated.done) {
+          generated.value.then(val => {
+            generated = generator.next(val)
+            step()
+          }, reason => {
+            generated = generator.throw(reason)
+            step()
+          }).catch(e => {
+            reject(e)
+          })
+        } else {
+          resolve(generated.value)
+        }
+      }
+    })
+  }
+</script>
+
+<script id="Promise的 readFile 实现">
+  const fs = require('fs')
+
+  // readFileP = promisefy(fs.readFile)
+
+  // 将一个回调风格得函数转换为一个返回Promise的函数
+  function promisefy(callbackBased) {
+    return function (...args) {
+      return new Promise((resolve, reject) => {
+        fs.callbackBased(...args, (err, result) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+
+
+  // 将一个promise风格的函数转成一个回调风格得函数
+  function callbackfy(promiseStyleFunc) {
+    return function (...args) {
+      var callback = args.pop() // 回调函数
+
+      promiseStyleFunc(...args).then(result => {
+        callback(null, result)
+      }, err => {
+        callback(err)
+      })
+    }
+  }
+
+
+  function readFilePromise(...args) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(...args, (err, data) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(data)
+        }
+      })
+    })
+
+  }
+
+  function writeFilePromise(...args) {
+    return new Promise((resolve, reject) => {
+      fs.writeFile(...args, (err, result) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(result)
+        }
+      })
+    })
+  }
+
+  async function main() {
+    try {
+      var data = await readFilePromise('mod2.html', 'utf8')
+      console.log(data)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+</script>
+
+<script id="实现delay函数">
+  function delay(time) {
+    return new Promise(resolve => {
+      return setTimeout(resolve, time)
+    })
+  }
+</script>
+
+
+<script>
+
+  function forEach(ary, iterator) {
+    for (var i = 0; i < ary.length; i++) {
+      iterator(ary[i], i, ary)
+    }
+  }
+
+</script>
+
+
+<script>
+  function createReadableFrom(iterable) {
+    iterable.next()
+
+    return new Readable({
+      read() {
+        var generated = iterable.next()
+        if (!generated) {
+
+        }
+      }
+    })
+
+
+  }
+</script>
+
+<script>
+  function nextTick(f) {
+    nextTickQueue.push(f)
+  }
+
+  const nextTickQueue = []
+
+  nextTick(function f() {
+    nextTick(f)
+  })
+  //==============================
+  function flushNextTickQueue() {
+    while (nextTickQueue.length) {
+      task = nextTickQueue.shift()
+      task()
+    }
+  }
+</script>
+
+
+<script>
+  app.use(function (req, res, next) {
+
+    var body = []
+    req.on('data', data => {
+      body.push(data)
+    })
+    req.on('end', () => {
+      if (body.length) {
+        req.body = Buffer.concat(body)
+        next()
+      }
+    })
+  })
+</script>
+
+<script>
+
+  function express2() {
+    const middlewares = []
+
+    function app(req, res) {
+      var i = 0
+      runOneMW()
+      function runOneMW() {
+        middlewares[i++](req, res, function next() {
+          if (i < middlewares.length) {
+            runOneMW()
+          }
+        })
+      }
+    }
+
+
+    app.use = function (middleware) {
+      middlewares.push(middleware)
+    }
+
+    app.listen = function (...args) {
+      var server = http.createServer(this)
+      return server.listen(...args)
+    }
+
+    return app
+  }
+
+  function express() {
+    const middlewares = []
+    var handle = function () { }
+
+    function app(req, res) {
+      handle(req, res)
+    }
+
+    function compose(middlewars) {
+      return middlewares.reduceRight((next, middleware) => {
+        return (req, res) => {
+          middleware(req, res, () => {
+            next(req, res)
+          })
+        }
+      }, function () { })
+    }
+
+    app.use = function (middleware) {
+      middlewares.push(middleware)
+      handle = compose(middlewares)
+    }
+
+    app.listen = function (...args) {
+      var server = http.createServer(this)
+      return server.listen(...args)
+    }
+
+    return app
+  }
+
+
+  function wrapAsyncMiddleware(asyncMiddleware) {
+    return function (req, res, next) {
+      asyncMiddleware(req, res, next).catch(next)
+    }
+  }
+
+  app.use(wrapAsyncMiddleware(async function foo(req, res, next) {
+    var body = ''
+
+    for await (var data of req) {
+      body += data.toString()
+    }
+
+    req.body = body
+
+    next()
+  }))
+
+
+</script>
+
+<script>
+  function getJSONP(url, callback, onFail, onTimeout) {
+    var varName = 'JSONP_' + Date.now() + '_' + Math.random().toString().slice(2)
+    var 成功 = false
+    var 失败 = false
+    var 超时 = false
+
+    globalThis[varName] = function (data) {
+      if (!超时) {
+        成功 = true
+        callback(data)
+      }
+    }
+
+    url = url.replace('callback=?', 'callback=' + varName)
+
+    var script = document.createElement('script')
+    script.src = url
+
+    script.onerror = function (e) {
+      if (!超时) {
+        失败 = true
+        onFail()
+      }
+    }
+
+    setTimeout(() => {
+      if (!成功 && !失败) {
+        超时 = true
+        onTimeout()
+      }
+    }, 3000)
+
+    document.head.appendChild(script)
+  }
+
+  jsonp原理：通过script标签请求一段js执行
+  问题：不能发post或者 其它请求方法的请求
+  没有请求体
+
+
+</script>
+
+<script>
+  // http basic 验证的服务端代码
+  app.get('/foo', (req, res, next) => {
+    var auth
+    if (auth = req.get('Authorization')) {
+      var info = atob(auth.split(' ')[1])
+      var [name, pass] = info.split(':')
+
+      if (name == 'miao' && pass == '6789') {
+        res.end('hello')
+      } else {
+        res.status(401)
+        res.set('WWW-Authenticate', 'Basic realm="please..."')
+        res.end()
+      }
+    } else {
+      res.status(401)
+      res.set('WWW-Authenticate', 'Basic realm="please..."')
+      res.end()
+    }
+  })
+  // ==============================
+    // POST / login
+
+    // name = miao & pass=6789
+    // ==============================
+    // HTTP/1.1 200 OK
+    // Set-Cookie: user=miao; Expire=202292384923; Path=/; Secure; HttpOnly; SameSite=Lax
+    // Set-Cookie: login=yes; Expire=202292384923; Path=/; Secure; HttpOnly; SameSite=Lax
+    // ==============================
+    // GET /posts
+    // Cookies: user=miao; login=yes
+    // ==============================
+    // HTTP/1.1 200 OK
+
+    // content..............
+    // ==============================
+    // ==============================
+    // GET /post/5
+    // Cookies: user=miao; login=yes
+    // ==============================
+    // HTTP/1.1 200 OK
+
+    // content..............
+    // ==============================
+
+
+
+</script>
+
+
+<script id="实现简单的模板">
+
+  function f(tpl, ...vals) {
+    var i = 0
+    return tpl.replace(/_{3,}/g, function () { return vals[i++] })
+  }
+
+  f('____同学,在2022年度的_____运动中，取得优异成绩，____年____月___日', '张三', '扫地', '2022', '9', '17')
+
+
+  function f(tpl, obj) {
+
+    return tpl.replace(/\{\s*(\w+)\s*\}/g, function (match, propName) {
+      return obj[propName]
+    })
+
+  }
+
+  f('{name}同学,在2022年度的{activity}运动中，取得优异成绩，{year}年{month}月{day}日', {
+    name: '张三',
+    year: '2022',
+    day: '17',
+    activity: '扫地',
+    month: '9',
+  })
+
+
+</script>
+
+<script id="实现lodash的template函数">
+    var tpl = `
+    <% if (value > 10) { %>
+      <b>
+        <%= value %>
+        </b>
+    <% } else { %>
+
+      no bbb
+
+    <% } %>
+
+    <ul>
+      <%  for (var i = 0; i < 10; i++) { %>
+        <li><%= i %></li>
+      <%  } %>
+    </ul>
+  `
+
+  function template(tpl) {
+    var parts = tpl.split('<%').flatMap(it => it.split('%>'))
+    var sourceCode = `var result = []
+    with (obj) {
+  `
+    for (var i = 0; i < parts.length; i++) {
+      var part = parts[i]
+      if (i % 2 == 0) {
+        sourceCode += `result.push("${part.replace(/\n/g, '\\n')}")\n`
+      } else {
+        if (part[0] == '=') {
+          sourceCode += `result.push(${part.slice(1)})\n`
+        } else {
+          sourceCode += part + '\n'
+        }
+      }
+    }
+
+    sourceCode += '}'
+    sourceCode += 'return result.join("")'
+    console.log(sourceCode)
+    return new Function('obj', sourceCode)
+  }
+
+  compiled = template(tpl)
+
+  var html = compiled({ value: 999 })
 </script>

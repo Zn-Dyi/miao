@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    span {
+      position: fixed;
+      border-radius: 50%;
+    }
+
+    #sun {
+
+      background-color: red;
+      width: 250px;
+      height: 250px;
+      top: 400px;
+      left: 400px;
+    }
+
+    #earth {
+
+      width: 100px;
+      height: 100px;
+      background-color: blue;
+    }
+
+    #moon {
+
+      width: 60px;
+      height: 60px;
+      background-color: grey;
+
+    }
+
+
+    table,
+    td,
+    th {
+      border-collapse: collapse;
+      border: 1px solid black;
+    }
+
+    .number,
+    .boolean {
+      color: blue;
+      font-weight: bold;
+    }
+
+    .string {
+      color: red;
+    }
+
+    .nil {
+      color: grey;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <span id="sun">太阳</span>
+    <span id="earth">地球</span>
+    <span id="moon">月球</span>
+  </div>
+
+  <script>
+    let earth = document.querySelector('#earth')
+    let moon = document.querySelector('#moon')
+    let angle = 0
+    let lastTime = null
+
+    function animate(time) {
+      if (lastTime !== null) {
+        angle += (time - lastTime) * 0.001
+      }
+      lastTime = time
+      let x = Math.cos(angle) * 400 + 500
+      let y = Math.sin(angle) * 400 + 500
+      earth.style.top = x + 'px'
+      earth.style.left = y + 'px'
+      moon.style.top = (Math.cos(angle * 3) * 150 + x) + 'px'
+      moon.style.left = (Math.sin(angle * 3) * 150 + y) + 'px'
+      requestAnimationFrame(animate)
+
+    }
+    requestAnimationFrame(animate)
+
+
+    
+
+  </script>
+
+
+  <script id="json_表格">
+    function drawTable(ary) {
+      let tab = document.createElement('table')
+      let head = []
+      let tabr = document.createElement('tr')
+
+      let keys = []
+      for (var obj of ary) {
+        keys.push(...Object.keys(obj))
+      }
+      keys = Array.from(new Set(keys))
+      let tabh = document.createElement('th')
+      let tabcont = document.createTextNode('(index)')
+      tabh.appendChild(tabcont)
+      tabr.appendChild(tabh)
+
+
+      for (let key in ary[0]) {
+        head.push(key)
+        let tabh = document.createElement('th')
+        let tabcont = document.createTextNode(key)
+        tabh.appendChild(tabcont)
+        tabr.appendChild(tabh)
+      }
+      tab.appendChild(tabr)
+
+      var i = 0
+      for (let row of ary) {
+        tabr = document.createElement('tr')
+        let tabd = document.createElement('td')
+        let tabcont = document.createTextNode(String(i++))
+        tabd.appendChild(tabcont)
+        tabr.appendChild(tabd)
+
+
+        for (let col of head) {
+
+          if (row.hasOwnProperty(col)) {
+            if (typeof row[col] == 'number') {
+              let tabd = document.createElement('td')
+              let tabcont = document.createTextNode(row[col])
+              tabd.appendChild(tabcont)
+              tabr.appendChild(tabd)
+              tabd.classList.add('number')
+            } else if (typeof row[col] == 'string') {
+              let tabd = document.createElement('td')
+              let tabcont = document.createTextNode('"' + row[col] + '"')
+              tabd.appendChild(tabcont)
+              tabr.appendChild(tabd)
+              tabd.classList.add('string')
+            } else if (typeof row[col] == 'boolean') {
+              let tabd = document.createElement('td')
+              let tabcont = document.createTextNode(String(row[col]))
+              tabd.appendChild(tabcont)
+              tabr.appendChild(tabd)
+              tabd.classList.add('boolean')
+            } else if (row[col] == null) {
+              let tabd = document.createElement('td')
+              let tabcont = document.createTextNode(String(row[col]))
+              tabd.appendChild(tabcont)
+              tabr.appendChild(tabd)
+              tabd.classList.add('nil')
+            } else {
+              let tabd = document.createElement('td')
+              let tdcont = document.createTextNode(String(row[col]))
+              tabd.appendChild(tdcont)
+              tabr.appendChild(tabd)
+
+            }
+          } else {
+            let tabd = document.createElement('td')
+            let tdcont = document.createTextNode('')
+            tabd.appendChild(tdcont)
+            tabr.appendChild(tabd)
+          }
+
+        }
+        tab.appendChild(tabr)
+      }
+      document.body.appendChild(tab)
+    }
+
+    drawTable([
+      { 'a': 1, 'b': 'tian', 'c': undefined },
+      { 'a': 4, 'c': 6 },
+      { 'a': true, 'b': 8, 'c': 9 },
+    ])
+
+  </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+<!-- <script>
+  function drawTable(ary) {
+    let tab = document.createElement('table')
+    let head = []
+    let tabr = document.createElement('tr')
+
+    for (let key in ary[0]) {
+      head.push(key)
+      let tabh = document.createElement("th")
+      let thcont = document.createTextNode(key)
+      tabh.appendChild(thcont)
+      tabr.appendChild(tabh)
+    }
+    tab.appendChild(tabr)
+    for (let row of ary) {
+      tabr = document.createElement('tr')
+      for (let col of head) {
+        let tabd = document.createElement('td')
+        let tdcont = document.createTextNode(row[col])
+        tabd.appendChild(tdcont)
+        tabr.appendChild(tabd)
+      }
+      tab.appendChild(tabr)
+    }
+    document.body.appendChild(tab)
+  }
+
+  drawTable([
+    { 'a': 1, 'b': 2, 'c': 3 },
+    { 'a': 1, 'b': 2, 'c': 3 },
+    { 'a': 1, 'b': 2, 'c': 3 },
+    { 'a': 1, 'b': 2, 'c': 3 },
+    { 'a': 1, 'b': 2, 'c': 3 },
+  ])
+</script> -->

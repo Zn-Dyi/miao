@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分页组件示例</title>
+  <script src="react.development.js"></script>
+  <script src="react-dom.development.js"></script>
+
+  <script src="babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    class Pagination extends React.Component {
+      static defaultProps = {
+        pageSize: 10,
+        showTotal: () => '',
+        showSizeChanger: false,
+        defaultPageSize: 10,
+        onChange: () => { },
+      }
+
+      constructor(props) {
+        super(props)
+
+        this.state = {
+          current: props.defaultCurrent,
+          pageSize: props.defaultPageSize
+        }
+      }
+
+
+      setPage = (num) => {
+        if (num !== this.state.current) {
+          this.setState({
+            current: num
+          }, () => {
+            var { onChange } = this.props
+            onChange(this.state.current, this.state.pageSize)
+          })
+        }
+      }
+
+      decPage = () => {
+        this.setPage(this.state.current - 1)
+      }
+
+      incPage = () => {
+        this.setPage(this.state.current + 1)
+      }
+
+      setPageSize = (e) => {
+        var newPageSize = Number(e.target.value)
+        var newPageCount = Math.ceil(this.props.total / newPageSize) // 新的总页码数
+
+        if (this.state.current > newPageCount) {
+          this.setState({
+            current: newPageCount
+          })
+        }
+
+        this.setState({
+          pageSize: newPageSize
+        }, () => {
+          var { onChange } = this.props
+          onChange(this.state.current, this.state.pageSize)
+        })
+      }
+
+      render() {
+        var { state, props } = this
+        var { total } = props
+        var { pageSize } = state
+        var pageCount = Math.ceil(total / pageSize) // 页码总数
+        var rangeStart = (state.current - 1) * pageSize + 1
+        var rangeEnd = rangeStart + pageSize - 1
+        if (rangeEnd > total) {
+          rangeEnd = total
+        }
+
+
+
+        return (
+          <div className="comp-pagination">
+            <span>{this.props.showTotal(total, [rangeStart, rangeEnd])}</span>
+            <button disabled={state.current == 1} onClick={this.decPage}>{"<"}</button>
+
+            {
+              Array(pageCount).fill(0).map((it, idx) => idx + 1).map(num => {
+                return (
+                  <button
+                    key={String(num)}
+                    className={num == this.state.current ? 'current' : ''}
+                    onClick={() => this.setPage(num)}
+                  >
+                    {num}
+                  </button>
+                )
+              })
+            }
+
+            <button disabled={state.current == pageCount} onClick={this.incPage}>{">"}</button>
+
+            {this.props.showSizeChanger &&
+              <select value={state.pageSize} onChange={this.setPageSize}>
+                <option value={10}>10 条/页</option>
+                <option value={20}>20 条/页</option>
+                <option value={50}>50 条/页</option>
+                <option value={100}>100 条/页</option>
+              </select>
+            }
+          </div>
+        )
+      }
+    }
+
+    class App extends React.Component {
+      render() {
+        return (
+          <div>
+            <Pagination showTotal={(total, [s, e]) => `${s}-${e} of ${total}`} defaultCurrent={1} total={50} />
+            <Pagination onChange={function (c, s) { console.log(c, s) }} showTotal={(total, [s, e]) => `${s}-${e} of ${total}`} showSizeChanger defaultCurrent={2} total={55} />
+            <Pagination defaultCurrent={5} total={100} />
+          </div>
+        )
+      }
+    }
+
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    root.render(<App />)
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<script>
+
+  UDP
+
+  sock = dgram.createSocket('udp4')
+  sock.bind(端口号)
+  sock.send('hello world', 端口号, IP)
+
+  sock.on('message', (data, info) => {
+    console.log(info, data.toString())
+    sock.send(data.toString().toUpperCase(), info.port, info.address)
+  })
+
+
+
+  // ## UDP
+  //     * 像信箱
+  //     * 非连接型
+  //     * 给定目标位置直接扔过去
+  //     * 无响应，不知道有没有送到
+  //       * 接收方会校验数据的正确性，所以送到的话一般来说是对的
+
+  //   sock = dgram.createSocket('udp4')//创建udp套接字
+  //   sock.bind(55555)// 绑定端口
+  //   sock.addMembership('224.3.3.3') //加入特定频道
+  //   sock.addMembership('224.2.2.2') //加入特定频道
+  //   sock.setBroadcast(true) // 设置允许发送广播
+  //   sock.on('message', (msg, info) => { })//接收消息时的回调函数
+  //   sock.address()  //查看当前udp套接字的地址信息
+  //   sock.send(msg, port, ip) // 将msg发送到指定目标
+
+
+  TCP  传输控制协议
+
+  const Server = net.createServer()
+
+  Server.listen(6767)
+
+  Server.on('connection', conn => {
+    console.log('some one comes', conn.remoteAddress)
+
+    conn.write('hello world')
+
+    conn.on('data', data => {
+      console.log(conn.remoteAddress, 'says', data.toString())
+      conn.write(data)
+    })
+
+    conn.on('error', () => {})
+  })
+
+
+
+
+</script>
+
+

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="font/iconfont.css">
+  <style>
+    body,
+    html {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-width: 1250px;
+      background-color: rgb(226, 224, 224);
+
+    }
+
+    .drawboard {
+      flex-grow: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      border: 1px solid;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    header {
+      height: 100px;
+      padding-top: 15px;
+      margin-bottom: 5px;
+      background-color: #fff;
+    }
+
+    header .box>div {
+      float: left;
+    }
+
+    header button {
+      float: left;
+      display: block;
+      width: 50px;
+      height: 50px;
+      margin: 0 10px;
+      border-radius: 6px;
+    }
+
+    header button::before {
+      font-size: 30px;
+    }
+
+    button:hover {
+      background-color: rgb(0, 149, 252);
+      border-color: rgb(74, 183, 255);
+      color: #ffffff;
+    }
+
+    .box {
+      margin-left: 80px;
+    }
+
+    .line-weight {
+      height: 50px;
+      line-height: 50px;
+      margin-left: 30px;
+    }
+
+    .line-weight span::before {
+      font-size: 40px;
+    }
+
+    .colors {
+      margin-left: 30px;
+    }
+
+    .colors input {
+      position: relative;
+      float: left;
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+    }
+
+    .colors input::after {
+      position: absolute;
+      content: '颜色 1';
+      top: 55px;
+      left: 7px;
+    }
+
+    .colors input.bgcolor::after {
+      content: '颜色 2';
+    }
+
+    .color-options {
+      float: left;
+      margin-left: 20px;
+      width: 120px;
+      height: 48px;
+      border: 1px solid;
+      border-radius: 5px;
+    }
+
+    .color-options span {
+
+      float: left;
+      border: 1px solid grey;
+      width: 20px;
+      height: 20px;
+      margin: 1px;
+      border-radius: 5px;
+    }
+
+    .colors input:hover {
+      box-shadow: 0 0 5px rgb(74, 183, 255);
+      border-color: rgb(74, 183, 255);
+    }
+
+    .color-options span:hover {
+      box-shadow: 0 0 5px rgb(74, 183, 255);
+      border-color: rgb(74, 183, 255);
+    }
+
+    .other {
+      margin-left: 30px;
+    }
+
+    .other div {
+      float: left;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border: 1px solid;
+      border-radius: 5px;
+      margin-left: 5px;
+    }
+
+    .other div::before {
+      font-size: 30px;
+    }
+
+    .other div:hover {
+      box-shadow: 0 0 5px rgb(74, 183, 255);
+      border-color: rgb(74, 183, 255);
+      color: rgb(74, 183, 255);
+    }
+
+    .other div:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+
+    <div class="box">
+      <div class="graphsSelect">
+        <button tool="line" title="直线" class="iconfont icon-qianbi"></button>
+        <button tool="circle" title="按shift画圆" class="iconfont icon-tuoyuanxing"></button>
+        <button tool="rect" title="按shift画正方形" class="iconfont icon-juxing"></button>
+        <button tool="bezier" title="三阶贝塞尔曲线" class="iconfont icon-hengxiangzhexiantu"></button>
+        <button tool="bline" title="按c自动闭合折线，按v不闭合折线。" class="iconfont icon-polygon"></button>
+        <button tool="rubber" title="橡皮" class="iconfont icon-xiangpi"></button>
+      </div>
+
+      <div class="line-weight">
+        <span class="iconfont icon-edit-o"></span>
+        <input type="range" min="1" max="20" step="1" value="2">
+      </div>
+
+      <div class="colors">
+        <input type="color" class="fcolor">
+        <input type="color" class="bgcolor" value="#ffffff">
+        <div class="color-options">
+          <span class='option' data-num='#ffffff' style="background-color:#ffffff"></span>
+          <span class='option' data-num='#1e272e' style="background-color:#1e272e"></span>
+          <span class='option' data-num='#34e7e4' style="background-color:#34e7e4"></span>
+          <span class='option' data-num='#3498db' style="background-color:#3498db"></span>
+          <span class='option' data-num='#2ecc71' style="background-color:#2ecc71"></span>
+          <span class='option' data-num='#f8a5c2' style="background-color:#f8a5c2"></span>
+          <span class='option' data-num='#f1c40f' style="background-color:#f1c40f"></span>
+          <span class='option' data-num='#e67e22' style="background-color:#e67e22"></span>
+          <span class='option' data-num='#e74c3c' style="background-color:#e74c3c"></span>
+          <span class='option' data-num='#c0392b' style="background-color:#c0392b"></span>
+        </div>
+      </div>
+
+      <div class="other">
+        <div class="back iconfont icon-huixuanjiantou-1"></div>
+        <div class="delete iconfont icon-shanchu"></div>
+        <div class="save iconfont icon-baocun"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawboard">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</body>
+
+<script>
+
+  var graphsSelect = document.querySelector('.graphsSelect') // 图形工具
+  var pencil = graphsSelect.querySelector('[tool=line]') // 铅笔，用来初始化
+  var svg = document.querySelector('svg')
+  var colors = document.querySelector('.colors') // 颜色区域
+  var fcolor = document.querySelector('.fcolor') // 颜色1
+  var bgcolor = document.querySelector('.bgcolor') // 颜色2
+  var lineWeight = document.querySelector('.line-weight [type=range]') // 线号
+  var other = document.querySelector('.other') // 功能区
+
+  let painted = false // 用来记录画布的状态
+  let color1 = '#000000'
+  let color2 = 'none'
+  let curColor
+  let lineNum
+  let tool
+
+  // 工具区
+  graphsSelect.addEventListener('click', function (e) {
+    let preTool = tool
+    tool = e.target.getAttribute('tool')
+
+    // 边界情况处理，未画完就切换工具
+    if (preTool !== tool && preTool !== 'bline') {
+      blinePoints.length = 0
+    }
+    if (preTool !== tool && preTool !== 'bezier') {
+      bezierCount = 0
+    }
+    if (e.target.matches('button')) {
+      graphsSelect.querySelectorAll('button').forEach(it => {
+        it.style = ''
+      })
+      e.target.style.backgroundColor = '#0095FC'
+      e.target.style.borderColor = '#4AB7FF'
+      e.target.style.color = '#ffffff'
+    }
+  })
+
+  // 颜色区
+  colors.addEventListener('click', function (e) {
+    if (e.target.matches('input')) {
+      colors.querySelectorAll('input').forEach(it => {
+        it.style = ''
+      })
+      e.target.boxShadow = '0 0 15px #0095FC'
+      e.target.borderColor = '#4AB7FF'
+      curColor = e.target
+    }
+
+    if (e.target.matches('.option') && curColor) {
+      // e.target.style.backgroundColor 读出来的是 rgb 颜色，所以用自定义data属性
+      curColor.value = e.target.dataset.num
+    }
+  })
+
+  // other区
+  other.addEventListener('click', function (e) {
+    // 边界情况处理，如果未画完就使用other
+    if (tool == 'bline') {
+      blinePoints.length = 0
+      node = null
+    }
+    if (tool == 'bezier') {
+      bezierCount = 0
+      node = null
+    }
+
+
+    if (e.target.matches('.back') && svg.children.length) {
+      svg.removeChild(svg.lastChild)
+      if (svg.children.length == 0) {
+        painted = false
+      }
+    }
+    if (e.target.matches('.delete')) {
+      svg.innerHTML = ''
+      painted = false
+    }
+    if (e.target.matches('.save')) {
+      let svgFileContent = svg.outerHTML
+      let a = document.createElement('a')
+      let time = new Date()
+      a.download = `${time.toLocaleString()}.svg`
+      let blob = new Blob([svgFileContent])
+      let url = URL.createObjectURL(blob)
+      a.href = url
+      a.click()
+      painted = false
+    }
+  })
+
+  // 画图区域
+  let node
+  let startX
+  let startY
+  let bezierCount = 0 // 记录bezier画了第几个点
+  let bezierPoints = Array(8) // 记录bezier点的坐标
+  let blinePoints = [] // 记录折线起始点，用length做为折线结束的判断条件
+
+  svg.addEventListener('mousedown', function (e) {
+    if (e.which == 1) {
+      color1 = fcolor.value
+      color2 = bgcolor.value === '#ffffff' ? 'none' : bgcolor.value
+      lineNum = lineWeight.value // 字体宽度
+      let pos = mouse(svg)
+      startX = pos.x
+      startY = pos.y
+      if (tool == 'line') {
+        node = elt('path', {
+          d: `
+          M ${pos.x} ${pos.y}
+          L ${pos.x} ${pos.y}
+          `,
+          stroke: color1,
+          'stroke-width': lineNum,
+          'stroke-linecap': "round",
+          fill: 'none',
+        })
+      }
+
+      if (tool == 'rubber') {
+        node = elt('path', {
+          d: `
+          M ${pos.x} ${pos.y}
+          L ${pos.x} ${pos.y}
+          `,
+          stroke: '#ffffff',
+          'stroke-width': lineNum,
+          'stroke-linecap': 'round',
+          fill: 'none',
+        })
+      }
+
+      if (tool == 'circle') {
+        node = elt('ellipse', {
+          cx: `${pos.x}`,
+          cy: `${pos.y}`,
+          rx: 0,
+          ry: 0,
+          stroke: color1,
+          'stroke-width': lineNum,
+          fill: color2,
+        })
+      }
+
+      if (tool == 'rect') {
+        node = elt('rect', {
+          x: `${pos.x}`,
+          y: `${pos.y}`,
+          width: 0,
+          height: 0,
+          stroke: color1,
+          'stroke-width': lineNum,
+          fill: color2,
+        })
+      }
+
+      if (tool == 'bezier') {
+        if (bezierCount > 3) { // 4个bezier点都选择完成，画下一条bezier曲线
+          bezierCount = 0
+        }
+
+        if (bezierCount === 0) {
+          node = elt('path', {
+            d: `
+            M ${pos.x} ${pos.y}
+            C ${pos.x} ${pos.y} ${pos.x} ${pos.y} ${pos.x} ${pos.y}
+            `,
+            stroke: color1,
+            'stroke-width': lineNum,
+            fill: 'none',
+          })
+          bezierPoints[0] = pos.x
+          bezierPoints[1] = pos.y
+          bezierCount++  // 处理完起始点，让mousemove处理终点
+        }
+
+        // 只点击的情况下也要改变bezier曲线的坐标
+        if (bezierPoints < 4) {
+          let d
+          if (bezierCount == 1) { // 确定bezier终点
+            d: `
+            M ${startX} ${startY}
+            C ${startX} ${startY} ${startX} ${startY} ${pos.x} ${pos.y}
+            `
+            bezierPoints[6] = pos.x
+            bezierPoints[7] = pos.y
+          }
+          if (bezierPoints == 2) { // 确定bezier第二个点
+            d: `
+            M ${bezierPoints[0]} ${bezierPoints[1]}
+            C ${pos.x} ${pos.y} ${pos.x} ${pox.y} ${bezierPoints[6]} ${bezierPoints[7]}
+            `
+            bezierPoints[2] = pos.x
+            bezierPoints[3] = pos.y
+          }
+          if (bezierPoints == 3) { // 确定bezier第三个点
+            d: `
+            M ${bezierPoints[0]} ${bezierPoints[1]}
+            C ${bezierPoints[2]} ${bezierPoints[3]} ${pos.x} ${pos.y} ${bezierPoints[6]} ${bezierPoints[7]}
+            `
+            bezierPoints[4] = pos.x
+            bezierPoints[5] = pos.y
+          }
+          node.setAttribute('d', d)
+        }
+      }
+
+      if (tool == 'bline') {
+        if (blinePoints.length == 0) {
+          node = elt('path', {
+            d: `
+            M ${pos.x} ${pos.y}
+            `,
+            stroke: color1,
+            'stroke-width': lineNum,
+            'stroke-linecap': 'round',
+            fill: color2,
+          })
+          blinePoints[0] = pos.x
+          blinePoints[1] = pos.y
+
+        } else {
+          const distance = (pos.x - blinePoints[0]) ** 2 + (pos.y - blinePoints[1]) ** 2
+
+          if (distance < 200) {
+            blineClosed()
+            return
+          } else {
+            let d = node.getAttribute('d')
+            d += `L ${pos.x} ${pos.y}`
+            node.setAttribute('d', d)
+          }
+        }
+      }
+
+      svg.appendChild(node)
+      window.addEventListener('mousemove', onMove)
+      e.preventDefault()
+    }
+  })
+
+
+  window.addEventListener('keydown', function (e) {
+    if (tool == 'bline' && e.code === "KeyC") {
+      blineClosed()
+    }
+    if (tool == 'bline' && e.code === "KeyV") {
+      blinePoints.length = 0
+    }
+
+    if (e.ctrlKey && e.code === "KeyZ") {
+      svg.removeChild(svg.lastChild)
+    }
+  })
+
+
+
+  window.addEventListener('beforeunload', function (e) {
+    if (painted) {
+      e.returnValue = '作品未保存，确定要退出吗？'
+    }
+  })
+
+  // 划线函数
+  function onMove(e) {
+    painted = true
+
+    let pos = mouse(svg)
+    if (e.which == 0) {
+      window.removeEventListener('mousemove', onMove)
+
+      if (tool == 'bezier' && bezierCount < 4) { // 当前的bezier点处理完成，bezierCount++处理下个点
+        bezierCount++
+      }
+      return
+    }
+
+    if (tool == 'line') {
+      let d = node.getAttribute('d')
+      d += `L ${pos.x} ${pos.y}`
+      node.setAttribute('d', d)
+    }
+
+    if (tool == 'rubber') {
+      let d = node.getAttribute('d')
+      d += `L ${pos.x} ${pos.y}`
+      node.setAttribute('d', d)
+    }
+
+    if (tool == 'circle') {
+      let cx, cy, rx, ry
+      if (e.shiftKey) {
+        rx = ry = Math.max(Math.abs(pos.x - startX) / 2, Math.abs(pos.y - startY) / 2)
+        let vectorX = 1
+        let vectorY = 1
+        if (pos.x < startX) {
+          vectorX = -1
+        }
+        if (pos.y < startY) {
+          vectorY = -1
+        }
+        cx = vectorX * rx + startX
+        cy = vectorY * ry + startY
+      } else {
+        cx = (pos.x + startX) / 2
+        cy = (pos.y + startY) / 2
+        rx = Math.abs(pos.x - startX) / 2
+        ry = Math.abs(pos.y - startY) / 2
+      }
+      node.setAttribute('cx', cx)
+      node.setAttribute('cy', cy)
+      node.setAttribute('rx', rx)
+      node.setAttribute('ry', ry)
+    }
+
+    if (tool == 'rect') {
+      let width, height
+      if (e.shiftKey) {
+        width = height = Math.max(Math.abs(pos.x - startX), Math.abs(pos.y - startY))
+      } else {
+        width = Math.abs(pos.x - startX)
+        height = Math.abs(pos.y - startY)
+      }
+
+      let x = startX
+      let y = startY
+      if (pos.x < startX) {
+        x = startX - width
+      }
+      if (pos.y < startY) {
+        y = startY - height
+      }
+
+      node.setAttribute('width', width)
+      node.setAttribute('height', height)
+      node.setAttribute('x', x)
+      node.setAttribute('y', y)
+    }
+
+    if (tool == 'bezier') {
+      let d
+      if (bezierCount == 1) { // 确定bezier终点
+        d = `
+        M ${startX} ${startY}
+        C ${startX} ${startY} ${startX} ${startY} ${pos.x} ${pos.y}
+        `
+        bezierPoints[6] = pos.x
+        bezierPoints[7] = pos.y
+      }
+      if (bezierCount == 2) { // 确定bezier第二个点
+        d = `
+        M ${bezierPoints[0]} ${bezierPoints[1]}
+        C ${pos.x} ${pos.y} ${pos.x} ${pos.y} ${bezierPoints[6]} ${bezierPoints[7]}
+        `
+        bezierPoints[2] = pos.x
+        bezierPoints[3] = pos.y
+      }
+      if (bezierCount == 3) { // 确定bezier第三个点
+        d = `
+        M ${bezierPoints[0]} ${bezierPoints[1]}
+        C ${bezierPoints[2]} ${bezierPoints[3]} ${pos.x} ${pos.y} ${bezierPoints[6]} ${bezierPoints[7]}
+        `
+        bezierPoints[4] = pos.x
+        bezierPoints[5] = pos.y
+      }
+      node.setAttribute('d', d)
+    }
+
+    if (tool == 'bline') {
+
+      let d = node.getAttribute('d')
+      let end = d.lastIndexOf('L')
+      d = d.slice(0, end)
+      d += `L ${pos.x} ${pos.y} `
+      node.setAttribute('d', d)
+
+    }
+
+
+  }
+
+
+  // 获取鼠标的相对于svg元素的位置
+  // 为什么不用e.layerX 和 e.offsetX    无法处理超出svg元素的情况
+  function mouse(node) {
+    let pos = node.getBoundingClientRect()
+    let x = window.event.clientX - pos.x
+    let y = window.event.clientY - pos.y
+    return {
+      x,
+      y,
+    }
+  }
+
+  // 用来创建svg元素
+  function elt(tagName, attrs = {}, ...children) {
+    let el = document.createElementNS("http://www.w3.org/2000/svg", tagName)
+    for (let key in attrs) {
+      let value = attrs[key]
+      el.setAttribute(key, value)
+    }
+    for (let child of children) {
+      if (typeof child == 'string') {
+        child = document.createTextNode(child)
+      }
+      el.appendChild(child)
+    }
+    return el
+  }
+
+  // 折线闭合
+  function blineClosed() {
+    let d = node.getAttribute('d')
+    d += `Z`
+    node.setAttribute('d', d)
+    blinePoints.length = 0
+  }
+
+  pencil.click()
+</script>
+
+</html>

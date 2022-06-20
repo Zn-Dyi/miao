@@ -1,0 +1,10 @@
+extend layout.pug
+
+block styles
+  link(rel="stylesheet", href="css/post.css")
+
+block content
+  each post in posts
+    div
+      a(href="/post/" + post.id)= post.title
+      span by #{post.name} 

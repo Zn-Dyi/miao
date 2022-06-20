@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="test1" name="test1" value="test123" onclick="moveEnd(this);" />
+  <script>
+    function moveEnd(obj) {
+      obj.focus();
+      var len = obj.value.length;
+      if (document.selection) {
+        var sel = obj.createTextRange();
+        sel.moveStart('character', len);
+        sel.collapse();
+        sel.select();
+      } else if (typeof obj.selectionStart == 'number'
+        && typeof obj.selectionEnd == 'number') {
+        obj.selectionStart = obj.selectionEnd = len;
+      }
+    }
+  </script>
+</body>
+
+</html>

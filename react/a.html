@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todos</title>
+  <style>
+    body {
+      counter-reset: items-left;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <h1>Todos</h1>
+
+    <div class="head">
+      <input type="checkbox"><input id="text" type="text" >
+    </div>
+
+    <div class="event"></div>
+    <br>
+    <div class="buttons">
+      <button>All</button><button>Active</button><button>Completed</button><button>Clear Completed</button>
+    </div>
+
+  </div>
+</body>
+<script>
+  // var input = document.querySelector('input')
+  var button = document.querySelector('button')
+  var event = document.querySelector('.event')
+
+  console.dir(text)
+
+  text.addEventListener('keydown', function (e) {
+    console.log(e)
+    if (e.code == 'Enter') {
+      var div = document.createElement('div')
+      var radios = document.createElement('input')
+      var el = document.createElement('input')
+      // var text = document.getElementById('text').value
+      // el.value = text
+
+
+      div.setAttribute('class', 'check')
+      radios.setAttribute('type', 'checkbox')
+      radios.setAttribute('class', 'radio')
+      el.value = text.value.trim()
+
+      div.appendChild(radios)
+      div.appendChild(el)
+      event.appendChild(div)
+      text.value = ''
+    }
+  })
+
+  var radio = document.querySelector('.radio')
+  console.log(radio)
+  document.body.addEventListener('click', function(e) {
+    console.dir(e.target)
+
+    // var checkbox = document.querySelector('.radio')
+    // console.log(checkbox)
+  })
+
+</script>
+
+</html>

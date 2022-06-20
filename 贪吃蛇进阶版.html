@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake</title>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .game-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    pre {
+      font-family: "Courier New", Courier, monospace;
+      line-height: 0.6rem;
+      /* font-size: 2em; */
+      margin: 0;
+    }
+
+    .info {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="game-container">
+    <pre></pre>
+  </div>
+  <div class="info">
+    操作说明
+    <p>方向键控制蛇的移动</p>
+    <p>移动端可以滑动改变蛇的方向</p>
+  </div>
+</body>
+
+<script>
+  let opposite = { // 设置反状态，防止蛇头原地掉头
+    left: "right",
+    right: "left",
+    up: "down",
+    down: "up",
+  }
+
+  class Snake {
+    constructor(x, y, direction) { // 设置蛇的状态
+      this.x = x
+      this.y = y
+      this.direction = direction
+    }
+    samePos(other) {  // 相同坐标
+      return this.x == other.x && this.y == other.y
+    }
+  }
+
+  class Apple {
+    constructor(x, y) { // 设置苹果的位置
+      this.x = x
+      this.y = y
+    }
+    samePos(other) { // 防止苹果重复
+      return this.x == other.x && this.y == other.y
+    }
+  }
+
+  class Game {
+    constructor(width = 20, height = 20) {
+      this.width = width
+      this.height = height
+      this.snake = []  // 蛇的状态
+      this.apples = []  // 苹果的状态
+      this.intervalID = 0
+      this.speed = 1 // 蛇的长度
+      this.status = "pre"  // 游戏状态
+    }
+
+    init() {
+      this.snake = []
+      this.apples = []
+      this.speed = 2
+      this.snake.push(new Snake(3, 3, "right"))
+      this.snake.push(new Snake(2, 3, "right"))
+      this.apples.push(this.placeApple())
+    }
+
+    placeApple() {
+      let x = Math.floor(Math.random() * this.width)
+      let y = Math.floor(Math.random() * this.height)
+      let apple = new Apple(x, y)
+      for (let s of this.snake) {
+        if (s.samePos(apple)) {  // 如果苹果的位置与蛇的位置一样就换一个位置
+          return this.placeApple()
+        }
+      }
+      return apple
+    }
+
+    next() {
+      let grow = 0 // 吃到苹果的状态
+      let head = this.snake[0]
+      let newHead = new Snake(head.x, head.y, head.direction)
+      switch (head.direction) {
+        case "left": newHead.x--;
+          break;
+        case "right": newHead.x++;
+          break;
+        case "up": newHead.y--;
+          break;
+        case "down": newHead.y++;
+          break;
+      }
+      if (newHead.x < 0 || newHead.x >= this.width || newHead.y < 0 || newHead.y >= this.height) {
+        this.gameOver()
+        return
+      }
+      for (let apple of this.apples) {  // 吃到苹果的情况
+        if (newHead.samePos(apple)) {
+          grow = 1
+          this.apples.splice(this.apples.indexOf(apple), 1) // 删除一个旧苹果
+          this.apples.push(this.placeApple()) // 增加一个新苹果
+          this.speed++  // 长度增加
+          clearInterval(game.intervalID)
+          game.run()
+        }
+      }
+      for (let s of this.snake) { // 如果撞到身子就死了
+        if (newHead.samePos(s)) {
+          console.log(newHead, s)
+          this.gameOver()
+        }
+      }
+      if (!grow) {  // 如果没有苹果 尾巴去掉换个新头
+        this.snake.pop()
+      }
+      this.snake.unshift(newHead) // 加入新蛇头
+      this.print()
+    }
+
+    run() {
+      this.status = "play"  // 游戏状态是正常间隔1s跳一次
+      this.intervalID = setInterval(() => {
+        this.next()
+      }, 1000 / Math.log2(1 + this.speed))
+    }
+
+    gameOver() {
+      this.status = "over"
+      console.log('Game Over!')
+      clearInterval(this.intervalID)
+      this.print()
+    }
+
+    toString() {
+      let resultArr = new Array(this.height).fill(0).map((row) => new Array(this.width).fill(" "))
+      for (let s of this.snake) {
+        resultArr[s.y][s.x] = "■" // 蛇的位置
+      }
+      for (let a of this.apples) {
+        resultArr[a.y][a.x] = "Q" // 苹果的位置
+      }
+
+      if (this.status == "over") {
+        let endSign = "GAME OVER!"
+        let endSign2 = "Press Enter"
+        let startRow = Math.floor(this.height / 2) - 1 // 9
+        let startCol = Math.floor((this.width - 10) / 2) // 5
+        for (let i = 0; i < endSign.length; i++) {
+          resultArr[startRow][startCol + i] = endSign[i] // 固定位置输出游戏结束的字样
+        }
+        for (let i = 0; i <= endSign.length; i++) {
+          resultArr[startRow + 2][startCol - 1 + i] = endSign2[i]
+        }
+      }
+      let result =
+        "┌" +
+        "─".repeat(this.width) +
+        "┐\n" +
+        "│" +
+        `score: ${this.snake.length - 2}`.padStart(this.width, " ") +//算上字一共20个空格
+        "│\n" +
+        "├" +
+        "─".repeat(this.width) +
+        "┤\n" +
+        resultArr.map((row) => "│" + row.join("") + "│").join("\n") +
+        "\n└" +
+        "─".repeat(this.width) +
+        "┘\n";
+      return result;
+    }
+
+    print() {
+      pre.textContent = game.toString()
+    }
+  }
+
+  let game = new Game(20, 20)
+  game.init()
+  game.run()
+
+  let pre = document.querySelector('pre')
+  pre.textContent = game.toString()
+  let zoomFactor = Math.min(window.innerWidth / pre.offsetWidth, 2) // 界面放大系数
+  pre.style.zoom = zoomFactor
+
+  window.addEventListener('keydown', function (e) {
+    if (e.key.startsWith("Arrow")) {
+      if (game.status == "play") {
+        if (opposite[game.snake[0].direction] !== e.key.slice(5).toLowerCase()) { // 如果蛇头的方向不等于按下去的方向
+          game.snake[0].direction = e.key.slice(5).toLowerCase()
+          game.next()
+          clearInterval(game.intervalID)
+          game.run()
+        }
+      }
+    }
+    if (game.status == "over") {
+      if (e.key == "Enter") {
+        game.init()
+        game.run()
+      }
+    }
+  })
+
+  window.addEventListener('keydown', function(e) {
+    
+  })
+
+  let lastPos = null
+
+  window.addEventListener('touchstart', function (e) {
+    e.preventDefault()
+    lastPos = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY }
+  }, { passive: false })
+
+  window.addEventListener('touchend', function (e) {
+    e.preventDefault()
+    let pos = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY }
+    let diffX = pos.x - lastPos.x
+    let diffY = pos.y - lastPos.y
+    let newDirection
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      newDirection = diffX > 0 ? "right" : "left"
+    } else {
+      newDirection = diffY > 0 ? "down" : "up"
+    }
+    if (opposite[newDirection] !== game.snake[0].direction) {
+      console.log(newDirection)
+      game.snake[0].direction = newDirection
+      game.next()
+      clearInterval(game.intervalID)
+      game.run()
+    }
+  }, { passive: false })
+</script>
+
+</html>

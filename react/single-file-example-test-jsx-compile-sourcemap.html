@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+      class App extends React.Component {
+        state = {
+          ary: [1,2,3]
+        }
+        setx = () => {
+          this.setState({
+            ary: [1,2,undefined]
+          })
+        }
+        render() {
+          return (
+            <div>
+              <input type="checkbox" checked={this.state.ary.map(it => it.done)} onClick={this.setx} />
+            </div>
+          )
+        }
+      }
+
+
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+
+      root.render(<App />);
+
+
+
+
+    </script>
+  </body>
+</html>

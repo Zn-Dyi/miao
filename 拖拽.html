@@ -1,0 +1,148 @@
+<div class="dragable" style="width:100px;height:100px;left:0;top:0;background-color: cadetblue;">
+  <span class="win-title">播放器窗口</span>
+  <span class="win-resize"></span>
+</div>
+<div class="dragable" style="width:100px;height:100px;left:0;top:0;background-color: gold;">
+  <span class="win-title">浏览器窗口</span>
+  <span class="win-resize"></span>
+</div>
+<div class="dragable" style="width:100px;height:100px;left:0;top:0;background-color: aquamarine;">
+  <span class="win-title">聊天</span>
+  <span class="win-resize"></span>
+  <span>aaa<strong>aa</strong>bbb</span>
+</div>
+
+<!-- <p>
+  彩色方块可以拖拽
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae nesciunt corporis ipsam deserunt unde ipsum animi libero optio sequi quas, aliquam possimus dolore voluptatibus aut porro odit sunt! Eum, porro!
+</p> -->
+<style>
+  html {
+    user-select: none;
+  }
+  .dragable {
+    width: 100px;
+    height: 100px;
+    border: 2px solid;
+    position: fixed;
+    /* resize: both;
+    overflow: auto; */
+  }
+  .dragable .win-title {
+    display: block;
+    background-color: #0078d7;
+    color: white;
+    font-weight: bold;
+    cursor: move;
+  }
+  .dragable .win-resize {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: red;
+    bottom: 0;
+    right: 0;
+    margin-right: -2px;
+    margin-bottom: -2px;
+    cursor: nwse-resize;
+  }
+</style>
+<script>
+
+  var startX // 点击发生时鼠标的初始位置
+  var startY // 点击发生时鼠标的初始位置
+
+  var nodeX // 点击发生时，元素的初始位置
+  var nodeY // 点击发生时，元素的初始位置
+
+  var nodeWidth
+  var nodeHeight
+
+  var state = '' // moving / resizing
+
+  var movingNode
+  var resizingNode
+  var maxZindex = 4
+
+  document.addEventListener('mousedown', e => {
+    console.log(e.target)
+
+    var 标题栏 = e.target.closest('.win-title')
+
+    startX = e.clientX
+    startY = e.clientY
+
+    if (标题栏) {
+      state = 'moving'
+      movingNode = 标题栏.closest('.dragable')
+      nodeX = parseInt(movingNode.style.left)
+      nodeY = parseInt(movingNode.style.top)
+      window.addEventListener('mousemove', move)
+    }
+
+    // 如果点的是resize按钮
+    if (e.target.matches('.win-resize')) {
+      state = 'resizing'
+      resizingNode = e.target.closest('.dragable')
+      nodeWidth = parseInt(resizingNode.style.width)
+      nodeHeight = parseInt(resizingNode.style.height)
+      window.addEventListener('mousemove', move)
+    }
+
+    if (e.target.closest('.dragable')) {
+      e.target.closest('.dragable').style.zIndex = maxZindex++
+    }
+  })
+
+  function move(e) {
+    console.log('mousemove')
+    if (e.which == 0) {
+      console.log('解绑')
+      window.removeEventListener('mousemove', move)
+    } else {
+
+      if (state == 'moving') {
+        var dx = e.clientX - startX
+        var dy = e.clientY - startY
+
+        var left = nodeX + dx
+        var top = nodeY + dy
+
+        var 窗口自动贴合距离 = 50
+        if (left < 窗口自动贴合距离) {
+          left = 0
+        }
+        if (top < 窗口自动贴合距离) {
+          top = 0
+        }
+        if (left > innerWidth - movingNode.offsetWidth - 窗口自动贴合距离) {
+          left = innerWidth - movingNode.offsetWidth
+        }
+        if (top > innerHeight - movingNode.offsetHeight - 窗口自动贴合距离) {
+          top = innerHeight - movingNode.offsetHeight
+        }
+
+        movingNode.style.left = left + 'px'
+        movingNode.style.top = top + 'px'
+      }
+
+      if (state == 'resizing') {
+        var dx = e.clientX - startX
+        var dy = e.clientY - startY
+
+        console.log(dx, dy)
+
+        resizingNode.style.width = nodeWidth + dx + 'px'
+        resizingNode.style.height = nodeHeight + dy + 'px'
+
+      }
+    }
+  }
+
+
+  function log(x) {
+    console.log(x)
+    return x
+  }
+
+</script>

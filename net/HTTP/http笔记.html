@@ -1,0 +1,289 @@
+
+URL 编码
+浏览器的JS中提供了两个方法可以用来按这两种方式编码和解码字符
+编码：encodeURIComponent('xxxx')
+
+解码：decodeURIComponent('xxxx')
+
+base64：
+编码：btoa
+解码：atob
+
+
+http://abc.com:8080/aaaaa/bbbb?fff=12yyyy#.zzzz
+
+METHOD /aaaaa/bbbb HTTP/1.1 (请求行)
+Host: abc.com:8080
+Referer: xxxx
+User-Agent: xxxxx
+Foo: aaaaaaaaaaa (请求头用的什么域名端口号)
+
+ccccccccccccccccccccc (请求体)
+
+
+
+响应
+HTTP/1.1 状态码 状态文字
+Date: abc.com:8080
+Content-Type: xxxxx
+Content-Length: xxxxx
+Foo: dddddddd
+Foo: ssssssss
+
+cccccccccccccccccccccccccc
+
+
+----------------
+常见HTTP头部
+
+请求头：
+Host：告诉服务器浏览器是用什么域名或端口发的请求，其实就是地址中域名与端口的组合
+User-Agent：告诉服务器当前浏览器的信息，如版本号，系统，厂商与navigator.userAgent 读出来的一样
+Referer：告诉服务器是哪个页面请求这个资源。或者说当前资源请求后将被用在哪个页面。
+是地址栏当前的地址，对服务器来说，它可以通过这个请求头直到是哪个页面在请求当前资源
+  可以用来实现防盗链
+Accept: text/html
+  表示请求方希望接收的响应体类型
+Accept-Encoding: gzip, deflate
+  表示接收方能够接收的压缩算法类型
+Accept-Language: zh-CN, zh;q=0.9,en-US;q=0.8,en;q=0.7
+  表示请求方希望接收的页面自然语言
+Connection: keep-alive/close
+  表示请求方希望承载这个http请求的tcp连接在http流程结束后保持还是关闭
+  需要配合content-length头使用
+  可以在一个请求/响应流程结束后继续使用这个tcp连接进行下一个请求/响应流程
+  更进一步则是一次发多个请求，在连接上按顺序等待对应的响应结果
+  称为http管线化(pipeline)
+  Connection: keep-alive
+  Keep-Alive: timeout=5
+
+
+
+
+响应头：
+Date: Wed, 01 Sep 2021 03:49:05 GMT
+  表示服务器处理或响应请求的时间
+Content-Type: text/html; charset=UTF-8
+  响应体的媒体类型
+Content-Length: 8128
+  响应体的长度（字节）
+Connection: keep-alive
+  同请求请求头
+Content-Encoding: gzip
+  响应体的压缩算法
+Server: nginx
+  表示服务器的软件，很多网站没有
+Transfer-Encoding: chunked
+  传输方式，一段段发，往往有这个头就没有Content-Length
+Last-Modified: Thu, 01 Nov 2018 08:48:45 GMT
+  该资源的最后修改时间
+Expires: Wed, 01 Sep 2021 05:12:28 GMT
+  该资源的过期时间，在过期之前，浏览器可以使用缓存的版本，过期后必须重新请求
+  在过期之前用户如果按F5或类似刷新操作，浏览器也可能重新请求
+Content-Disposition: attachment; filename="webzj_cdn101%2Fmessage.js"
+  响应中有这个头并且为attachment的时候，浏览器会触发下载对画框
+ETag: dd460dadec7c446abb9c6d80bc83338
+  资源的hashcode
+WwW-Authenticate: Basic realm=""
+  服务器要求客户端提供账号，引号里是提示（浏览器不一定会展示）
+  浏览器要求用户输入账号以后，请求会带上一下头部
+  Authorization: Basic YWFhOmHiYg==
+  YWFhOmHiYg== 这部分是用户名密码用冒号拼接后的base64编码
+  服务亲验证后给出响应结果
+
+
+
+
+content-security-policy: xxxxxxxxxxxxxxxxxxx
+  内容安全策略，它是个html页面的响应头，限制这个页面的安全策略
+
+
+
+协商缓存（使用缓存需要先与服务器协商）：
+If-Modified-Since: Wed, 01 Sep 2021 03:49:05 GMT
+如果自此时间之后修改过，就返回新的内容给我。浏览器此时有该时的缓存版本
+与（Last-Modified）是一对
+
+  Last-Modified/If-Modified-Since
+
+    GET /resource HTTP/1.1
+    =======================
+    HTTP/1.1 200 OK
+    Last-Modified: xxxx
+    =======================
+    GET /resource HTTP/1.1
+    If-Modified-Since: xxxx
+    =======================
+    HTTP/1.1 304 Not Modified  // 无响应体
+
+If-None-Match: dd460dadec7c446abb9c6d80bc83338
+如果你那里的这个资源不匹配这个ETag，则返回新的
+与（ETag）是一对
+
+  ETag/If-None-Match
+
+    GET /resource HTTP/1.1
+    =======================
+    HTTP/1.1 200 OK
+    ETag: hashcode of the resource
+    =======================
+    GET /resource HTTP/1.1
+    If-None-Match: hashcode of the resource
+    =======================
+    HTTP/1.1 304 Not Modified // 无响应体
+
+专门控制缓存的头：
+Cache-Control 即可以出现在请求头里也可以出现在响应头里
+Cache-Control： xxxxx=yyyyy; maxage=xxxxxywe
+
+
+强缓存（使用资源是，直接使用，不发请求）：
+  Cache-Control
+  Expires
+
+
+CORS: (corss origin resource sharing 跨域资源共享)
+  Access-Control-Allow-Access: *
+  Access-Control-Allow-Methods: *  预检请求允许的请求方法
+  Access-Control-Allow-Headers: *  预检请求允许的请求头
+  Access-Control-Allow-Credientials: *  预检请求声明是否允许的带上登录信息
+  Access-Control-Max-Age: *  预检请求声明的内容的有效期，在有效期内发送符合声明的请求，都不再发预检请求了。
+
+预检请求 (preflight request)
+  在正式请求之前发起一个用于（询问服务器当前客户端能否请求）的请求
+  但并不是所有的请求都有预检请求，只有非简单请求有
+
+简单请求：
+
+非简单请求：
+
+
+
+
+
+
+get函数(同步封装)
+<script>
+  function get(url) {
+    var xhr = new XMLHttpRequest()
+    xhr.open('get', url, false)
+    xhr.send()
+    return xhr.responseText
+  }
+</script>
+
+
+get函数(异步封装)
+<script>
+  function get(url, callback) {
+    var xhr = new XMLHttpRequest()
+    xhr.open('get', url)
+    xhr.addEventListener('load', e => {
+      callback(xhr.responseText)
+    })
+    xhr.send()
+  }
+</script>
+
+
+<script id="HTTP书上习题">
+  var xhr = new XMLHttpRequest()
+  xhr.open('get', 'https://eloquentjavescript.net/author')
+  xhr.setRequestHeader('Accept', 'text/html')
+  xhr.send()
+</script>
+
+
+<script id="面试">
+  class TaskQueue {
+    constructor() {
+      this.tasks = []
+      this.taskRunning = false
+    }
+
+    addTask(taskFunc) {
+      if (this.taskRunning) {
+        this.task.push(taskFunc)
+      } else {
+        this.taskRunning = true
+
+        var nextFunc = () => {
+          if (this.tasks.length) {
+            var task = this.tasks.shift()
+            task(nextFunc)
+          } else {
+            this.taskRunning = false
+          }
+        }
+        taskFunc(nextFunc)
+      }
+      return this
+    }
+  }
+
+  // 优化版
+  class TaskQueue {
+    constructor() {
+      this.tasks = []
+      this.taskRunning = false
+      this.startNewTask = () => {
+        if (this.tasks.length) {
+          var task = this.tasks.shift()
+          task(this.startNewTask)
+        } else {
+          this.taskRunning = false
+        }
+      }
+    }
+
+    addTask(task) {
+      if (this.taskRunning) {
+        this.tasks.push(task)
+      } else {
+        this.taskRunning = true
+        task(this.startNewTask)
+      }
+      return this
+    }
+  }
+
+  //带并行数量限制的版本 字节面试原题
+  class TaskQueue {
+    constructor(limit = 3) {
+      this.limit = limit
+      this.tasks = []
+      this.runningCount = 0
+
+      this.startNewTask = () => {
+        if (this.tasks.length) {
+          var task = this.tasks.shift()
+          task(this.startNewTask)
+        } else {
+          this.runningCount--
+        }
+      }
+    }
+
+    addTask(task) {
+      if (this.runningCount >= this.limit) {
+        this.tasks.push(task)
+      } else {
+        this.runningCount++
+        task(this.startNewTask)
+      }
+      return this
+    }
+  }
+</script>
+
+var p = new Promise((resolve, reject)  => {
+  setTimeout(() => {
+    reject(2)
+  }, 3000)
+})
+
+p.then((value) => {
+  console.log(1 + value)
+}, (reason) => {
+  console.log(2 + reason)
+})
