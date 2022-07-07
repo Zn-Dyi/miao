@@ -113,43 +113,44 @@ export default function CreateVote() {
           <Switch checked={anonymous} onChange={toggle} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary">创建投票</Button>
+          <Button type="primary" onClick={createVote}>创建投票</Button>
         </Form.Item>
       </Form>
 
 
+      {/* <div>
+        <div>
+          标题：<input type="text" {...title} />
+        </div>
+        <div>
+          描述：<input type="text" {...desc} />
+        </div>
+        {
+          options.map((it, idx) => {
+            return (
+              <div key={idx}>
+                <button onClick={() => deleteOption(idx)}>-</button>
+                <input type="text" value={it} onChange={(e) => editOption(e, idx)} />
+              </div>
+            )
+          })
+        }
+        <div>
+          <button onClick={addOption}>添加</button>
+        </div>
 
-      <div>
-        标题：<input type="text" {...title} />
-      </div>
-      <div>
-        描述：<input type="text" {...desc} />
-      </div>
-      {
-        options.map((it, idx) => {
-          return (
-            <div key={idx}>
-              <button onClick={() => deleteOption(idx)}>-</button>
-              <input type="text" value={it} onChange={(e) => editOption(e, idx)} />
-            </div>
-          )
-        })
-      }
-      <div>
-        <button onClick={addOption}>添加</button>
-      </div>
+        <div>
+          截止日期 <input type="datetime-local" {...deadline} />
+        </div>
 
-      <div>
-        截止日期 <input type="datetime-local" {...deadline} />
-      </div>
+        <div>
+          <label >
+            <input type="checkbox" checked={anonymous} onChange={toggle} />   匿名投票
 
-      <div>
-        <label >
-          <input type="checkbox" checked={anonymous} onChange={toggle} />   匿名投票
-
-        </label>
-      </div>
-      <button onClick={createVote}>创建投票</button>
+          </label>
+        </div>
+        <button onClick={createVote}>创建投票</button>
+      </div> */}
 
 
     </div>

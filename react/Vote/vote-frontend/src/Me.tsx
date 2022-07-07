@@ -1,3 +1,4 @@
+import { Form } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
@@ -27,28 +28,56 @@ const Me: React.FC = () =>
       return votes.filter((it: any) => it.voteId !== id)
     })
   }
-  
+
+  var data = votes.map((vote: any, index: any) => {
+    return (
+      <div>
+        <h3 onClick={() => { setExpandIdx(index) }}>{vote.title}</h3>
+        {expandIdx == index &&
+          <div>
+            <Link key={vote.userId} to={`/vote/${vote.voteId}`}>查看</Link>
+            <span onClick={() => { deleteVote(vote.voteId) }}>删除</span>
+          </div>
+
+        }
+
+      </div>
+    )
+  })
+
+
+
 
   return (
     <div>
-      {
-        votes.map((vote: any, index: any) => {
-          return (
-            <div>
-              <h3 onClick={() => { setExpandIdx(index) }}>{vote.title}</h3>
-              {expandIdx == index &&
-                <div>
-                  <Link key={vote.userId} to={`/vote/${vote.voteId}`}>查看</Link>
-                  <span onClick={() => { deleteVote(vote.voteId) }}>删除</span>
-                </div>
+      <Form>
+        
+      </Form>
 
-              }
 
-            </div>
-          )
-        })
-      }
+
+      {/*
+      <div>
+        {
+          votes.map((vote: any, index: any) => {
+            return (
+              <div>
+                <h3 onClick={() => { setExpandIdx(index) }}>{vote.title}</h3>
+                {expandIdx == index &&
+                  <div>
+                    <Link key={vote.userId} to={`/vote/${vote.voteId}`}>查看</Link>
+                    <span onClick={() => { deleteVote(vote.voteId) }}>删除</span>
+                  </div>
+
+                }
+
+              </div>
+            )
+          })
+        }
+      </div> */}
     </div>
+
   )
 }
 
