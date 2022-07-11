@@ -9,6 +9,11 @@ import _, { includes } from "lodash"
 import { useImmer } from "use-immer"
 import { forceLogin, useForceLogin } from "./hooks"
 import { useRequest } from "ahooks"
+import { disconnect } from "process"
+import { Progress } from "antd"
+import "./ViewVote.css"
+import { type } from "os"
+
 
 // useRequest的hook函数优化组件的请求
 // async function getVoteInfo(voteId: any) {
@@ -154,44 +159,65 @@ export default function ViewVote() {
 
   return (
     <div>
-      <h3>{voteInfo.vote.title}</h3>
-      <h2>{voteInfo.vote.desc}</h2>
-      {
-        voteInfo.options.map((option: any) => {
-          // 当前选项的每一票们
-          var thisOptionVotes = groupedVotes[option.optionId] ?? []
-          // 总票数
-          var voteCount = thisOptionVotes.length
-          return (
-            <div key={option.optionId} onClick={() => handleOptionClick(option)}>
-              <span>{option.content}({option.optionId})</span>
 
-              <span style={{ float: 'right' }}>[{voteCount}票]</span>
-              {voteInfo.vote.anonymous && !currentUserVoted
-                ? <span className="当前用户是否选择该选项">{selectedOptionIds.find(id => id == option.optionId) ? '✔️' : ''}</span>
-                : <span className="当前用户有无投票">{thisOptionVotes.find(it => it.userId == userInfo.userId) ? '✔️' : ''}</span>
-              }
 
-              <progress style={{ display: "block" }} value={voteCount / totalVoteUsersCount}></progress>
-              {!voteInfo.vote.anonymous &&
-                thisOptionVotes.map(vote => {
-                  return <img width="30" height="30" style={{ border: '1px solid', borderRadius: '999px' }} key={vote.userId} src={vote.avatar?.replace('http://localhost:8008', '')} />
-                })
-              }
-            </div>
-          )
-        })
-      }
 
-      <div>截止日期：{new Date(voteInfo.vote.deadline).toLocaleDateString()}</div>
 
-      {/* 表达是返回真和假在react中0和数字会显示在页面，可以把值转成布尔或默认赋值为1 */}
-      {/* {voteInfo.vote.anonymous == 1 && !currentUserVoted && */}
-      {Boolean(voteInfo.vote.anonymous) && !currentUserVoted &&
-        <button disabled={selectedOptionIds.length <= 0} onClick={submitVote}>提交投票</button>
-      }
 
-    </div >
+      <div className="ViewVote">
+        <h3><strong>{voteInfo.vote.title}</strong></h3>
+        <h3>{voteInfo.vote.desc}</h3>
+        {voteInfo.vote.multiple
+          ? <h4 style={{ color: 'blue' }}>[多选]</h4>
+          : <h4 style={{ color: 'blue' }}>[单选]</h4>
+        }
+
+        {
+          voteInfo.options.map((option: any) => {
+            // 当前选项的每一票们
+            var thisOptionVotes = groupedVotes[option.optionId] ?? []
+            // 总票数
+            var voteCount = thisOptionVotes.length
+            return (
+              <div key={option.optionId} onClick={() => handleOptionClick(option)}>
+                <div className="VoteBox">
+                  {/* <span>{option.content}({option.optionId})</span> */}
+                  <span>{option.content}</span>
+
+                  <span className="VoteProgressNum" style={{ float: 'right' }}>{((voteCount / totalVoteUsersCount) * 100).toFixed(2)}%</span>
+                  <span style={{ float: 'right' }}>{voteCount}票</span>
+                  {voteInfo.vote.anonymous && !currentUserVoted
+                    ? <span className="当前用户是否选择该选项">{selectedOptionIds.find(id => id == option.optionId) ? '✔️' : ''}</span>
+                    : <span className="当前用户有无投票">{thisOptionVotes.find(it => it.userId == userInfo.userId) ? '✔️' : ''}</span>
+                  }
+
+                </div>
+
+                <progress className="VoteProgress" style={{ display: "block" }} value={voteCount / totalVoteUsersCount}></progress>
+                {/* <Progress style={{ display: "block" }} status={"normal"} strokeColor={'rgb(0,117,255)'} percent={Math.floor((voteCount / totalVoteUsersCount) * 100)}></Progress> */}
+                {!voteInfo.vote.anonymous &&
+                  thisOptionVotes.map(vote => {
+                    return <img width="30" height="30" style={{ border: '1px solid', borderRadius: '999px' }} key={vote.userId} src={vote.avatar?.replace('http://localhost:8008', '')} />
+                  })
+                }
+              </div>
+            )
+          })
+        }
+
+        <div>截止日期：{new Date(voteInfo.vote.deadline).toLocaleDateString()}</div>
+
+        {/* 表达是返回真和假在react中0和数字会显示在页面，可以把值转成布尔或默认赋值为1 */}
+        {/* {voteInfo.vote.anonymous == 1 && !currentUserVoted && */}
+        {Boolean(voteInfo.vote.anonymous) && !currentUserVoted &&
+          <button disabled={selectedOptionIds.length <= 0} onClick={submitVote}>提交投票</button>
+        }
+
+      </div >
+    </div>
+
+
+
   )
 }
 

@@ -18,11 +18,11 @@ export default function SelectCreation() {
         </Form.Item>
         <Form.Item>
           <Task1 />
-          <Button className="create-button" type="primary"><Link to="/create?type=single">创建单选</Link></Button>
+          <Button className="create-button" type="primary"><Link to="/create?type=multiple">创建多选</Link></Button>
         </Form.Item>
 
       </Form>
-{/* 
+{/*
       <div>
         <Link to="/create?type=single">创建单选</Link>
         <br />

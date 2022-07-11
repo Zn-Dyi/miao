@@ -2,7 +2,9 @@ import { Form } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import Delete from "./Delete"
 import { forceLogin, useForceLogin } from "./hooks"
+import See from "./See"
 
 
 
@@ -29,55 +31,30 @@ const Me: React.FC = () =>
     })
   }
 
-  var data = votes.map((vote: any, index: any) => {
-    return (
-      <div>
-        <h3 onClick={() => { setExpandIdx(index) }}>{vote.title}</h3>
-        {expandIdx == index &&
-          <div>
-            <Link key={vote.userId} to={`/vote/${vote.voteId}`}>查看</Link>
-            <span onClick={() => { deleteVote(vote.voteId) }}>删除</span>
-          </div>
-
-        }
-
-      </div>
-    )
-  })
-
-
-
-
   return (
-    <div>
-      <Form>
-        
-      </Form>
-
-
-
-      {/*
-      <div>
-        {
-          votes.map((vote: any, index: any) => {
-            return (
-              <div>
-                <h3 onClick={() => { setExpandIdx(index) }}>{vote.title}</h3>
-                {expandIdx == index &&
-                  <div>
-                    <Link key={vote.userId} to={`/vote/${vote.voteId}`}>查看</Link>
-                    <span onClick={() => { deleteVote(vote.voteId) }}>删除</span>
+    <div >
+      {
+        votes.map((vote: any, index: any) => {
+          return (
+            <div className="Me-box">
+              <h3 className="Me" onClick={() => { setExpandIdx(index) }}>{vote.title}</h3>
+              {expandIdx == index &&
+                <div>
+                  <div className="MeIcon">
+                    <Link key={vote.userId} to={`/vote/${vote.voteId}`}><See /></Link>
+                    <span onClick={() => { deleteVote(vote.voteId) }}><Delete /></span>
                   </div>
+                  {/* <div className="MeIcon">
+                    <Link key={vote.userId} to={`/vote/${vote.voteId}`}><See /></Link>
+                  </div> */}
+                </div>
+              }
 
-                }
-
-              </div>
-            )
-          })
-        }
-      </div> */}
+            </div>
+          )
+        })
+      }
     </div>
-
   )
 }
 
