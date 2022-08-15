@@ -1,0 +1,23 @@
+
+
+.SettingsDiv {
+  padding-left: 10px;
+  font-size: large;
+  height: 60px;
+  line-height: 60px;
+  background-color: rgb(240,242,245);
+  border: 1px solid white;
+}
+
+.SettingsDiv:hover {
+  background-color: rgb(215,218, 221);
+}
+
+.SettingsDiv .SetBox {
+  margin-left: 10px;
+}
+
+.SettingsDiv .SetText {
+  margin-left: 20px;
+  height: 40px;
+}

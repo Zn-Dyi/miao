@@ -1,0 +1,30 @@
+.StoppedTable {
+  font-size: large;
+  width: 100%;
+  text-align: left;
+  /* border-collapse: collapse; */
+  border: 5px solid white;
+}
+
+.StoppedTable tr {
+  border: 5px solid;
+  background-color: rgb(215,218,221);
+}
+
+.StoppedTable th {
+  border: 5px solid white;
+  padding-left: 10px;
+  height: 60px;
+  text-align: left;
+}
+
+.StoppedTable td {
+  border: 5px solid white;
+  margin-top: 5px;
+  height: 60px;
+  padding-left: 10px;
+}
+
+.StoppedTable td input {
+  margin-right: 10px;
+}

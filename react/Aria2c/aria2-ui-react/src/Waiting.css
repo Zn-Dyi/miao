@@ -1,0 +1,30 @@
+.WaitingTable {
+  font-size: large;
+  width: 100%;
+  text-align: left;
+  /* border-collapse: collapse; */
+  border: 5px solid white;
+}
+
+.WaitingTable tr {
+  border: 5px solid;
+  background-color: rgb(215, 218, 221);
+}
+
+.WaitingTable th {
+  border: 5px solid white;
+  padding-left: 10px;
+  height: 60px;
+  text-align: left;
+}
+
+.WaitingTable td {
+  border: 5px solid white;
+  margin-top: 5px;
+  height: 60px;
+  padding-left: 10px;
+}
+
+.WaitingTable td input {
+  margin-right: 10px;
+}

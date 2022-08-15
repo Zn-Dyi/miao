@@ -1,0 +1,29 @@
+准备工作
+  1.构建react项目
+  2.删除多余文件
+  3.在pages 目录下 创建 Home组件
+  4.编写一个简单的结构样式
+  5.在App.js 中引入组件
+  6.安装redux
+
+构建 Action
+  1.在根目录创建文件夹 action
+  2.在该目录下创建一个index.js 文件，用来构建 action
+  3.在Action创建函数里面利用return，返回一个action对象，注意需要携带type属性
+  4.把这个action创建函数进行导出
+
+构建 Reducer
+  1.在根目录创建文件夹 reducer
+  2.在该目录下创建一个index.js 文件，用来构建 reducer，注意reducer要接两个参数
+  3.第一个参数是state，我们可以定义一个初始化的 state，然后进行赋值
+  4.在函数里判断第二个参数 action的type是否是我们发送的
+  5.如果是的话我们通过return返回新的state
+  6.把reducer进行导出
+
+构建 Store
+  1.在根目录创建文件夹 reducer
+  2.在该目录下创建一个index.js 文件，用来构建 store，注意createStore函数里面第一个参数接收的是reducer
+  3.我们需要导入刚刚创建的reducer，然后设置到函数里面去
+  4.createStore的返回值就是我们构建好的 store 然后进行导出
+  
+

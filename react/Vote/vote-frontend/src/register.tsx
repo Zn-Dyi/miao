@@ -41,20 +41,20 @@ export default function Register() {
     <div>
       <h3>注册</h3>
       <Form className="register" name="register">
-        <Form.Item name="username" label="Username"
+        <Form.Item name="username" label="Username" labelCol={{span: 8,}} labelAlign={"left"}
           rules={[{ required: true, message: 'Please input your Username' }]}
         >
-          <Input style={{float: "right", width: "300px"}} name="Username" placeholder="Username" {...name}></Input>
+          <Input style={{  width: "200px" }} name="Username" placeholder="Username" {...name}></Input>
         </Form.Item>
-        <Form.Item name="password" label="Password"
+        <Form.Item name="password" label="Password" labelCol={{ span: 8, }} labelAlign={"left"}
           rules={[{ required: true, message: 'Please input your Password' }]}
         >
-          <Input style={{ float: "right", width: "300px" }} name="Password" placeholder="Password" {...password}></Input>
+          <Input style={{  width: "200px" }} name="Password" placeholder="Password" {...password}></Input>
         </Form.Item>
-        <Form.Item name="email" label="E-mail"
+        <Form.Item name="email" label="E-mail" labelCol={{ span: 8, }} labelAlign={"left"}
           rules={[{ required: true, message: 'Please input your E-mail' }]}
         >
-          <Input style={{ float: "right", width: "300px" }} name="E-mail" placeholder="E-mail" {...email}></Input>
+          <Input style={{  width: "200px" }} name="E-mail" placeholder="E-mail" {...email}></Input>
         </Form.Item>
 
         <Form.Item name="avatar" label="Avatar">
