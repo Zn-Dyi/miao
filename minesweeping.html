@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MineSweeper</title>
+  <style>
+    #map {
+      position: absolute;
+      border: 3px #A4A4A4 solid;
+      border-radius: 20px;
+      padding: 5px;
+    }
+
+    .block {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+</body>
+
+<script>
+  // 宽高，雷总数
+  const WIDTH = 15, HEIGHT = 15, COUNT = 50
+  let randarArr = []
+  let randarDom = document.getElementById('map')
+
+  // 记录当前有多少旗子
+  let flagCount = 0
+
+  window.onload = function () {
+    init() // 初始化
+    createRandar() // 创建雷
+    console.log(randarArr)
+    roundRandarCount() // 计算方格周围有多少个雷
+    render() // 渲染
+  }
+
+  // 渲染地图
+  function render() {
+    let table = document.createElement('table')
+
+    for (let i = 0; i < HEIGHT; i++) {
+      let tr = document.createElement('tr')
+      for (let j = 0; j < WIDTH; j++) {
+        let td = document.createElement('td')
+        td.className = 'block'
+        td.style.backgroundColor = '#BDBDBD'
+        td.id = i + '-' + j
+        td.onclick = function () {
+          click(i, j)
+          success()
+        }
+
+        // 调试用，把所有雷显示
+        // if (randarArr[i][j].isRandar) {
+        //   td.innerHTML = '@'
+        // } else {
+        //   td.innerHTML = randarArr[i][j].roundCount
+        // }
+
+        // 右击插旗
+        td.oncontextmenu = function () {
+          insertFlag(i, j)
+          success()
+          return false // oncontextmenu防止右键菜单弹出
+        }
+        tr.appendChild(td)
+      }
+      table.appendChild(tr)
+    }
+    randarDom.appendChild(table)
+  }
+
+  // 初始化数组
+  function init() {
+    for (let i = 0; i < HEIGHT; i++) {
+      randarArr[i] = []
+      for (let j = 0; j < WIDTH; j++) {
+        randarArr[i][j] = { isShow: false, isRandar: false, roundCount: '' }
+      }
+    }
+  }
+
+  // 创建雷
+  function createRandar() {
+    let count = 0
+    let i
+    let j
+    while (count < COUNT) {
+      i = Math.floor(Math.random() * HEIGHT)
+      j = Math.floor(Math.random() * WIDTH)
+      if (randarArr[i][j].isRandar === false) {
+        randarArr[i][j].isRandar = true
+        count++
+      }
+    }
+  }
+
+  // 计算放个周围有多少雷
+  function roundRandarCount() {
+    let count = 0
+    for (let i = 0; i < HEIGHT; i++) {
+      for (let j = 0; j < WIDTH; j++) {
+        // 左上
+        if (i - 1 >= 0 && j - 1 >= 0) {
+          if (randarArr[i - 1][j - 1].isRandar) {
+            count++
+          }
+        }
+        // 上
+        if (i - 1 >= 0) {
+          if (randarArr[i - 1][j].isRandar) {
+            count++
+          }
+        }
+        // 右上
+        if (i - 1 >= 0 && j + 1 < WIDTH) {
+          if (randarArr[i - 1][j + 1].isRandar) {
+            count++
+          }
+        }
+        // 右
+        if (j + 1 < WIDTH) {
+          if (randarArr[i][j + 1].isRandar) {
+            count++
+          }
+        }
+        // 右下
+        if (i + 1 < HEIGHT && j + 1 < WIDTH) {
+          if (randarArr[i + 1][j + 1].isRandar) {
+            count++
+          }
+        }
+        // 下
+        if (i + 1 < HEIGHT) {
+          if (randarArr[i + 1][j]) {
+            count++
+          }
+        }
+        // 左下
+        if (i + 1 < HEIGHT && j - 1 >= 0) {
+          if (randarArr[i + 1][j - 1].isRandar) {
+            count++
+          }
+        }
+        // 左
+        if (j - 1 >= 0) {
+          if (randarArr[i][j - 1].isRandar) {
+            count++
+          }
+        }
+
+        if (count > 0) {
+          randarArr[i][j].roundCount = count
+          count = 0
+        }
+      }
+    }
+  }
+
+  // 点击事件
+  function click(i, j) {
+    let currentDom = document.getElementById(i + "-" + j)
+    let current = randarArr[i][j]
+
+    if (current.isRandar) {
+      currentDom.style.backgroundColor = '#A4A4A4'
+      currentDom.innerHTML = '<span style="color: red">@</span>'
+      showAllrandar() // 显示所有雷
+      alert('game over')
+      return
+    }
+    showNumber(i, j)
+  }
+
+  // 显示数字 递归，如果当前格子周围没有雷就不判断，自动显示
+  function showNumber(i, j) {
+    let currentDom = document.getElementById(i + '-' + j)
+    let current = randarArr[i][j]
+
+    if (current.isShow === false) {
+      current.isShow = true
+      currentDom.style.backgroundColor = '#848484'
+      currentDom.innerHTML = current.roundCount
+      if (current.roundCount === '') {
+        // 左上
+        if (i - 1 >= 0 && j - 1 >= 0) {
+          showNumber(i - 1, j - 1)
+        }
+        // 上
+        if (i - 1 >= 0) {
+          showNumber(i - 1, j)
+        }
+        // 右上
+        if (i - 1 >= 0 && j + 1 < WIDTH) {
+          showNumber(i - 1, j + 1)
+        }
+        // 右
+        if (j + 1 < WIDTH) {
+          showNumber(i, j + 1)
+        }
+        // 右下
+        if (i + 1 < HEIGHT && j + 1 < WIDTH) {
+          showNumber(i + 1, j + 1)
+        }
+        // 下
+        if (i + 1 < HEIGHT) {
+          showNumber(i + 1, j)
+        }
+        // 左下
+        if (i + 1 < HEIGHT && j - 1 >= 0) {
+          showNumber(i + 1, j - 1)
+        }
+        // 左
+        if (j - 1 >= 0) {
+          showNumber(i, j - 1)
+        }
+      }
+    }
+  }
+
+  // 显示所有的雷
+  function showAllrandar() {
+    for (let i = 0; i < HEIGHT; i++) {
+      for (let j = 0; j < WIDTH; j++) {
+        if (randarArr[i][j].isRandar) {
+          let dom = document.getElementById(i + '-' + j)
+          dom.style.backgroundColor = '#A4A4A4'
+          dom.innerHTML = '<span style="color: red">@</span>'
+        }
+      }
+    }
+  }
+
+  // 插入旗帜
+  function insertFlag(i, j) {
+    let currentDom = document.getElementById(i + '-' + j)
+    let current = randarArr[i][j]
+
+    // 如果已经显示了不能插旗，旗帜不能比雷多。
+    if (current.isShow === false && flagCount <= COUNT) {
+      let img = document.createElement('img')
+      img.src = './images/qi.jpg'
+      img.style.height = "16px"
+      img.style.width = "16px"
+      currentDom.appendChild(img)
+      current.isShow = true
+      flagCount++
+    }
+  }
+
+  // 判断游戏是否结束
+  function success() {
+    for (let i = 0; i < HEIGHT; i++) {
+      for (let j = 0; j < WIDTH; j++) {
+        if (randarArr[i][j].isShow === false) {
+          return
+        }
+      }
+    }
+  }
+</script>
+
+</html>
