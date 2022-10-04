@@ -72,7 +72,7 @@ export default function CreateVote() {
 
     var res = await axios.post('/vote', voteInfo)
 
-    // console.log(res.data)
+    console.log(res)
     var voteId = res.data.result.voteId
 
     navigate('/vote/' + voteId)

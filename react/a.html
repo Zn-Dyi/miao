@@ -10,6 +10,7 @@
     body {
       counter-reset: items-left;
     }
+
   </style>
 </head>
 
@@ -18,7 +19,7 @@
     <h1>Todos</h1>
 
     <div class="head">
-      <input type="checkbox"><input id="text" type="text" >
+      <input type="checkbox"><input id="text" type="text">
     </div>
 
     <div class="event"></div>
@@ -60,7 +61,7 @@
 
   var radio = document.querySelector('.radio')
   console.log(radio)
-  document.body.addEventListener('click', function(e) {
+  document.body.addEventListener('click', function (e) {
     console.dir(e.target)
 
     // var checkbox = document.querySelector('.radio')

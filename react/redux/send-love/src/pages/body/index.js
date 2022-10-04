@@ -12,7 +12,7 @@ class Boy extends React.Component {
   }
   handleClick = () => {
     let { isSend } = this.state
-    
+
     if (!isSend) {
       this.props.sendLove()
     } else {

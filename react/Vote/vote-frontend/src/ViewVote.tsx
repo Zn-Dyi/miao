@@ -87,24 +87,26 @@ export default function ViewVote() {
   }, [voteId])
 
 
-  // // 实时投票显示
-  // // useRequest的hook函数优化组件的请求
-  // useEffect(() => {
-  //   //                           无法插值location.host 只能写死， 随之域名更改
-  //   var ws = new WebSocket(`ws://localhost:3000/realtime-voteinfo/${voteId}`)
-  //   ws.onmessage = function (e) {
-  //     var votes = JSON.parse(e.data)
-  //     mutate({
-  //       ...voteInfo,
-  //       userVotes: votes,
-  //     })
-  //   }
+  {
+    // // 实时投票显示
+    // // useRequest的hook函数优化组件的请求
+    // useEffect(() => {
+    //   //                           无法插值location.host 只能写死， 随之域名更改
+    //   var ws = new WebSocket(`ws://localhost:3000/realtime-voteinfo/${voteId}`)
+    //   ws.onmessage = function (e) {
+    //     var votes = JSON.parse(e.data)
+    //     mutate({
+    //       ...voteInfo,
+    //       userVotes: votes,
+    //     })
+    //   }
 
-  //   return () => {
-  //     ws.close()
-  //     ws.onmessage = null
-  //   }
-  // }, [voteId])
+    //   return () => {
+    //     ws.close()
+    //     ws.onmessage = null
+    //   }
+    // }, [voteId])
+  }
 
   async function voteOption(option: any) {
     var voteId = option.voteId

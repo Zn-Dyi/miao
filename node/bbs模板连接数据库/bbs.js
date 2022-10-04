@@ -13,7 +13,6 @@ const db = new Database('./bbs.sqlite3')
 const port = 8080
 
 const app = express()
-
 app.locals.pretty = true // 让pug输出格式化过的html代码
 app.set('views', __dirname + '/templates') // 设置模板文件夹为'/templates'，不设置默认用views文件夹
 
@@ -29,7 +28,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true })) // 解析拓展url编码的请求体
 app.use(cookieParser('qwer'))
 app.use(express.static(__dirname + '/assets'))
 app.use('/avatar', express.static(__dirname + '/uploads')) // 在/avatar头下寻找文件
@@ -105,7 +104,7 @@ app.post('/add-post', (req, res, next) => {
       owner: req.signedCookies.loginName,
     }
 
-    var info = db.prepare('INSERT INTO posts (title,content,createdAt,userId) VALUES ($title,$content,$createdAt,$userId)').run(post)
+    var info = db.prepare('INSERT INTO posts (title,content,createdAt,userId) VALUES ($title,$content,$createdAt,$userId)').run(post) // 创建post表
 
     res.redirect('/post/' + info.lastInsertRowid)
   } else {
@@ -286,7 +285,7 @@ app.post('/register', (req, res, next) => {
 
     res.type('html')
     res.type('html').end('注册成功，请至邮箱点击激活链接<a href="/resend" target="_blank">重新发送</a>' + activiteLink)
-    // fs.writeFileSync('./users.json', JSON.stringify(users, null, 2))// null, 2 可以在序列化时有个缩进
+    fs.writeFileSync('./users.json', JSON.stringify(users, null, 2))// null, 2 可以在序列化时有个缩进
   })
 })
 

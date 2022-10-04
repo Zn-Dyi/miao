@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true })) // 解析扩展url编码的请求体
 app.use(cookieParser('qwer'))
 
 app.use((req, res, next) => {

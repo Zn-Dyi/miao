@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useInput } from './hooks'
 import { UserOutlined } from '@ant-design/icons';
 import { LockOutlined } from '@ant-design/icons';
-import Icon from './Icon';
 
 
 

@@ -50,9 +50,8 @@
     ]
   },
   "homepage": ".",
-  "proxy": "http://127.0.0.1:8081/",
+  "proxy": "http://142.93.11.41:8081/",
   "devDependencies": {
     "@types/lodash": "^4.14.182"
   }
 }
-  

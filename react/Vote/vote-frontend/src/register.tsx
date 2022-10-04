@@ -65,7 +65,7 @@ export default function Register() {
             </label>
 
             <span className="text">上传文件</span>
-            {avatarUrl && <img src={avatarUrl}></img>}
+            {avatarUrl && <img style={{ width: "50px", height: "50px" }} src={avatarUrl}></img>}
           </div>
 
         </Form.Item>
