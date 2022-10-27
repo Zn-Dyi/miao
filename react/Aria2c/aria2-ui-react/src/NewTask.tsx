@@ -56,21 +56,23 @@ export default function NewTask({ client }: IProps) {
 
   return (
     <div>
-      {/* <div>
-        选项
-        <div>
-          下载速度
-          <input type="text" {...downloadSpeed} />
+      {
+        /* <div>
+          选项
+          <div>
+            下载速度
+            <input type="text" {...downloadSpeed} />
+          </div>
         </div>
-      </div>
-      <div>
-        <div>下载链接，一行一个。</div>
-        <div>选择BT种子文件: <input type="file" onChange={onBTfileSelect} /></div>
         <div>
-          <textarea name="" id="" cols={60} rows={10} {...uris}></textarea>
-        </div>
-        <button onClick={start}>开始下载</button>
-      </div> */}
+          <div>下载链接，一行一个。</div>
+          <div>选择BT种子文件: <input type="file" onChange={onBTfileSelect} /></div>
+          <div>
+            <textarea name="" id="" cols={60} rows={10} {...uris}></textarea>
+          </div>
+          <button onClick={start}>开始下载</button>
+        </div> */
+      }
 
       <Form>
         <Form.Item label="下载速度">
