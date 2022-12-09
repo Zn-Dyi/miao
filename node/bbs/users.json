@@ -3,5 +3,10 @@
     "name": "wang",
     "email": "wang@qq.com",
     "password": "aa"
+  },
+  {
+    "name": "aa",
+    "email": "aa@qq.com",
+    "password": "11"
   }
 ]

@@ -132,7 +132,7 @@ export const useAsync = (asyncFunction: () => Promise<any>, immediate = true) =>
 
 
 // 选择任务环境
-export const SelectedTasksContext = React.createContext<{ selectedTasks: any[], setSelectedTasks: Function }>({
+export const SelectedTasks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Context = React.createContext<{ selectedTasks: any[], setSelectedTasks: Function }>({
   selectedTasks: [],
   setSelectedTasks: (tasks: any[]) => { },
 })

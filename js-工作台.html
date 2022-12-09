@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <textarea name="" id="" cols="30" rows="10">
+      var a = 1
+      var b = 2
+      var c = a * b
+      console.log(c)
+      b * b
+  </textarea>
+  <button onclick="run()">提交</button>
+  <button id="btn1">提交</button>
+  <button id="btn2">提交</button>
+  <pre></pre>
+
+  <script>
+    console.log(btn1, btn2);
+    var textarea = document.querySelector('textarea')
+    var pre = document.querySelector('pre')
+
+    function run() {
+      var textareaC = textarea.value
+      pre.textContent = ''
+
+      try {
+        var result
+        {
+          let console = {
+            log: function (...args) {
+              pre.textContent += '\n' + new Date().toISOString() + ' ' + args.join(' ')
+            }
+          }
+          result = eval(textareaC)
+        }
+        pre.textContent += '\n' + new Date().toISOString() + ' ' +  String(result)
+
+      } catch (e) {
+        pre.textContent += '\n' + e.stack
+        throw e
+      }
+    }
+  </script>
+</body>
+
+</html>
